@@ -21,4 +21,6 @@ Impeccable: no se afirma haber completado su entrevista, torneo de conceptos ni 
 
 El motor binario descargado (22 MB) no se versiona. El launcher y el manifiesto de checksums quedan en el repositorio y permiten recuperar el motor fijado. El instalador no incluyó LICENSE; se incorporó la licencia Apache-2.0 del upstream. El upstream no tiene archivo NOTICE en la URL consultada (404); no se fabricó uno.
 
+Modificación local declarada a referencias vendorizadas: normalización de espacios al final de línea y saltos finales para pasar git diff --check. No se cambiaron instrucciones ni código ejecutable de la skill. Conservar autoría Apache-2.0; estas referencias no son originales Nexus.
+
 Documentación: [skills Codex](https://developers.openai.com/codex/skills/), [Impeccable](https://impeccable.style/). HEAD upstream observado: `1995764b4936f2bfbf4eb719cb37b384a45ceacb`; no equivale al contenido exacto del paquete npm instalado.
