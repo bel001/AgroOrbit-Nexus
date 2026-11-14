@@ -1,7 +1,7 @@
 {
   "schemaVersion": "2.0",
   "methodologyVersion": "global-2026-11-14",
-  "createdAt": "2026-11-14T18:35:44.855Z",
+  "createdAt": "2026-11-14T19:10:17.706Z",
   "input": {
     "name": "Parcela ilustrativa · Virú",
     "lat": -8.42,
@@ -3917,7 +3917,7 @@
     },
     "source": "NASA POWER Daily · comunidad AG",
     "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CT2M_MIN%2CT2M_MAX%2CPRECTOTCORR&community=AG&longitude=-78.75&latitude=-8.42&start=20240101&end=20250623&format=JSON&time-standard=LST",
-    "retrievedAt": "2026-11-14T18:35:19.746Z",
+    "retrievedAt": "2026-11-14T19:09:46.328Z",
     "version": "v2.10.3",
     "sources": [
       "MERRA2",

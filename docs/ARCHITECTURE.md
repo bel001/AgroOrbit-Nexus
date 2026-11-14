@@ -4,6 +4,8 @@
 
 ## Implementación real
 
+**Búsqueda de terreno:** `location-search.tsx` ofrece búsqueda explícita y GPS con permiso; `geocoding.ts` normaliza coincidencias y aplica caché/deduplicación/intervalo entre solicitudes; `/api/locations` valida y controla errores. El componente permite Enter sin enviar el formulario climático y conserva opciones manuales ante fallo. Detalles/condiciones: LOCATION_SEARCH.
+
 **Ampliación global:** `regions.ts` y `locales.ts` separan ámbito/validación/idioma; catálogo ampliable genera los IDs de validación; `examples/viru.ts` aísla el caso de demo. `sources.ts` registra fuentes y límites de WorldCover. Motor devuelve cero estrategias en clima global; fuera de la demo solo comprueba la secuencia aportada. Ninguna plantilla regional se aplica por defecto. El contrato de reglas está definido, pero no hay umbrales agronómicos regionales aprobados ni recomendaciones habilitadas. Véase GLOBAL_SCOPE.
 
 - `src/lib/model.ts`: Zod, fechas y contratos GeoFarm/ClimateScope.

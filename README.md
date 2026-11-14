@@ -17,7 +17,7 @@ Abrir http://127.0.0.1:3000. Para producción local: `npm run build` y `npm star
 
 ## Recorrido comprobable
 
-1. Seleccionar un punto en el mapa mundial o escribir latitud/longitud. Al iniciar no hay coordenadas ni campañas precargadas.
+1. Buscar una localidad/código postal, elegir un resultado y ajustar el punto en el mapa. También hay «Usar mi ubicación» con permiso del navegador y entrada manual de coordenadas. Al iniciar no hay coordenadas ni campañas precargadas. [Cómo encontrar el terreno](docs/LOCATION_SEARCH.md).
 2. Consultar clima global o registrar una secuencia propia para diagnóstico parcial. No se generan alternativas sin un perfil regional aplicable. Para reproducir el piloto, pulsar «Cargar caso ilustrativo».
 3. Elegir un periodo histórico de 30 a 731 días; solo la demo de Virú usa 540 días. Se descargan temperatura media/mínima/máxima y precipitación corregida de NASA POWER (comunidad AG, LST).
 4. Examinar gráfica, tabla mensual, unidades, días ausentes, fuente y fecha. La grilla no es una medición de la parcela.

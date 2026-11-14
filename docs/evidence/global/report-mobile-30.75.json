@@ -1,7 +1,7 @@
 {
   "schemaVersion": "2.0",
   "methodologyVersion": "global-2026-11-14",
-  "createdAt": "2026-11-14T18:35:27.363Z",
+  "createdAt": "2026-11-14T19:09:53.686Z",
   "input": {
     "name": "Mi terreno",
     "lat": 30.75,
@@ -2649,7 +2649,7 @@
     },
     "source": "NASA POWER Daily · comunidad AG",
     "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CT2M_MIN%2CT2M_MAX%2CPRECTOTCORR&community=AG&longitude=75.75&latitude=30.75&start=20240101&end=20241231&format=JSON&time-standard=LST",
-    "retrievedAt": "2026-11-14T18:35:08.712Z",
+    "retrievedAt": "2026-11-14T19:09:34.558Z",
     "version": "v2.10.3",
     "sources": [
       "MERRA2",

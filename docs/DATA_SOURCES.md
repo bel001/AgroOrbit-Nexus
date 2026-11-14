@@ -4,6 +4,8 @@
 
 **Ampliación mundial:** POWER verificado en seis países, con respuestas separadas en evidence/global y sin transferir reglas del piloto. ESA WorldCover 2021 v200 está integrado como capa contextual opcional WMS, con licencia/atribución y límites del servicio; evidencia de capa, PNG, fecha y CORS en evidence/global/worldcover-service.json. No alimenta el evaluador agronómico ni implementa una serie temporal NDVI. Contratos y alcance actual en GLOBAL_SCOPE.
 
+**Búsqueda de referencia:** Open-Meteo Geocoding/GeoNames para localidades y códigos postales, con selección explícita de coincidencia. No identifica parcelas ni límites. Consulta real documentada en evidence/search; condiciones y caché en LOCATION_SEARCH. GPS usa la API del navegador con permiso; pruebas de posición emuladas, no ensayos de precisión de hardware.
+
 ## Evidencia de integración actual
 
 `npm run verify:nasa` guarda respuesta original y URL/fecha/unidades en `docs/evidence/power-viru-2024.json` y `power-request.json`: comunidad AG, T2M/T2M_MIN/T2M_MAX (C), PRECTOTCORR (mm/day), LST, API v2.10.3, 366 días de 2024, coordenadas -8.42/-78.75. Pruebas de navegador consultan además el horizonte 2024-01-01–2025-06-23 (540 días); el JSON exportado incluye consulta exacta y metadatos.

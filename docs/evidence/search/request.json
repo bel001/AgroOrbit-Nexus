@@ -1,0 +1,7 @@
+{
+  "url": "https://geocoding-api.open-meteo.com/v1/search?name=Vir%C3%BA%2C+Per%C3%BA&count=5&language=es&format=json",
+  "retrievedAt": "2026-11-14T19:05:07.751Z",
+  "status": 200,
+  "provider": "Open-Meteo / GeoNames",
+  "count": 5
+}

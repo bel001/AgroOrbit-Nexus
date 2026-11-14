@@ -4,6 +4,8 @@ Entorno: Windows/PowerShell, Node 24.20.0, npm 11.19.0, Next 16.4.6. Zona de reg
 
 ## Ampliación global (misma fecha)
 
+**Hito de búsqueda posterior:** 69 unitarias/API en cuatro archivos, 19 e2e aprobadas y 2 omitidas de 21 configuradas. Nuevas pruebas de localidad real, elección ambigua, coordenadas actualizadas sin iniciar clima, GPS emulado con permiso/precisión, permiso denegado y buscador caído conservando el punto. Consulta real «Virú, Perú» HTTP 200; GPS físico no probado. Primera pasada: 9 fallos de accesibilidad `link-in-text-block` por enlaces nuevos de atribución; se subrayaron y la suite completa pasó. `npm run lint`, `typecheck`, `build` y detector Impeccable [] ejecutados. Evidencias específicas en evidence/search y LOCATION_SEARCH.
+
 62 pruebas unitarias/API aprobadas en tres archivos. Casos nuevos: seis fixtures NASA de países/hemisferios distintos, ausencia de recomendaciones globales, intentos de usar perfil peruano fuera de ámbito, periodos configurables, coordenadas polares y antimeridiano, revisión sin evidencia rechazada, catálogo ampliable y fallback de idioma. Tipado, lint y build ejecutados después de modificar el modelo.
 
 Playwright: 10 aprobadas y 2 omitidas explícitamente de 12 configuradas. Flujo global con consultas reales de California/India/Australia y JSON en escritorio/móvil/tablet; demo regional y error controlado conservados. WorldCover real probada en escritorio; esas dos pruebas de red no se duplicaron en móvil/tablet. axe sin violaciones en los estados globales comprobados; no es certificación WCAG. Capturas/informes en evidence/global.
