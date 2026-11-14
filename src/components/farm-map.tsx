@@ -39,7 +39,7 @@ export default function FarmMap({ lat, lon, onSelect }: Props) {
         marker.current ??= new maplibregl.Marker({ color: "#21634b" }).setLngLat([lon, lat]).addTo(map.current);
         marker.current.setLngLat([lon, lat]);
       } else { marker.current?.remove(); marker.current = null; }
-      map.current?.jumpTo({ center: [lon, Math.max(-85, Math.min(85, lat))] });
+      map.current?.jumpTo({ center: [lon, Math.max(-85, Math.min(85, lat))], zoom: Math.max(map.current.getZoom(), 10) });
     } else { marker.current?.remove(); marker.current = null; map.current?.jumpTo({ center: [0, 15], zoom: 1 }); }
   }, [lat, lon]);
   useEffect(() => {

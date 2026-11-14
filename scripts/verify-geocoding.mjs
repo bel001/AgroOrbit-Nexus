@@ -1,0 +1,10 @@
+import { mkdir, writeFile } from "node:fs/promises";
+const url = "https://geocoding-api.open-meteo.com/v1/search?name=Vir%C3%BA%2C+Per%C3%BA&count=5&language=es&format=json";
+const response = await fetch(url, { signal: AbortSignal.timeout(15_000) });
+if (!response.ok) throw new Error(`Geocoding HTTP ${response.status}`);
+const raw = await response.json();
+if (!raw.results?.some(r => r.country_code === "PE" && Number.isFinite(r.latitude))) throw new Error("El buscador no devolvió una referencia peruana para la consulta de ejemplo");
+await mkdir("docs/evidence/search", { recursive: true });
+await writeFile("docs/evidence/search/viru.json", JSON.stringify(raw));
+await writeFile("docs/evidence/search/request.json", JSON.stringify({ url, retrievedAt: new Date().toISOString(), status: response.status, provider: "Open-Meteo / GeoNames", count: raw.results.length }, null, 2));
+console.log(`Geocodificación real: HTTP ${response.status}, ${raw.results.length} resultados.`);

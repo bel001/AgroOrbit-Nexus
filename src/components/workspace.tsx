@@ -5,6 +5,7 @@ import { ArrowDown, ArrowRight, Download, Leaf, MapPin, Sprout, FileText, Printe
 import { addDays, farmSchema, newGlobalFarm, type Farm, type CropId, type Campaign } from "@/lib/model";
 import { exampleFarm } from "@/lib/examples/viru";
 import { catalog } from "@/lib/catalog";
+import LocationSearch from "./location-search";
 import { resolveCoverage } from "@/lib/regions";
 import type { EvidenceReport } from "@/lib/rotations";
 const FarmMap = dynamic(() => import("./farm-map"), { ssr: false, loading: () => <div className="map map-loading">Cargando mapa… Puedes escribir las coordenadas.</div> });
@@ -51,7 +52,7 @@ export default function Workspace() {
     <section id="terreno" className="section"><div className="section-title"><div><h2>Conozcamos el terreno</h2><p>Selecciona cualquier ubicación mundial mediante el mapa o las coordenadas.</p></div><div className="report-actions"><button type="button" className="button secondary" disabled={loading} onClick={() => { setFarm(newGlobalFarm()); setDirty(true); setErrors([]); }}>Nuevo análisis global</button><button type="button" className="button secondary" disabled={loading} onClick={() => { setFarm(structuredClone(exampleFarm)); setDirty(true); setErrors([]); }}>Cargar caso ilustrativo</button></div></div>
     <p className="notice neutral"><strong>{coverage.level === "climate-only" ? "Cobertura: información climática global" : "Cobertura: diagnóstico agrícola parcial"}</strong>. {coverage.reason} Ninguna región cuenta todavía con análisis agronómico validado.</p>
     <p className={farm.illustrative ? "notice" : "notice neutral"}>{farm.illustrative ? "Caso ilustrativo / datos de ejemplo. La ubicación y las campañas no son observaciones de campo verificadas. El clima se consulta a NASA." : "Perfil aportado por el usuario. Los registros declarados no han sido validados de forma independiente."}</p>
-    <form onSubmit={analyze} aria-label="Perfil agrícola"><fieldset disabled={loading} className="form-fieldset"><legend className="sr-only">Ubicación y perfil</legend><div className="farm-grid"><div className="form-fields">
+    <form onSubmit={analyze} aria-label="Perfil agrícola"><fieldset disabled={loading} className="form-fieldset"><legend className="sr-only">Ubicación y perfil</legend><LocationSearch lat={farm.lat} lon={farm.lon} onSelect={(lat, lon) => location({ lat, lon })} /><div className="farm-grid"><div className="form-fields">
       <label>Nombre del terreno<input value={farm.name} maxLength={80} required onChange={e => update({ name: e.target.value })} /></label>
       <div className="two-col"><label>Latitud<input type="number" step="any" required min={-90} max={90} value={Number.isNaN(farm.lat) ? "" : farm.lat} onChange={e => location({ lat: e.target.value === "" ? NaN : Number(e.target.value) })} /></label><label>Longitud<input type="number" step="any" required min={-180} max={180} value={Number.isNaN(farm.lon) ? "" : farm.lon} onChange={e => location({ lon: e.target.value === "" ? NaN : Number(e.target.value) })} /></label></div>
       <p className="small muted">Cambiar coordenadas desactiva la plantilla regional. Revisa la procedencia de los registros si cambias de terreno.</p>
