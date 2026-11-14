@@ -11,11 +11,14 @@ const worker = {
     const asset = assets[pathname === "/" ? "/index.html" : pathname === "/submission/" ? "/submission/index.html" : pathname];
     if (!asset) return new Response("No encontrado", { status: 404 });
     const bytes = Uint8Array.from(atob(asset.body), c => c.charCodeAt(0));
-    return new Response(request.method === "HEAD" ? null : bytes, { headers: {
+    // Cloudflare otherwise compresses these already-gzipped bytes a second time.
+    // https://developers.cloudflare.com/workers/runtime-apis/response/#the-encodebody-option
+    const options: ResponseInit & { encodeBody: "manual" } = { encodeBody: "manual", headers: {
       "Content-Type": asset.type, "Content-Encoding": "gzip", "X-Content-Type-Options": "nosniff",
       "Cache-Control": pathname === "/" || pathname.endsWith(".html") ? "no-cache" : "public, max-age=3600",
       "Referrer-Policy": "strict-origin-when-cross-origin",
-    } });
+    } };
+    return new Response(request.method === "HEAD" ? null : bytes, options);
   },
 };
 export default worker;
