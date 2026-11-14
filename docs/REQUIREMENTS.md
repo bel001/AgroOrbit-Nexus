@@ -4,6 +4,8 @@
 
 ## Requisitos funcionales
 
+**Alcance mundial obligatorio:** RF-01/03 deben operar globalmente; RF-05/07/08 dependen de perfiles regionales y no pueden extrapolar la demo. El periodo es configurable, sin ventanas agrícolas universales. La aplicación distingue clima/diagnóstico parcial, no recomienda sin evidencia suficiente, admite crecimiento de países/catálogos/idiomas y documenta la cobertura real de fuentes satelitales. Implementación y matriz de pruebas internacionales: GLOBAL_SCOPE.
+
 | ID | Prioridad | Requisito | Criterio de aceptación |
 |---|---|---|---|
 | RF-01 | P0 | Seleccionar ubicación válida | Mapa/coordenadas y verificación de latitud/longitud |

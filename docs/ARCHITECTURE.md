@@ -4,6 +4,8 @@
 
 ## Implementación real
 
+**Ampliación global:** `regions.ts` y `locales.ts` separan ámbito/validación/idioma; catálogo ampliable genera los IDs de validación; `examples/viru.ts` aísla el caso de demo. `sources.ts` registra fuentes y límites de WorldCover. Motor devuelve cero estrategias en clima global; fuera de la demo solo comprueba la secuencia aportada. Ninguna plantilla regional se aplica por defecto. El contrato de reglas está definido, pero no hay umbrales agronómicos regionales aprobados ni recomendaciones habilitadas. Véase GLOBAL_SCOPE.
+
 - `src/lib/model.ts`: Zod, fechas y contratos GeoFarm/ClimateScope.
 - `src/lib/power.ts`: integración pública Daily/point, cuatro variables, validación de unidades, fill y calendario completo. Caché en memoria 24 h, máximo 64 consultas exactas y 4 peticiones concurrentes, deduplicación en vuelo y timeout 25 s. No es una cuota global ni caché compartida entre instancias; no se redondean coordenadas a celdas supuestas. Agrupación por celda nativa pendiente.
 - `src/lib/catalog.ts`: CropKnowledge, tres especies, rangos FAO generales; sin validación regional.

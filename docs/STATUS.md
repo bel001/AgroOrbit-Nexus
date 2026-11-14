@@ -2,6 +2,12 @@
 
 Actualizado: 2026-11-14, America/Lima. Al inicio había solo 16 documentos, sin aplicación ni Git local. El remoto público respondía vacío; cuenta GitHub bel001 autenticada. Documentación original conservada en el primer commit.
 
+## Actualización obligatoria de alcance global
+
+Inicio mundial sin ubicación/campañas precargadas; modo clima global y revisión parcial de registros. Catálogo ampliable y perfiles regionales separados; plantilla de Virú limitada por coordenadas, modo ilustrativo y horizonte. Ninguna región validada ni recomendaciones habilitadas. Idiomas por registros de nombres ES/EN, sin interfaz completamente traducida. Capa contextual ESA WorldCover 2021 real y opcional, con atribución, año y límites; HLS/NDVI sigue pendiente.
+
+Seis consultas POWER reales verificadas (Perú, Estados Unidos, Francia, Kenia, India, Australia). Nueva pasada: 62 unitarias/API; 10 e2e aprobadas y dos comprobaciones de capa omitidas deliberadamente en móvil/tablet, con capa real probada en escritorio. Tipado/lint/build correctos. Detalles y contrato de extensión en GLOBAL_SCOPE; evidencia en evidence/global. La tabla histórica siguiente describe el hito inicial y no limita el alcance mundial actual.
+
 ## Implementado y probado localmente
 
 | Área | Evidencia y alcance |

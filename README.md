@@ -1,6 +1,6 @@
 ﻿# AgroOrbit Nexus — From Space to Soil
 
-Prototipo web en español para comparar tres secuencias de cultivo con historial agrícola aportado por el usuario, clima histórico NASA POWER y restricciones explicables. Sin login ni base de datos.
+Plataforma agrícola de alcance mundial: clima histórico NASA POWER para coordenadas globales y análisis agrícola condicionado a la evidencia regional. Virú, Perú, es solo la demostración inicial. Sin login ni base de datos.
 
 **Estado al 14 de noviembre de 2026:** recorrido funcional local implementado. No se considera una recomendación agronómica validada: faltan variedades, calendarios y requisitos locales. HLS/NDVI y despliegue público pendientes. El caso de Virú es ilustrativo; el clima se consulta realmente.
 
@@ -17,11 +17,11 @@ Abrir http://127.0.0.1:3000. Para producción local: `npm run build` y `npm star
 
 ## Recorrido comprobable
 
-1. Seleccionar un punto del mapa o escribir latitud/longitud; completar nombre, área opcional, suelo, riego, agua, procedencia e historial.
-2. Mantener la etiqueta de caso ilustrativo para el ejemplo de maíz; editar la secuencia A y las fechas.
-3. Consultar un horizonte histórico de 540 días. Se descargan temperatura media/mínima/máxima y precipitación corregida de NASA POWER (comunidad AG, LST).
+1. Seleccionar un punto en el mapa mundial o escribir latitud/longitud. Al iniciar no hay coordenadas ni campañas precargadas.
+2. Consultar clima global o registrar una secuencia propia para diagnóstico parcial. No se generan alternativas sin un perfil regional aplicable. Para reproducir el piloto, pulsar «Cargar caso ilustrativo».
+3. Elegir un periodo histórico de 30 a 731 días; solo la demo de Virú usa 540 días. Se descargan temperatura media/mínima/máxima y precipitación corregida de NASA POWER (comunidad AG, LST).
 4. Examinar gráfica, tabla mensual, unidades, días ausentes, fuente y fecha. La grilla no es una medición de la parcela.
-5. Comparar A con maíz–frijol–maíz (B) y maíz–sorgo–frijol (C). Fechas, exclusiones y agua total nula pueden invalidar una estrategia. Calendario, térmica y suelo quedan incompletos cuando faltan reglas locales.
+5. En la demo explícita de Virú, comparar A con maíz–frijol–maíz (B) y maíz–sorgo–frijol (C). Estas plantillas no se reutilizan en otros países. No existe todavía ninguna región con análisis agronómico validado ni recomendaciones habilitadas.
 6. Abrir restricciones y fuentes; descargar JSON con entradas, clima diario, metadatos, reglas y límites. Imprimir el informe desde el navegador.
 
 Si NASA falla, aparece un error y un informe parcial; no hay clima simulado de respaldo. Al editar datos, se señala que el informe anterior requiere recalcularse. El fixture NASA de pruebas no se usa en producción.
@@ -35,6 +35,8 @@ npm run lint
 npm test
 npm run build
 npm run verify:nasa
+npm run verify:global
+node scripts/verify-worldcover.mjs
 npx playwright install chromium
 ```
 
@@ -43,10 +45,12 @@ Con `npm start` en otra terminal, ejecutar `npm run test:e2e`. Las pruebas de na
 ## Alcance científico
 
 - Catálogo de tres especies con rangos generales FAO. No se confirmó calendario/variedad del piloto de La Libertad; las fechas B/C son supuestos de exploración.
-- Igual horizonte de 540 días; intervalos [siembra,cosecha), conteos de repetición/familias e intervalos sin cultivo registrado.
+- Horizonte común configurable; la demo mantiene 540 días. Intervalos [siembra,cosecha), conteos de repetición/familias e intervalos sin cultivo registrado.
 - No se calcula ETo/ETc, ahorro de riego, nitrógeno fijado, rentabilidad, rendimiento ni daño del suelo. Un presupuesto positivo de agua no demuestra suficiencia.
 - La prioridad guía la revisión; no existe puntuación ni ranking validado. En el catálogo actual ninguna alternativa se certifica viable.
-- Sin HLS/NDVI, clasificación satelital ni modelo predictivo entrenado. P1 se pospone para cerrar primero validación agronómica y operación P0.
+- Capa opcional de cobertura terrestre ESA WorldCover 2021, con fuente/licencia y sin uso para recomendar cultivos. Sin procesamiento HLS/NDVI, clasificación propia ni modelo predictivo entrenado.
+
+Catálogo ampliable, perfiles regionales versionados, nombres localizados y contratos de fuentes/reglas: [alcance global y pruebas internacionales](docs/GLOBAL_SCOPE.md). La interfaz completa actual está en español; el registro admite contenido de nuevos idiomas. Las pruebas verifican seis consultas NASA internacionales; no acreditan aptitud agronómica ni carga masiva.
 
 ## Tecnología y diseño
 

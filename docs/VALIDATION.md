@@ -2,6 +2,14 @@
 
 Entorno: Windows/PowerShell, Node 24.20.0, npm 11.19.0, Next 16.4.6. Zona de registro humano America/Lima; timestamps JSON en UTC. URL de prueba http://127.0.0.1:3000, servidor de producción `npm start` después de compilar.
 
+## Ampliación global (misma fecha)
+
+62 pruebas unitarias/API aprobadas en tres archivos. Casos nuevos: seis fixtures NASA de países/hemisferios distintos, ausencia de recomendaciones globales, intentos de usar perfil peruano fuera de ámbito, periodos configurables, coordenadas polares y antimeridiano, revisión sin evidencia rechazada, catálogo ampliable y fallback de idioma. Tipado, lint y build ejecutados después de modificar el modelo.
+
+Playwright: 10 aprobadas y 2 omitidas explícitamente de 12 configuradas. Flujo global con consultas reales de California/India/Australia y JSON en escritorio/móvil/tablet; demo regional y error controlado conservados. WorldCover real probada en escritorio; esas dos pruebas de red no se duplicaron en móvil/tablet. axe sin violaciones en los estados globales comprobados; no es certificación WCAG. Capturas/informes en evidence/global.
+
+`npm run verify:global` consultó seis puntos reales de NASA; `node scripts/verify-worldcover.mjs` verificó GetCapabilities y PNG de WorldCover con fecha y CORS. Esto no valida calendarios agrícolas locales ni demuestra escalabilidad de carga masiva. Las filas siguientes son el registro del hito inicial de 40 pruebas, no el total actual.
+
 | Comando / control | Resultado observado |
 |---|---|
 | `npm install`, instalación reproducible con package-lock | Instalación ejecutada; versiones fijadas. Worker se prepara en postinstall desde el paquete local |

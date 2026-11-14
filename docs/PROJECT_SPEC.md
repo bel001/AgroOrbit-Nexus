@@ -12,6 +12,8 @@
 **Producto:** aplicación web responsiva y pública, inicialmente sin cuentas obligatorias.
 **Enfoque:** asistencia para decisiones, no prescripción agronómica automática.
 
+**Requisito global obligatorio (2026-11-14):** la plataforma sirve ubicaciones de todo el mundo. Virú es solo una demostración inicial y futuro caso de validación regional. La interfaz inicia en mapa mundial y modo climático; no presupone cultivos ni calendarios. El catálogo contiene hechos generales; las reglas requieren región, variedad, periodo, fuentes y revisión. No existe todavía ninguna región con análisis agronómico validado. Consultar GLOBAL_SCOPE para contratos, pruebas y límites actuales.
+
 ## 2. Problema central refinado
 
 Los productores pueden enfrentar presión climática, restricciones de agua y sistemas de cultivo repetitivos. Con frecuencia, les resulta difícil integrar datos ambientales, historial de siembras, suelo y requerimientos de cultivos para **identificar indicadores de riesgo, comprender incertidumbres y comparar rotaciones viables**. El problema no se resuelve mostrando solo estadísticas de temperatura o lluvia.

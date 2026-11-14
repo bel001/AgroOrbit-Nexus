@@ -9,6 +9,7 @@ Código original: MIT, decisión del usuario 2026-11-14. `LICENSE` no cambia las
 | [FAO-56](https://www.fao.org/4/X0490E/X0490E00.htm) | Referencia de método, no cálculo hídrico implementado ni copia de manual |
 | [OpenStreetMap](https://www.openstreetmap.org/copyright) | Datos ODbL, cartografía estándar sujeta a política de teselas. Atribución visible. Carga interactiva desde `tile.openstreetmap.org`, sin descarga masiva/offline; disponibilidad sin garantía |
 | MapLibre GL JS | BSD-3-Clause; motor de mapa |
+| [ESA WorldCover 2021 v200](https://esa-worldcover.org/en/data-access) / Terrascope | CC BY 4.0; capa WMS histórica opcional, con atribución visible al proyecto ESA y datos Copernicus Sentinel. No es producto NASA ni diagnóstico de cultivo |
 | Kew / Plants of the World Online | Referencias taxonómicas de nombres/familias; enlaces por especie en catálogo. No se reproducen textos, imágenes ni base de datos |
 | Next.js, React, React DOM, Recharts, Zod, Tailwind, TypeScript, Vitest | MIT; versiones concretas en package-lock.json |
 | Lucide | ISC; iconos, sin marcas NASA |

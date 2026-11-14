@@ -4,6 +4,8 @@ Estas instrucciones se aplican a las contribuciones al repositorio de **AgroOrbi
 
 ## Objetivo
 
+**Alcance obligatorio global:** Virú/La Libertad es únicamente el piloto inicial, todavía sin validación agronómica. No usar coordenadas, cultivos, duraciones o reglas del piloto como valores universales. Mantener catálogo general, perfiles regionales versionados y casos ilustrativos separados. Fuera de un perfil aplicable, ofrecer clima o diagnóstico parcial sin generar recomendaciones. Añadir nuevas regiones/fuentes/idiomas mediante contratos extensibles y pruebas de aislamiento geográfico. Las capas satelitales deben conservar periodo, calidad, atribución y límites; no convertir contexto visual en recomendación.
+
 Construir una aplicación web funcional y científica, con un recorrido completo: ubicación → registro agrícola → clima NASA → comparación de rotaciones → evidencia explicable. **Primero P0; después P1/P2.** Consulta `docs/PROJECT_SPEC.md`, `docs/REQUIREMENTS.md` y `docs/METHODOLOGY.md` antes de programar.
 
 ## Reglas de actuación

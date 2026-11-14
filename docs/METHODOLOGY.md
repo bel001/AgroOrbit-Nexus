@@ -4,6 +4,8 @@
 
 ## Reglas efectivamente implementadas (versión p0-2026-11-14)
 
+**Actualización `global-2026-11-14`:** el periodo global es configurable (30–731 días) y no contiene calendarios de siembra implícitos. El caso de 540 días descrito abajo queda exclusivamente en la demo de Virú (`examples/viru.ts` + perfil regional). Sus plantillas B/C requieren modo ilustrativo, coordenadas dentro del ámbito de demostración e igual horizonte. El modo climático produce cero estrategias; fuera del perfil solo se revisa la secuencia aportada, sin recomendaciones. El catálogo general separa rangos de referencia de reglas por variedad/región/periodo. HLS/NDVI derivado sigue sin implementarse; WorldCover se visualiza como contexto histórico y no interviene en decisiones. GLOBAL_SCOPE especifica límites y pruebas de aislamiento.
+
 Comparación histórica en 540 días. Se usan intervalos [siembra,cosecha), con fin exclusivo. La consulta NASA incluye desde inicio hasta fin menos un día. A es editable; B/C son supuestos de exploración, con inicios en días 0, 180 y 360. Duraciones supuestas: maíz 150, frijol 100, sorgo 125 días; no se estiman fechas de madurez del predio. Se muestran los rangos factuales de [FAO, tabla 6](https://www.fao.org/4/s2022e/s2022e07.htm); no se redistribuye el manual.
 
 | Regla | Aplicación / supuesto | Resultado / prueba |

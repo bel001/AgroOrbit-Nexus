@@ -2,6 +2,8 @@
 
 Revisión: 2026-11-14. Instalación de proyecto bajo `.agents/skills/`; validación con `npm run verify:skills`. Este comando verifica directorios y encabezados, no simula un nuevo arranque de Codex. Las skills nuevas se leyeron explícitamente y se aplicaron en esta sesión; su selección automática en otro turno depende del cliente.
 
+Ampliación global de la misma fecha: se aplicaron las tres skills Nexus a la separación regional, pruebas en seis países y fuente ESA contextual. Se actualizaron sus controles para impedir extrapolaciones de la demo. Impeccable conservó el diseño existente; detector [] y capturas reales globales en evidence/global. Sin nuevos paquetes de terceros ni skills instaladas.
+
 | Skill | Fuente / versión | Licencia | Evidencia de uso |
 |---|---|---|---|
 | Impeccable global | `C:/Users/Rodrigo/.codex/skills/impeccable`, 4.8.2, [pbakaus/impeccable](https://github.com/pbakaus/impeccable) | Apache-2.0 | `context` ejecutado; init/new-work/craft-floor leídos; PRODUCT y DESIGN creados a partir del brief |

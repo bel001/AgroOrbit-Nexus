@@ -7,6 +7,8 @@ description: Modificar o auditar las restricciones de rotaciones de AgroOrbit Ne
 
 Entrada: perfil validado, tres secuencias, horizonte y fuentes aplicables a especie/variedad/zona.
 
+En modo climático global no generar secuencias. Fuera de un perfil regional aplicable revisar solo los registros aportados; las tres secuencias de Virú requieren activación ilustrativa explícita. Probar intentos de reutilizar el ID peruano en otros continentes. No llamar «validado» al perfil por disponer de una fuente: falta revisión del evaluador y sus casos locales.
+
 1. Leer `docs/METHODOLOGY.md`, `src/lib/catalog.ts` y `src/lib/rotations.ts`.
 2. Conservar intervalos [siembra,cosecha), mismo horizonte, exclusiones antes de ventajas. Rechazar solapamientos y campañas fuera de horizonte.
 3. Los rangos generales FAO no son ventanas locales ni restricciones universales. Sin fuente regional, devolver desconocido; nunca promover a viable por ausencia de fallos.

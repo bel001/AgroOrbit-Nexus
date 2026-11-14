@@ -8,7 +8,7 @@ web
 Next.js, React, TypeScript estricto, Tailwind, MapLibre, Recharts, Zod y Vitest, conforme al prompt maestro.
 
 ## Users
-Agricultores y técnicos que comparan secuencias de cultivo. Piloto propuesto: Virú/Chao, La Libertad; sin parcela validada.
+Agricultores y técnicos de cualquier región del mundo. Virú/Chao, La Libertad, es solo el primer piloto propuesto; sin parcela validada. El producto no tiene una restricción geográfica peruana.
 
 ## Product Purpose
 Ubicación → historial declarado → clima NASA POWER → tres estrategias → evidencia reproducible. Ayuda a decidir qué verificar con un agrónomo.
@@ -17,6 +17,7 @@ Ubicación → historial declarado → clima NASA POWER → tres estrategias →
 Sin login; navegador móvil o escritorio. Datos del formulario en memoria de sesión. Coordenadas de referencia, sin límites legales.
 
 ## Capabilities and Constraints
+Inicio global sin coordenadas/campañas precargadas; NASA POWER mundial, perfiles regionales versionados y catálogo extensible. Análisis climático global o revisión parcial de registros; no recomendar sin datos locales suficientes. La demo de Virú es una activación explícita, acotada y no validada. Capa visual histórica WorldCover opcional y separada de reglas. Idiomas/fuentes por registros extensibles; interfaz completa actual en español.
 P0 primero. Faltantes explícitos. No predecir rendimiento, rentabilidad ni ahorro. No diagnosticar causas por NDVI. Calendario y variedades locales pendientes: ninguna alternativa se certifica viable sin ellos.
 
 ## Brand Commitments
