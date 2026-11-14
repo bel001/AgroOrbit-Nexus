@@ -1,0 +1,176 @@
+[
+  {
+    "id": "viru",
+    "label": "Virú · Perú",
+    "lat": -8.42,
+    "lon": -78.75,
+    "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CT2M_MIN%2CT2M_MAX%2CPRECTOTCORR&community=AG&latitude=-8.42&longitude=-78.75&start=20240101&end=20240107&format=JSON&time-standard=LST",
+    "retrievedAt": "2026-11-14T18:27:52.812Z",
+    "status": 200,
+    "api": "v2.10.3",
+    "temperatureDays": 7,
+    "units": {
+      "T2M": {
+        "units": "C",
+        "longname": "Temperature at 2 Meters"
+      },
+      "T2M_MIN": {
+        "units": "C",
+        "longname": "Temperature at 2 Meters Minimum"
+      },
+      "T2M_MAX": {
+        "units": "C",
+        "longname": "Temperature at 2 Meters Maximum"
+      },
+      "PRECTOTCORR": {
+        "units": "mm/day",
+        "longname": "Precipitation Corrected"
+      }
+    }
+  },
+  {
+    "id": "california",
+    "label": "California · Estados Unidos",
+    "lat": 36.75,
+    "lon": -119.75,
+    "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CT2M_MIN%2CT2M_MAX%2CPRECTOTCORR&community=AG&latitude=36.75&longitude=-119.75&start=20240101&end=20240107&format=JSON&time-standard=LST",
+    "retrievedAt": "2026-11-14T18:27:53.658Z",
+    "status": 200,
+    "api": "v2.10.3",
+    "temperatureDays": 7,
+    "units": {
+      "T2M": {
+        "units": "C",
+        "longname": "Temperature at 2 Meters"
+      },
+      "T2M_MIN": {
+        "units": "C",
+        "longname": "Temperature at 2 Meters Minimum"
+      },
+      "T2M_MAX": {
+        "units": "C",
+        "longname": "Temperature at 2 Meters Maximum"
+      },
+      "PRECTOTCORR": {
+        "units": "mm/day",
+        "longname": "Precipitation Corrected"
+      }
+    }
+  },
+  {
+    "id": "france",
+    "label": "Francia",
+    "lat": 48.25,
+    "lon": 2.25,
+    "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CT2M_MIN%2CT2M_MAX%2CPRECTOTCORR&community=AG&latitude=48.25&longitude=2.25&start=20240101&end=20240107&format=JSON&time-standard=LST",
+    "retrievedAt": "2026-11-14T18:27:54.337Z",
+    "status": 200,
+    "api": "v2.10.3",
+    "temperatureDays": 7,
+    "units": {
+      "T2M": {
+        "units": "C",
+        "longname": "Temperature at 2 Meters"
+      },
+      "T2M_MIN": {
+        "units": "C",
+        "longname": "Temperature at 2 Meters Minimum"
+      },
+      "T2M_MAX": {
+        "units": "C",
+        "longname": "Temperature at 2 Meters Maximum"
+      },
+      "PRECTOTCORR": {
+        "units": "mm/day",
+        "longname": "Precipitation Corrected"
+      }
+    }
+  },
+  {
+    "id": "kenya",
+    "label": "Kenia",
+    "lat": -0.5,
+    "lon": 36.5,
+    "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CT2M_MIN%2CT2M_MAX%2CPRECTOTCORR&community=AG&latitude=-0.5&longitude=36.5&start=20240101&end=20240107&format=JSON&time-standard=LST",
+    "retrievedAt": "2026-11-14T18:27:55.006Z",
+    "status": 200,
+    "api": "v2.10.3",
+    "temperatureDays": 7,
+    "units": {
+      "T2M": {
+        "units": "C",
+        "longname": "Temperature at 2 Meters"
+      },
+      "T2M_MIN": {
+        "units": "C",
+        "longname": "Temperature at 2 Meters Minimum"
+      },
+      "T2M_MAX": {
+        "units": "C",
+        "longname": "Temperature at 2 Meters Maximum"
+      },
+      "PRECTOTCORR": {
+        "units": "mm/day",
+        "longname": "Precipitation Corrected"
+      }
+    }
+  },
+  {
+    "id": "india",
+    "label": "India",
+    "lat": 30.75,
+    "lon": 75.75,
+    "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CT2M_MIN%2CT2M_MAX%2CPRECTOTCORR&community=AG&latitude=30.75&longitude=75.75&start=20240101&end=20240107&format=JSON&time-standard=LST",
+    "retrievedAt": "2026-11-14T18:27:55.705Z",
+    "status": 200,
+    "api": "v2.10.3",
+    "temperatureDays": 7,
+    "units": {
+      "T2M": {
+        "units": "C",
+        "longname": "Temperature at 2 Meters"
+      },
+      "T2M_MIN": {
+        "units": "C",
+        "longname": "Temperature at 2 Meters Minimum"
+      },
+      "T2M_MAX": {
+        "units": "C",
+        "longname": "Temperature at 2 Meters Maximum"
+      },
+      "PRECTOTCORR": {
+        "units": "mm/day",
+        "longname": "Precipitation Corrected"
+      }
+    }
+  },
+  {
+    "id": "australia",
+    "label": "Australia",
+    "lat": -34.5,
+    "lon": 146.5,
+    "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CT2M_MIN%2CT2M_MAX%2CPRECTOTCORR&community=AG&latitude=-34.5&longitude=146.5&start=20240101&end=20240107&format=JSON&time-standard=LST",
+    "retrievedAt": "2026-11-14T18:27:56.382Z",
+    "status": 200,
+    "api": "v2.10.3",
+    "temperatureDays": 7,
+    "units": {
+      "T2M": {
+        "units": "C",
+        "longname": "Temperature at 2 Meters"
+      },
+      "T2M_MIN": {
+        "units": "C",
+        "longname": "Temperature at 2 Meters Minimum"
+      },
+      "T2M_MAX": {
+        "units": "C",
+        "longname": "Temperature at 2 Meters Maximum"
+      },
+      "PRECTOTCORR": {
+        "units": "mm/day",
+        "longname": "Precipitation Corrected"
+      }
+    }
+  }
+]

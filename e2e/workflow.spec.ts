@@ -5,6 +5,7 @@ test("terreno → NASA real → comparación → descarga", async ({ page }, inf
   const consoleErrors: string[] = []; page.on("console", m => { if (m.type() === "error") consoleErrors.push(m.text()); });
   await page.goto("/"); await expect(page).toHaveTitle(/AgroOrbit Nexus/);
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  await page.getByRole("button", { name: "Cargar caso ilustrativo" }).click();
   await page.getByLabel("Latitud", { exact: true }).fill("-8.43");
   await expect(page.getByText(/Punto de referencia · -8.4300/)).toBeVisible();
   await page.getByRole("button", { name: "Cargar caso ilustrativo" }).click();
@@ -29,7 +30,7 @@ test("terreno → NASA real → comparación → descarga", async ({ page }, inf
 });
 test("NASA caída y cambios pendientes conservan estados honestos", async ({ page }) => {
   await page.route("**/api/analyze", async route => { const result = await route.fetch(); const data = await result.json(); data.report.climate = null; data.climateError = "NASA POWER no disponible (HTTP 503). Reintenta más tarde."; await route.fulfill({ json: data }); });
-  await page.goto("/"); await page.getByRole("button", { name: "Consultar clima y comparar" }).click();
+  await page.goto("/"); await page.getByRole("button", { name: "Cargar caso ilustrativo" }).click(); await page.getByRole("button", { name: "Consultar clima y comparar" }).click();
   await expect(page.getByRole("alert").filter({ hasText: "NASA POWER" })).toContainText("503", { timeout: 60_000 });
   await expect(page.getByRole("heading", { name: "Clima histórico · NASA POWER" })).toHaveCount(0);
   await page.getByLabel("Nombre del terreno").fill("Terreno cambiado");

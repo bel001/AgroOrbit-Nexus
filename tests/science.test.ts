@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import raw from "../docs/evidence/power-viru-2024.json";
-import { addDays, climateQuerySchema, exampleFarm, farmSchema, isoDate, variables } from "@/lib/model";
+import { addDays, climateQuerySchema, farmSchema, isoDate, variables } from "@/lib/model";
+import { exampleFarm } from "@/lib/examples/viru";
 import { fetchClimate, monthlyClimate, normalizePower } from "@/lib/power";
 import { buildReport, compareStrategies, evaluateStrategy, maxRepeat } from "@/lib/rotations";
 const query = { lat: -8.42, lon: -78.75, start: "2024-01-01", end: "2024-12-31" };

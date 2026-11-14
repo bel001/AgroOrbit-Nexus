@@ -1,0 +1,2728 @@
+{
+  "schemaVersion": "2.0",
+  "methodologyVersion": "global-2026-11-14",
+  "createdAt": "2026-11-14T18:35:25.615Z",
+  "input": {
+    "name": "Mi terreno",
+    "lat": 36.75,
+    "lon": -119.75,
+    "areaHa": null,
+    "soil": "desconocido",
+    "ph": null,
+    "soilOrigin": "desconocido",
+    "irrigation": "desconocido",
+    "waterMm": null,
+    "waterOrigin": "desconocido",
+    "priority": "diversidad",
+    "excluded": [],
+    "illustrative": false,
+    "start": "2024-01-01",
+    "horizonDays": 366,
+    "analysisMode": "climate",
+    "regionProfileId": null,
+    "history": [],
+    "current": []
+  },
+  "coverage": {
+    "level": "climate-only",
+    "profile": null,
+    "recommendationsAllowed": false,
+    "demoAllowed": false,
+    "missing": [
+      "Reglas agronómicas revisadas para la región, variedad y periodo",
+      "Balance hídrico y características locales del suelo"
+    ],
+    "reason": "Sin perfil regional aplicable a estas coordenadas. Solo clima y comprobaciones descriptivas de registros aportados."
+  },
+  "contextualSources": [
+    {
+      "id": "esa-worldcover-2021",
+      "provider": "ESA WorldCover consortium / Terrascope",
+      "dataset": "ESA WorldCover 2021",
+      "documentation": "https://esa-worldcover.org/en/data-access",
+      "coverage": "global",
+      "type": "land-cover",
+      "version": "v200",
+      "period": "2021",
+      "resolution": "10 m nominales; teselas renderizadas según zoom",
+      "license": "CC-BY-4.0",
+      "use": "Contexto de cobertura terrestre clasificada; la clase cropland no identifica especie ni rotación.",
+      "limitations": [
+        "Mapa histórico de 2021, no estado actual de una parcela",
+        "Servicio WMS: cobertura entre latitudes -60 y 83 grados; fuera de ella no se infieren datos",
+        "Clasificación con error; no define límites prediales ni valida aptitud agronómica",
+        "No comparar cambios 2020/2021 sin considerar algoritmos distintos",
+        "La capa no alimenta reglas de recomendación"
+      ],
+      "usedInAgronomicEvaluation": false,
+      "access": "Capa visual opcional; su activación en el mapa no implica uso en cálculos"
+    }
+  ],
+  "history": {
+    "count": 0,
+    "knownCount": 0,
+    "maxRepeat": 0,
+    "overlappingOrInvalid": false
+  },
+  "climate": {
+    "days": [
+      {
+        "date": "2024-01-01",
+        "T2M": 11.23,
+        "T2M_MIN": 8.18,
+        "T2M_MAX": 17.04,
+        "PRECTOTCORR": 0.01
+      },
+      {
+        "date": "2024-01-02",
+        "T2M": 10.61,
+        "T2M_MIN": 7.62,
+        "T2M_MAX": 15.82,
+        "PRECTOTCORR": 8.68
+      },
+      {
+        "date": "2024-01-03",
+        "T2M": 7.18,
+        "T2M_MIN": 4.23,
+        "T2M_MAX": 10.89,
+        "PRECTOTCORR": 5.58
+      },
+      {
+        "date": "2024-01-04",
+        "T2M": 7.12,
+        "T2M_MIN": 4.02,
+        "T2M_MAX": 12.26,
+        "PRECTOTCORR": 0.02
+      },
+      {
+        "date": "2024-01-05",
+        "T2M": 8.54,
+        "T2M_MIN": 4.67,
+        "T2M_MAX": 15.98,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-01-06",
+        "T2M": 6.97,
+        "T2M_MIN": 5.03,
+        "T2M_MAX": 10.39,
+        "PRECTOTCORR": 5.38
+      },
+      {
+        "date": "2024-01-07",
+        "T2M": 3.94,
+        "T2M_MIN": -0.85,
+        "T2M_MAX": 10.3,
+        "PRECTOTCORR": 0.04
+      },
+      {
+        "date": "2024-01-08",
+        "T2M": 4.31,
+        "T2M_MIN": -1.34,
+        "T2M_MAX": 10.65,
+        "PRECTOTCORR": 0.03
+      },
+      {
+        "date": "2024-01-09",
+        "T2M": 7.89,
+        "T2M_MIN": 3.68,
+        "T2M_MAX": 14.27,
+        "PRECTOTCORR": 0.02
+      },
+      {
+        "date": "2024-01-10",
+        "T2M": 7.51,
+        "T2M_MIN": 2.71,
+        "T2M_MAX": 12.28,
+        "PRECTOTCORR": 8.75
+      },
+      {
+        "date": "2024-01-11",
+        "T2M": 5.26,
+        "T2M_MIN": 1.26,
+        "T2M_MAX": 10.03,
+        "PRECTOTCORR": 0.15
+      },
+      {
+        "date": "2024-01-12",
+        "T2M": 5.36,
+        "T2M_MIN": 1.49,
+        "T2M_MAX": 10.11,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-01-13",
+        "T2M": 8.05,
+        "T2M_MIN": 3.57,
+        "T2M_MAX": 13.04,
+        "PRECTOTCORR": 1.16
+      },
+      {
+        "date": "2024-01-14",
+        "T2M": 10.45,
+        "T2M_MIN": 7.48,
+        "T2M_MAX": 16.63,
+        "PRECTOTCORR": 2.23
+      },
+      {
+        "date": "2024-01-15",
+        "T2M": 9.99,
+        "T2M_MIN": 7.59,
+        "T2M_MAX": 14.07,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-01-16",
+        "T2M": 11.13,
+        "T2M_MIN": 7.4,
+        "T2M_MAX": 16.21,
+        "PRECTOTCORR": 3
+      },
+      {
+        "date": "2024-01-17",
+        "T2M": 11.87,
+        "T2M_MIN": 9.35,
+        "T2M_MAX": 17.16,
+        "PRECTOTCORR": 2.05
+      },
+      {
+        "date": "2024-01-18",
+        "T2M": 10.5,
+        "T2M_MIN": 7.56,
+        "T2M_MAX": 14.26,
+        "PRECTOTCORR": 0.01
+      },
+      {
+        "date": "2024-01-19",
+        "T2M": 12.76,
+        "T2M_MIN": 8.72,
+        "T2M_MAX": 18.91,
+        "PRECTOTCORR": 2.16
+      },
+      {
+        "date": "2024-01-20",
+        "T2M": 12.9,
+        "T2M_MIN": 10.64,
+        "T2M_MAX": 15.9,
+        "PRECTOTCORR": 7.43
+      },
+      {
+        "date": "2024-01-21",
+        "T2M": 12.02,
+        "T2M_MIN": 8.15,
+        "T2M_MAX": 16.79,
+        "PRECTOTCORR": 2.29
+      },
+      {
+        "date": "2024-01-22",
+        "T2M": 10.91,
+        "T2M_MIN": 8.13,
+        "T2M_MAX": 12.68,
+        "PRECTOTCORR": 19.83
+      },
+      {
+        "date": "2024-01-23",
+        "T2M": 11.26,
+        "T2M_MIN": 8.17,
+        "T2M_MAX": 16.4,
+        "PRECTOTCORR": 0.8
+      },
+      {
+        "date": "2024-01-24",
+        "T2M": 10.78,
+        "T2M_MIN": 9.33,
+        "T2M_MAX": 13.2,
+        "PRECTOTCORR": 4.61
+      },
+      {
+        "date": "2024-01-25",
+        "T2M": 11.54,
+        "T2M_MIN": 8.17,
+        "T2M_MAX": 16.43,
+        "PRECTOTCORR": 0.41
+      },
+      {
+        "date": "2024-01-26",
+        "T2M": 12.2,
+        "T2M_MIN": 7.61,
+        "T2M_MAX": 17.54,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-01-27",
+        "T2M": 14.41,
+        "T2M_MIN": 12.54,
+        "T2M_MAX": 17.24,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-01-28",
+        "T2M": 16.37,
+        "T2M_MIN": 12.36,
+        "T2M_MAX": 22.56,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-01-29",
+        "T2M": 17.78,
+        "T2M_MIN": 12.11,
+        "T2M_MAX": 24.61,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-01-30",
+        "T2M": 16.37,
+        "T2M_MIN": 11.97,
+        "T2M_MAX": 23.82,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-01-31",
+        "T2M": 14.37,
+        "T2M_MIN": 9.85,
+        "T2M_MAX": 20.49,
+        "PRECTOTCORR": 2.12
+      },
+      {
+        "date": "2024-02-01",
+        "T2M": 11.31,
+        "T2M_MIN": 8.92,
+        "T2M_MAX": 14.33,
+        "PRECTOTCORR": 23.92
+      },
+      {
+        "date": "2024-02-02",
+        "T2M": 9.19,
+        "T2M_MIN": 6.83,
+        "T2M_MAX": 12.28,
+        "PRECTOTCORR": 4.44
+      },
+      {
+        "date": "2024-02-03",
+        "T2M": 8.86,
+        "T2M_MIN": 5.98,
+        "T2M_MAX": 13.55,
+        "PRECTOTCORR": 1.23
+      },
+      {
+        "date": "2024-02-04",
+        "T2M": 10.88,
+        "T2M_MIN": 6.99,
+        "T2M_MAX": 14.1,
+        "PRECTOTCORR": 25.83
+      },
+      {
+        "date": "2024-02-05",
+        "T2M": 10.71,
+        "T2M_MIN": 8.39,
+        "T2M_MAX": 14.37,
+        "PRECTOTCORR": 6.08
+      },
+      {
+        "date": "2024-02-06",
+        "T2M": 8.93,
+        "T2M_MIN": 6.72,
+        "T2M_MAX": 12.11,
+        "PRECTOTCORR": 6.07
+      },
+      {
+        "date": "2024-02-07",
+        "T2M": 7.73,
+        "T2M_MIN": 4.73,
+        "T2M_MAX": 11.84,
+        "PRECTOTCORR": 17.44
+      },
+      {
+        "date": "2024-02-08",
+        "T2M": 6.02,
+        "T2M_MIN": 3.91,
+        "T2M_MAX": 9.96,
+        "PRECTOTCORR": 0.87
+      },
+      {
+        "date": "2024-02-09",
+        "T2M": 6.51,
+        "T2M_MIN": 3.66,
+        "T2M_MAX": 11.71,
+        "PRECTOTCORR": 0.04
+      },
+      {
+        "date": "2024-02-10",
+        "T2M": 6.52,
+        "T2M_MIN": 2.04,
+        "T2M_MAX": 12.21,
+        "PRECTOTCORR": 0.01
+      },
+      {
+        "date": "2024-02-11",
+        "T2M": 7.9,
+        "T2M_MIN": 2.66,
+        "T2M_MAX": 14.48,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-02-12",
+        "T2M": 10.12,
+        "T2M_MIN": 5.9,
+        "T2M_MAX": 15.17,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-02-13",
+        "T2M": 10.59,
+        "T2M_MIN": 5.85,
+        "T2M_MAX": 16.36,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-02-14",
+        "T2M": 10.14,
+        "T2M_MIN": 6.27,
+        "T2M_MAX": 14.6,
+        "PRECTOTCORR": 5.91
+      },
+      {
+        "date": "2024-02-15",
+        "T2M": 11.58,
+        "T2M_MIN": 8.76,
+        "T2M_MAX": 16.89,
+        "PRECTOTCORR": 1.56
+      },
+      {
+        "date": "2024-02-16",
+        "T2M": 10.88,
+        "T2M_MIN": 8.31,
+        "T2M_MAX": 14.6,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-02-17",
+        "T2M": 12.04,
+        "T2M_MIN": 8.3,
+        "T2M_MAX": 16.66,
+        "PRECTOTCORR": 3.31
+      },
+      {
+        "date": "2024-02-18",
+        "T2M": 12.93,
+        "T2M_MIN": 9.38,
+        "T2M_MAX": 17.36,
+        "PRECTOTCORR": 6.48
+      },
+      {
+        "date": "2024-02-19",
+        "T2M": 13.08,
+        "T2M_MIN": 9.77,
+        "T2M_MAX": 16.87,
+        "PRECTOTCORR": 21.48
+      },
+      {
+        "date": "2024-02-20",
+        "T2M": 12.12,
+        "T2M_MIN": 9.01,
+        "T2M_MAX": 16.83,
+        "PRECTOTCORR": 5.04
+      },
+      {
+        "date": "2024-02-21",
+        "T2M": 11.63,
+        "T2M_MIN": 9.03,
+        "T2M_MAX": 16.25,
+        "PRECTOTCORR": 2.69
+      },
+      {
+        "date": "2024-02-22",
+        "T2M": 11.61,
+        "T2M_MIN": 5.46,
+        "T2M_MAX": 17.62,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-02-23",
+        "T2M": 12.64,
+        "T2M_MIN": 8.44,
+        "T2M_MAX": 17.4,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-02-24",
+        "T2M": 15.42,
+        "T2M_MIN": 10.47,
+        "T2M_MAX": 21.79,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-02-25",
+        "T2M": 14.86,
+        "T2M_MIN": 9.54,
+        "T2M_MAX": 20.81,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-02-26",
+        "T2M": 12.73,
+        "T2M_MIN": 7.92,
+        "T2M_MAX": 18.14,
+        "PRECTOTCORR": 0.18
+      },
+      {
+        "date": "2024-02-27",
+        "T2M": 11.73,
+        "T2M_MIN": 7.84,
+        "T2M_MAX": 17.02,
+        "PRECTOTCORR": 0.02
+      },
+      {
+        "date": "2024-02-28",
+        "T2M": 12.83,
+        "T2M_MIN": 7.74,
+        "T2M_MAX": 18.97,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-02-29",
+        "T2M": 11.8,
+        "T2M_MIN": 6.7,
+        "T2M_MAX": 16.88,
+        "PRECTOTCORR": 0.47
+      },
+      {
+        "date": "2024-03-01",
+        "T2M": 11.57,
+        "T2M_MIN": 9.47,
+        "T2M_MAX": 14.48,
+        "PRECTOTCORR": 17.02
+      },
+      {
+        "date": "2024-03-02",
+        "T2M": 8.43,
+        "T2M_MIN": 6.75,
+        "T2M_MAX": 10.17,
+        "PRECTOTCORR": 18.22
+      },
+      {
+        "date": "2024-03-03",
+        "T2M": 9.49,
+        "T2M_MIN": 6.78,
+        "T2M_MAX": 13.62,
+        "PRECTOTCORR": 3.48
+      },
+      {
+        "date": "2024-03-04",
+        "T2M": 9.78,
+        "T2M_MIN": 5.28,
+        "T2M_MAX": 13.9,
+        "PRECTOTCORR": 0.18
+      },
+      {
+        "date": "2024-03-05",
+        "T2M": 11.37,
+        "T2M_MIN": 6.9,
+        "T2M_MAX": 15.83,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-03-06",
+        "T2M": 11.52,
+        "T2M_MIN": 8.49,
+        "T2M_MAX": 14.94,
+        "PRECTOTCORR": 0.94
+      },
+      {
+        "date": "2024-03-07",
+        "T2M": 10.11,
+        "T2M_MIN": 6.65,
+        "T2M_MAX": 14.54,
+        "PRECTOTCORR": 0.19
+      },
+      {
+        "date": "2024-03-08",
+        "T2M": 11.27,
+        "T2M_MIN": 4.28,
+        "T2M_MAX": 17.94,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-03-09",
+        "T2M": 12.96,
+        "T2M_MIN": 8.05,
+        "T2M_MAX": 17.95,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-03-10",
+        "T2M": 13.34,
+        "T2M_MIN": 9.25,
+        "T2M_MAX": 17.4,
+        "PRECTOTCORR": 0.02
+      },
+      {
+        "date": "2024-03-11",
+        "T2M": 13.16,
+        "T2M_MIN": 9.02,
+        "T2M_MAX": 17.89,
+        "PRECTOTCORR": 0.15
+      },
+      {
+        "date": "2024-03-12",
+        "T2M": 11.66,
+        "T2M_MIN": 8.12,
+        "T2M_MAX": 15.99,
+        "PRECTOTCORR": 2.09
+      },
+      {
+        "date": "2024-03-13",
+        "T2M": 10.67,
+        "T2M_MIN": 6.25,
+        "T2M_MAX": 17.21,
+        "PRECTOTCORR": 0.03
+      },
+      {
+        "date": "2024-03-14",
+        "T2M": 11.61,
+        "T2M_MIN": 3.52,
+        "T2M_MAX": 19.81,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-03-15",
+        "T2M": 14.31,
+        "T2M_MIN": 8.99,
+        "T2M_MAX": 20.82,
+        "PRECTOTCORR": 0.01
+      },
+      {
+        "date": "2024-03-16",
+        "T2M": 14.67,
+        "T2M_MIN": 9.44,
+        "T2M_MAX": 21.01,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-03-17",
+        "T2M": 14.68,
+        "T2M_MIN": 9.35,
+        "T2M_MAX": 21.32,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-03-18",
+        "T2M": 16.09,
+        "T2M_MIN": 9.76,
+        "T2M_MAX": 22.98,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-03-19",
+        "T2M": 16.21,
+        "T2M_MIN": 11.58,
+        "T2M_MAX": 23.24,
+        "PRECTOTCORR": 0.02
+      },
+      {
+        "date": "2024-03-20",
+        "T2M": 15.92,
+        "T2M_MIN": 9.92,
+        "T2M_MAX": 23.63,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-03-21",
+        "T2M": 15.58,
+        "T2M_MIN": 10.35,
+        "T2M_MAX": 22.26,
+        "PRECTOTCORR": 0.01
+      },
+      {
+        "date": "2024-03-22",
+        "T2M": 16.18,
+        "T2M_MIN": 11.15,
+        "T2M_MAX": 22.78,
+        "PRECTOTCORR": 2.74
+      },
+      {
+        "date": "2024-03-23",
+        "T2M": 11.98,
+        "T2M_MIN": 7.56,
+        "T2M_MAX": 15.41,
+        "PRECTOTCORR": 12.46
+      },
+      {
+        "date": "2024-03-24",
+        "T2M": 9.49,
+        "T2M_MIN": 6.99,
+        "T2M_MAX": 13.03,
+        "PRECTOTCORR": 5.47
+      },
+      {
+        "date": "2024-03-25",
+        "T2M": 11.46,
+        "T2M_MIN": 6.63,
+        "T2M_MAX": 17.52,
+        "PRECTOTCORR": 0.03
+      },
+      {
+        "date": "2024-03-26",
+        "T2M": 12.09,
+        "T2M_MIN": 7.25,
+        "T2M_MAX": 18.34,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-03-27",
+        "T2M": 13.99,
+        "T2M_MIN": 7.72,
+        "T2M_MAX": 20.56,
+        "PRECTOTCORR": 1.41
+      },
+      {
+        "date": "2024-03-28",
+        "T2M": 12.96,
+        "T2M_MIN": 9.07,
+        "T2M_MAX": 17.19,
+        "PRECTOTCORR": 8.94
+      },
+      {
+        "date": "2024-03-29",
+        "T2M": 10.24,
+        "T2M_MIN": 8.06,
+        "T2M_MAX": 12.88,
+        "PRECTOTCORR": 12.77
+      },
+      {
+        "date": "2024-03-30",
+        "T2M": 10.18,
+        "T2M_MIN": 5.79,
+        "T2M_MAX": 14.95,
+        "PRECTOTCORR": 5.37
+      },
+      {
+        "date": "2024-03-31",
+        "T2M": 12.18,
+        "T2M_MIN": 7.4,
+        "T2M_MAX": 17.39,
+        "PRECTOTCORR": 1.71
+      },
+      {
+        "date": "2024-04-01",
+        "T2M": 13.16,
+        "T2M_MIN": 5.79,
+        "T2M_MAX": 20.48,
+        "PRECTOTCORR": 0.03
+      },
+      {
+        "date": "2024-04-02",
+        "T2M": 15.79,
+        "T2M_MIN": 7.12,
+        "T2M_MAX": 23.07,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-04-03",
+        "T2M": 17.22,
+        "T2M_MIN": 11.08,
+        "T2M_MAX": 24.58,
+        "PRECTOTCORR": 0.1
+      },
+      {
+        "date": "2024-04-04",
+        "T2M": 9.25,
+        "T2M_MIN": 5.41,
+        "T2M_MAX": 12.58,
+        "PRECTOTCORR": 10.87
+      },
+      {
+        "date": "2024-04-05",
+        "T2M": 6.62,
+        "T2M_MIN": 3.8,
+        "T2M_MAX": 10.06,
+        "PRECTOTCORR": 8.02
+      },
+      {
+        "date": "2024-04-06",
+        "T2M": 9.62,
+        "T2M_MIN": 3.95,
+        "T2M_MAX": 15.71,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-04-07",
+        "T2M": 10.74,
+        "T2M_MIN": 4.63,
+        "T2M_MAX": 16.52,
+        "PRECTOTCORR": 0.24
+      },
+      {
+        "date": "2024-04-08",
+        "T2M": 11.98,
+        "T2M_MIN": 4.06,
+        "T2M_MAX": 19.83,
+        "PRECTOTCORR": 0.08
+      },
+      {
+        "date": "2024-04-09",
+        "T2M": 15.08,
+        "T2M_MIN": 6.62,
+        "T2M_MAX": 22.73,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-04-10",
+        "T2M": 18.96,
+        "T2M_MIN": 11.87,
+        "T2M_MAX": 26.13,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-04-11",
+        "T2M": 21.99,
+        "T2M_MIN": 14.86,
+        "T2M_MAX": 28.47,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-04-12",
+        "T2M": 18.98,
+        "T2M_MIN": 11.57,
+        "T2M_MAX": 27.26,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-04-13",
+        "T2M": 11.07,
+        "T2M_MIN": 5.18,
+        "T2M_MAX": 15.88,
+        "PRECTOTCORR": 14.66
+      },
+      {
+        "date": "2024-04-14",
+        "T2M": 9.28,
+        "T2M_MIN": 5.18,
+        "T2M_MAX": 14,
+        "PRECTOTCORR": 8.98
+      },
+      {
+        "date": "2024-04-15",
+        "T2M": 12.38,
+        "T2M_MIN": 5.93,
+        "T2M_MAX": 18.95,
+        "PRECTOTCORR": 0.01
+      },
+      {
+        "date": "2024-04-16",
+        "T2M": 16.54,
+        "T2M_MIN": 9.44,
+        "T2M_MAX": 23.95,
+        "PRECTOTCORR": 0.01
+      },
+      {
+        "date": "2024-04-17",
+        "T2M": 19.08,
+        "T2M_MIN": 12.73,
+        "T2M_MAX": 25.1,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-04-18",
+        "T2M": 20.15,
+        "T2M_MIN": 13.54,
+        "T2M_MAX": 27.16,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-04-19",
+        "T2M": 19.04,
+        "T2M_MIN": 13.06,
+        "T2M_MAX": 26.62,
+        "PRECTOTCORR": 0.01
+      },
+      {
+        "date": "2024-04-20",
+        "T2M": 18.39,
+        "T2M_MIN": 11.33,
+        "T2M_MAX": 27.04,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-04-21",
+        "T2M": 20.67,
+        "T2M_MIN": 13.27,
+        "T2M_MAX": 28.53,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-04-22",
+        "T2M": 22.85,
+        "T2M_MIN": 16.06,
+        "T2M_MAX": 30.37,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-04-23",
+        "T2M": 17.89,
+        "T2M_MIN": 12.63,
+        "T2M_MAX": 24.62,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-04-24",
+        "T2M": 15.88,
+        "T2M_MIN": 12.5,
+        "T2M_MAX": 21.27,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-04-25",
+        "T2M": 15.46,
+        "T2M_MIN": 9.47,
+        "T2M_MAX": 22.03,
+        "PRECTOTCORR": 0.1
+      },
+      {
+        "date": "2024-04-26",
+        "T2M": 14.56,
+        "T2M_MIN": 10.57,
+        "T2M_MAX": 19.34,
+        "PRECTOTCORR": 1.3
+      },
+      {
+        "date": "2024-04-27",
+        "T2M": 15.24,
+        "T2M_MIN": 8.71,
+        "T2M_MAX": 22.57,
+        "PRECTOTCORR": 0.01
+      },
+      {
+        "date": "2024-04-28",
+        "T2M": 16.25,
+        "T2M_MIN": 8.41,
+        "T2M_MAX": 24.92,
+        "PRECTOTCORR": 0.03
+      },
+      {
+        "date": "2024-04-29",
+        "T2M": 16.39,
+        "T2M_MIN": 9.45,
+        "T2M_MAX": 24.46,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-04-30",
+        "T2M": 16.75,
+        "T2M_MIN": 8.83,
+        "T2M_MAX": 25.62,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-05-01",
+        "T2M": 17.36,
+        "T2M_MIN": 9.91,
+        "T2M_MAX": 25.58,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-05-02",
+        "T2M": 19.19,
+        "T2M_MIN": 11.92,
+        "T2M_MAX": 27.41,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-05-03",
+        "T2M": 19.38,
+        "T2M_MIN": 12.25,
+        "T2M_MAX": 28.05,
+        "PRECTOTCORR": 0.1
+      },
+      {
+        "date": "2024-05-04",
+        "T2M": 13.24,
+        "T2M_MIN": 6.8,
+        "T2M_MAX": 17.37,
+        "PRECTOTCORR": 14
+      },
+      {
+        "date": "2024-05-05",
+        "T2M": 11.41,
+        "T2M_MIN": 6.09,
+        "T2M_MAX": 18.19,
+        "PRECTOTCORR": 0.55
+      },
+      {
+        "date": "2024-05-06",
+        "T2M": 13.98,
+        "T2M_MIN": 5.76,
+        "T2M_MAX": 22.41,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-05-07",
+        "T2M": 15.71,
+        "T2M_MIN": 8.09,
+        "T2M_MAX": 23.59,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-05-08",
+        "T2M": 17.89,
+        "T2M_MIN": 8.9,
+        "T2M_MAX": 25.76,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-05-09",
+        "T2M": 21.11,
+        "T2M_MIN": 13.37,
+        "T2M_MAX": 28.86,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-05-10",
+        "T2M": 23.21,
+        "T2M_MIN": 15.07,
+        "T2M_MAX": 31.65,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-05-11",
+        "T2M": 23.43,
+        "T2M_MIN": 14.2,
+        "T2M_MAX": 32.57,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-05-12",
+        "T2M": 24.11,
+        "T2M_MIN": 16.56,
+        "T2M_MAX": 33.61,
+        "PRECTOTCORR": 0.01
+      },
+      {
+        "date": "2024-05-13",
+        "T2M": 23.37,
+        "T2M_MIN": 16.06,
+        "T2M_MAX": 32.46,
+        "PRECTOTCORR": 0.03
+      },
+      {
+        "date": "2024-05-14",
+        "T2M": 22.68,
+        "T2M_MIN": 14.57,
+        "T2M_MAX": 32.39,
+        "PRECTOTCORR": 0.2
+      },
+      {
+        "date": "2024-05-15",
+        "T2M": 22.98,
+        "T2M_MIN": 15.57,
+        "T2M_MAX": 32.76,
+        "PRECTOTCORR": 0.04
+      },
+      {
+        "date": "2024-05-16",
+        "T2M": 22.94,
+        "T2M_MIN": 15.09,
+        "T2M_MAX": 33.45,
+        "PRECTOTCORR": 0.01
+      },
+      {
+        "date": "2024-05-17",
+        "T2M": 21.92,
+        "T2M_MIN": 13.55,
+        "T2M_MAX": 31.24,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-05-18",
+        "T2M": 22.49,
+        "T2M_MIN": 14.6,
+        "T2M_MAX": 31.68,
+        "PRECTOTCORR": 0.07
+      },
+      {
+        "date": "2024-05-19",
+        "T2M": 20.7,
+        "T2M_MIN": 13.13,
+        "T2M_MAX": 30.4,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-05-20",
+        "T2M": 19.38,
+        "T2M_MIN": 10.89,
+        "T2M_MAX": 28.73,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-05-21",
+        "T2M": 20.95,
+        "T2M_MIN": 11.89,
+        "T2M_MAX": 30.17,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-05-22",
+        "T2M": 22.71,
+        "T2M_MIN": 14.05,
+        "T2M_MAX": 31.71,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-05-23",
+        "T2M": 20.63,
+        "T2M_MIN": 13.09,
+        "T2M_MAX": 29.31,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-05-24",
+        "T2M": 18.33,
+        "T2M_MIN": 11.78,
+        "T2M_MAX": 27.15,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-05-25",
+        "T2M": 18.01,
+        "T2M_MIN": 10.08,
+        "T2M_MAX": 26.56,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-05-26",
+        "T2M": 19.75,
+        "T2M_MIN": 9.79,
+        "T2M_MAX": 29.32,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-05-27",
+        "T2M": 22.96,
+        "T2M_MIN": 13.71,
+        "T2M_MAX": 33.13,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-05-28",
+        "T2M": 22.4,
+        "T2M_MIN": 13.81,
+        "T2M_MAX": 33.16,
+        "PRECTOTCORR": 0.01
+      },
+      {
+        "date": "2024-05-29",
+        "T2M": 22.37,
+        "T2M_MIN": 13.41,
+        "T2M_MAX": 32.13,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-05-30",
+        "T2M": 25.8,
+        "T2M_MIN": 16.73,
+        "T2M_MAX": 35.44,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-05-31",
+        "T2M": 27.43,
+        "T2M_MIN": 19.02,
+        "T2M_MAX": 36.95,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-06-01",
+        "T2M": 24.5,
+        "T2M_MIN": 16.77,
+        "T2M_MAX": 34.33,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-06-02",
+        "T2M": 22.6,
+        "T2M_MIN": 14.39,
+        "T2M_MAX": 32.27,
+        "PRECTOTCORR": 0.02
+      },
+      {
+        "date": "2024-06-03",
+        "T2M": 23.68,
+        "T2M_MIN": 16.96,
+        "T2M_MAX": 31.7,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-06-04",
+        "T2M": 26.5,
+        "T2M_MIN": 15.92,
+        "T2M_MAX": 36.66,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-06-05",
+        "T2M": 32.14,
+        "T2M_MIN": 23.23,
+        "T2M_MAX": 41.41,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-06-06",
+        "T2M": 32.67,
+        "T2M_MIN": 25.35,
+        "T2M_MAX": 42.12,
+        "PRECTOTCORR": 0.01
+      },
+      {
+        "date": "2024-06-07",
+        "T2M": 30.44,
+        "T2M_MIN": 20.75,
+        "T2M_MAX": 42.23,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-06-08",
+        "T2M": 24.69,
+        "T2M_MIN": 17.03,
+        "T2M_MAX": 33.55,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-06-09",
+        "T2M": 24.41,
+        "T2M_MIN": 15.76,
+        "T2M_MAX": 33.94,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-06-10",
+        "T2M": 26.29,
+        "T2M_MIN": 15.42,
+        "T2M_MAX": 36.54,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-06-11",
+        "T2M": 31.46,
+        "T2M_MIN": 22.51,
+        "T2M_MAX": 41.33,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-06-12",
+        "T2M": 31.66,
+        "T2M_MIN": 22.47,
+        "T2M_MAX": 42.02,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-06-13",
+        "T2M": 27.45,
+        "T2M_MIN": 19.23,
+        "T2M_MAX": 38.24,
+        "PRECTOTCORR": 0.01
+      },
+      {
+        "date": "2024-06-14",
+        "T2M": 26.58,
+        "T2M_MIN": 16.52,
+        "T2M_MAX": 38.57,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-06-15",
+        "T2M": 25.13,
+        "T2M_MIN": 16.7,
+        "T2M_MAX": 34.69,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-06-16",
+        "T2M": 24.77,
+        "T2M_MIN": 14.54,
+        "T2M_MAX": 35.16,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-06-17",
+        "T2M": 23.11,
+        "T2M_MIN": 15.07,
+        "T2M_MAX": 30.88,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-06-18",
+        "T2M": 25.12,
+        "T2M_MIN": 16.11,
+        "T2M_MAX": 34.32,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-06-19",
+        "T2M": 25.76,
+        "T2M_MIN": 16.87,
+        "T2M_MAX": 35.25,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-06-20",
+        "T2M": 25.68,
+        "T2M_MIN": 16.13,
+        "T2M_MAX": 35.84,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-06-21",
+        "T2M": 27.7,
+        "T2M_MIN": 16.68,
+        "T2M_MAX": 38.65,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-06-22",
+        "T2M": 32.96,
+        "T2M_MIN": 22.58,
+        "T2M_MAX": 43.14,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-06-23",
+        "T2M": 34.32,
+        "T2M_MIN": 24.69,
+        "T2M_MAX": 44.56,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-06-24",
+        "T2M": 34.33,
+        "T2M_MIN": 25.74,
+        "T2M_MAX": 42.3,
+        "PRECTOTCORR": 0.03
+      },
+      {
+        "date": "2024-06-25",
+        "T2M": 33.52,
+        "T2M_MIN": 25.64,
+        "T2M_MAX": 42.55,
+        "PRECTOTCORR": 0.04
+      },
+      {
+        "date": "2024-06-26",
+        "T2M": 30.75,
+        "T2M_MIN": 23.22,
+        "T2M_MAX": 39.49,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-06-27",
+        "T2M": 28.19,
+        "T2M_MIN": 20.34,
+        "T2M_MAX": 37.57,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-06-28",
+        "T2M": 28.27,
+        "T2M_MIN": 19.33,
+        "T2M_MAX": 38.16,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-06-29",
+        "T2M": 29.91,
+        "T2M_MIN": 19.46,
+        "T2M_MAX": 40.35,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-06-30",
+        "T2M": 30.2,
+        "T2M_MIN": 21.54,
+        "T2M_MAX": 39.35,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-07-01",
+        "T2M": 30.68,
+        "T2M_MIN": 20.62,
+        "T2M_MAX": 40.61,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-07-02",
+        "T2M": 34.12,
+        "T2M_MIN": 23.49,
+        "T2M_MAX": 43.55,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-07-03",
+        "T2M": 36.27,
+        "T2M_MIN": 26.4,
+        "T2M_MAX": 45.72,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-07-04",
+        "T2M": 35.69,
+        "T2M_MIN": 25.28,
+        "T2M_MAX": 46.02,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-07-05",
+        "T2M": 35.33,
+        "T2M_MIN": 24.87,
+        "T2M_MAX": 45.87,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-07-06",
+        "T2M": 37.75,
+        "T2M_MIN": 27.22,
+        "T2M_MAX": 48.12,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-07-07",
+        "T2M": 36.9,
+        "T2M_MIN": 27.66,
+        "T2M_MAX": 47.77,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-07-08",
+        "T2M": 34.68,
+        "T2M_MIN": 25.51,
+        "T2M_MAX": 46.56,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-07-09",
+        "T2M": 33.65,
+        "T2M_MIN": 24.48,
+        "T2M_MAX": 44.37,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-07-10",
+        "T2M": 34.05,
+        "T2M_MIN": 23.83,
+        "T2M_MAX": 44.39,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-07-11",
+        "T2M": 37.01,
+        "T2M_MIN": 26.85,
+        "T2M_MAX": 46.62,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-07-12",
+        "T2M": 36.82,
+        "T2M_MIN": 27.41,
+        "T2M_MAX": 46.75,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-07-13",
+        "T2M": 35.96,
+        "T2M_MIN": 28.82,
+        "T2M_MAX": 45.39,
+        "PRECTOTCORR": 0.28
+      },
+      {
+        "date": "2024-07-14",
+        "T2M": 33.78,
+        "T2M_MIN": 25.44,
+        "T2M_MAX": 42.79,
+        "PRECTOTCORR": 0.17
+      },
+      {
+        "date": "2024-07-15",
+        "T2M": 31.59,
+        "T2M_MIN": 23.77,
+        "T2M_MAX": 41.18,
+        "PRECTOTCORR": 0.19
+      },
+      {
+        "date": "2024-07-16",
+        "T2M": 29.9,
+        "T2M_MIN": 20.85,
+        "T2M_MAX": 40.45,
+        "PRECTOTCORR": 0.08
+      },
+      {
+        "date": "2024-07-17",
+        "T2M": 28.8,
+        "T2M_MIN": 18.31,
+        "T2M_MAX": 39.73,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-07-18",
+        "T2M": 31.32,
+        "T2M_MIN": 23.08,
+        "T2M_MAX": 40.04,
+        "PRECTOTCORR": 0.1
+      },
+      {
+        "date": "2024-07-19",
+        "T2M": 33.49,
+        "T2M_MIN": 24.1,
+        "T2M_MAX": 42.61,
+        "PRECTOTCORR": 0.14
+      },
+      {
+        "date": "2024-07-20",
+        "T2M": 34.3,
+        "T2M_MIN": 25.78,
+        "T2M_MAX": 43.77,
+        "PRECTOTCORR": 0.04
+      },
+      {
+        "date": "2024-07-21",
+        "T2M": 31.66,
+        "T2M_MIN": 23.16,
+        "T2M_MAX": 41.31,
+        "PRECTOTCORR": 0.02
+      },
+      {
+        "date": "2024-07-22",
+        "T2M": 34.78,
+        "T2M_MIN": 24.64,
+        "T2M_MAX": 44.55,
+        "PRECTOTCORR": 0.01
+      },
+      {
+        "date": "2024-07-23",
+        "T2M": 36.66,
+        "T2M_MIN": 27.64,
+        "T2M_MAX": 44.96,
+        "PRECTOTCORR": 0.04
+      },
+      {
+        "date": "2024-07-24",
+        "T2M": 36.77,
+        "T2M_MIN": 28.69,
+        "T2M_MAX": 45.77,
+        "PRECTOTCORR": 0.02
+      },
+      {
+        "date": "2024-07-25",
+        "T2M": 35.77,
+        "T2M_MIN": 28.13,
+        "T2M_MAX": 44.27,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-07-26",
+        "T2M": 33.48,
+        "T2M_MIN": 22.94,
+        "T2M_MAX": 44.3,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-07-27",
+        "T2M": 26.72,
+        "T2M_MIN": 19.54,
+        "T2M_MAX": 35.32,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-07-28",
+        "T2M": 26.41,
+        "T2M_MIN": 17.24,
+        "T2M_MAX": 36.27,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-07-29",
+        "T2M": 27.51,
+        "T2M_MIN": 19.06,
+        "T2M_MAX": 37.23,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-07-30",
+        "T2M": 28.22,
+        "T2M_MIN": 19.59,
+        "T2M_MAX": 38.15,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-07-31",
+        "T2M": 29.4,
+        "T2M_MIN": 19.82,
+        "T2M_MAX": 39.29,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-08-01",
+        "T2M": 32.84,
+        "T2M_MIN": 23.59,
+        "T2M_MAX": 42.39,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-08-02",
+        "T2M": 29.73,
+        "T2M_MIN": 23.57,
+        "T2M_MAX": 36.77,
+        "PRECTOTCORR": 0.43
+      },
+      {
+        "date": "2024-08-03",
+        "T2M": 32.58,
+        "T2M_MIN": 24.49,
+        "T2M_MAX": 40.69,
+        "PRECTOTCORR": 0.04
+      },
+      {
+        "date": "2024-08-04",
+        "T2M": 33.1,
+        "T2M_MIN": 24.69,
+        "T2M_MAX": 42.52,
+        "PRECTOTCORR": 0.09
+      },
+      {
+        "date": "2024-08-05",
+        "T2M": 32.58,
+        "T2M_MIN": 24.71,
+        "T2M_MAX": 42.39,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-08-06",
+        "T2M": 34.47,
+        "T2M_MIN": 25.03,
+        "T2M_MAX": 44.84,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-08-07",
+        "T2M": 35.6,
+        "T2M_MIN": 27.14,
+        "T2M_MAX": 45.66,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-08-08",
+        "T2M": 32.34,
+        "T2M_MIN": 23.61,
+        "T2M_MAX": 42.7,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-08-09",
+        "T2M": 32.3,
+        "T2M_MIN": 23.37,
+        "T2M_MAX": 43.07,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-08-10",
+        "T2M": 31.8,
+        "T2M_MIN": 22.38,
+        "T2M_MAX": 42.22,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-08-11",
+        "T2M": 31.84,
+        "T2M_MIN": 24.77,
+        "T2M_MAX": 41.43,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-08-12",
+        "T2M": 29.85,
+        "T2M_MIN": 22.41,
+        "T2M_MAX": 38.88,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-08-13",
+        "T2M": 28.36,
+        "T2M_MIN": 20,
+        "T2M_MAX": 37.89,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-08-14",
+        "T2M": 27.76,
+        "T2M_MIN": 19.44,
+        "T2M_MAX": 37.86,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-08-15",
+        "T2M": 27.58,
+        "T2M_MIN": 18.98,
+        "T2M_MAX": 37.53,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-08-16",
+        "T2M": 28.29,
+        "T2M_MIN": 19.13,
+        "T2M_MAX": 38.86,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-08-17",
+        "T2M": 27.44,
+        "T2M_MIN": 21.03,
+        "T2M_MAX": 35.55,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-08-18",
+        "T2M": 26.69,
+        "T2M_MIN": 19.42,
+        "T2M_MAX": 34.64,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-08-19",
+        "T2M": 27.54,
+        "T2M_MIN": 19.67,
+        "T2M_MAX": 36.76,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-08-20",
+        "T2M": 27.91,
+        "T2M_MIN": 19.24,
+        "T2M_MAX": 37.55,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-08-21",
+        "T2M": 27.72,
+        "T2M_MIN": 20.03,
+        "T2M_MAX": 37.18,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-08-22",
+        "T2M": 24.61,
+        "T2M_MIN": 17.7,
+        "T2M_MAX": 33.01,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-08-23",
+        "T2M": 21.77,
+        "T2M_MIN": 16.4,
+        "T2M_MAX": 27.56,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-08-24",
+        "T2M": 22.9,
+        "T2M_MIN": 16.59,
+        "T2M_MAX": 29.46,
+        "PRECTOTCORR": 0.09
+      },
+      {
+        "date": "2024-08-25",
+        "T2M": 23.67,
+        "T2M_MIN": 15.86,
+        "T2M_MAX": 32.08,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-08-26",
+        "T2M": 27.74,
+        "T2M_MIN": 19.14,
+        "T2M_MAX": 36.96,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-08-27",
+        "T2M": 30.13,
+        "T2M_MIN": 21.47,
+        "T2M_MAX": 40.02,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-08-28",
+        "T2M": 30.93,
+        "T2M_MIN": 22.92,
+        "T2M_MAX": 40.58,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-08-29",
+        "T2M": 28.29,
+        "T2M_MIN": 20.55,
+        "T2M_MAX": 38.64,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-08-30",
+        "T2M": 28.83,
+        "T2M_MIN": 20.72,
+        "T2M_MAX": 39.37,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-08-31",
+        "T2M": 29.07,
+        "T2M_MIN": 21.02,
+        "T2M_MAX": 38.99,
+        "PRECTOTCORR": 0.08
+      },
+      {
+        "date": "2024-09-01",
+        "T2M": 29.31,
+        "T2M_MIN": 20.89,
+        "T2M_MAX": 39.88,
+        "PRECTOTCORR": 0.04
+      },
+      {
+        "date": "2024-09-02",
+        "T2M": 28.41,
+        "T2M_MIN": 20.75,
+        "T2M_MAX": 37.67,
+        "PRECTOTCORR": 0.03
+      },
+      {
+        "date": "2024-09-03",
+        "T2M": 30.83,
+        "T2M_MIN": 21.27,
+        "T2M_MAX": 40.56,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-09-04",
+        "T2M": 31.71,
+        "T2M_MIN": 22.91,
+        "T2M_MAX": 42.04,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-09-05",
+        "T2M": 33.1,
+        "T2M_MIN": 24.37,
+        "T2M_MAX": 43.01,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-09-06",
+        "T2M": 33.75,
+        "T2M_MIN": 26.65,
+        "T2M_MAX": 42.5,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-09-07",
+        "T2M": 33.47,
+        "T2M_MIN": 26.83,
+        "T2M_MAX": 41.47,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-09-08",
+        "T2M": 32.6,
+        "T2M_MIN": 24.57,
+        "T2M_MAX": 41.12,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-09-09",
+        "T2M": 31.56,
+        "T2M_MIN": 24.02,
+        "T2M_MAX": 41.76,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-09-10",
+        "T2M": 27.04,
+        "T2M_MIN": 20.02,
+        "T2M_MAX": 37.02,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-09-11",
+        "T2M": 23.63,
+        "T2M_MIN": 16.47,
+        "T2M_MAX": 32.57,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-09-12",
+        "T2M": 22.63,
+        "T2M_MIN": 14.54,
+        "T2M_MAX": 31.5,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-09-13",
+        "T2M": 26.27,
+        "T2M_MIN": 18.21,
+        "T2M_MAX": 35.17,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-09-14",
+        "T2M": 26.28,
+        "T2M_MIN": 18.12,
+        "T2M_MAX": 36.34,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-09-15",
+        "T2M": 22.13,
+        "T2M_MIN": 16.21,
+        "T2M_MAX": 30.2,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-09-16",
+        "T2M": 17.82,
+        "T2M_MIN": 13.58,
+        "T2M_MAX": 23.75,
+        "PRECTOTCORR": 0.04
+      },
+      {
+        "date": "2024-09-17",
+        "T2M": 20.23,
+        "T2M_MIN": 12.38,
+        "T2M_MAX": 28.15,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-09-18",
+        "T2M": 20.05,
+        "T2M_MIN": 13.98,
+        "T2M_MAX": 26.1,
+        "PRECTOTCORR": 0.26
+      },
+      {
+        "date": "2024-09-19",
+        "T2M": 22.41,
+        "T2M_MIN": 16.24,
+        "T2M_MAX": 30.22,
+        "PRECTOTCORR": 0.45
+      },
+      {
+        "date": "2024-09-20",
+        "T2M": 22.99,
+        "T2M_MIN": 15.43,
+        "T2M_MAX": 32.09,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-09-21",
+        "T2M": 24.8,
+        "T2M_MIN": 16.64,
+        "T2M_MAX": 34.1,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-09-22",
+        "T2M": 26.68,
+        "T2M_MIN": 19.39,
+        "T2M_MAX": 35.66,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-09-23",
+        "T2M": 28.88,
+        "T2M_MIN": 21.18,
+        "T2M_MAX": 38.56,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-09-24",
+        "T2M": 30.58,
+        "T2M_MIN": 22.5,
+        "T2M_MAX": 40.63,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-09-25",
+        "T2M": 27.15,
+        "T2M_MIN": 20.46,
+        "T2M_MAX": 36.4,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-09-26",
+        "T2M": 24.96,
+        "T2M_MIN": 17.14,
+        "T2M_MAX": 34.69,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-09-27",
+        "T2M": 27.41,
+        "T2M_MIN": 19.4,
+        "T2M_MAX": 37.03,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-09-28",
+        "T2M": 27.83,
+        "T2M_MIN": 20.61,
+        "T2M_MAX": 36.68,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-09-29",
+        "T2M": 25,
+        "T2M_MIN": 17.69,
+        "T2M_MAX": 34.96,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-09-30",
+        "T2M": 27.61,
+        "T2M_MIN": 19.97,
+        "T2M_MAX": 37.3,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-10-01",
+        "T2M": 31,
+        "T2M_MIN": 21.58,
+        "T2M_MAX": 42.12,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-10-02",
+        "T2M": 33.37,
+        "T2M_MIN": 27.12,
+        "T2M_MAX": 43.39,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-10-03",
+        "T2M": 32.5,
+        "T2M_MIN": 25.45,
+        "T2M_MAX": 42.38,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-10-04",
+        "T2M": 32.15,
+        "T2M_MIN": 25.24,
+        "T2M_MAX": 41.67,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-10-05",
+        "T2M": 31.28,
+        "T2M_MIN": 22.88,
+        "T2M_MAX": 41.03,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-10-06",
+        "T2M": 31.45,
+        "T2M_MIN": 24.14,
+        "T2M_MAX": 40.61,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-10-07",
+        "T2M": 31.33,
+        "T2M_MIN": 25.66,
+        "T2M_MAX": 40.33,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-10-08",
+        "T2M": 29.61,
+        "T2M_MIN": 23.72,
+        "T2M_MAX": 38.4,
+        "PRECTOTCORR": 0.01
+      },
+      {
+        "date": "2024-10-09",
+        "T2M": 27.15,
+        "T2M_MIN": 21.84,
+        "T2M_MAX": 35.87,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-10-10",
+        "T2M": 25.3,
+        "T2M_MIN": 20.47,
+        "T2M_MAX": 31.37,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-10-11",
+        "T2M": 25.12,
+        "T2M_MIN": 18.38,
+        "T2M_MAX": 33.5,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-10-12",
+        "T2M": 23.44,
+        "T2M_MIN": 17.54,
+        "T2M_MAX": 31.45,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-10-13",
+        "T2M": 22.5,
+        "T2M_MIN": 16.76,
+        "T2M_MAX": 30.16,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-10-14",
+        "T2M": 22.59,
+        "T2M_MIN": 16.79,
+        "T2M_MAX": 30.42,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-10-15",
+        "T2M": 23.37,
+        "T2M_MIN": 17.51,
+        "T2M_MAX": 31.97,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-10-16",
+        "T2M": 20.89,
+        "T2M_MIN": 16.15,
+        "T2M_MAX": 25.73,
+        "PRECTOTCORR": 0.33
+      },
+      {
+        "date": "2024-10-17",
+        "T2M": 18.57,
+        "T2M_MIN": 13.48,
+        "T2M_MAX": 25.18,
+        "PRECTOTCORR": 0.01
+      },
+      {
+        "date": "2024-10-18",
+        "T2M": 16.27,
+        "T2M_MIN": 9.59,
+        "T2M_MAX": 24.52,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-10-19",
+        "T2M": 18.24,
+        "T2M_MIN": 11.02,
+        "T2M_MAX": 26.68,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-10-20",
+        "T2M": 21.99,
+        "T2M_MIN": 15.06,
+        "T2M_MAX": 31.1,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-10-21",
+        "T2M": 21.7,
+        "T2M_MIN": 14.7,
+        "T2M_MAX": 30.44,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-10-22",
+        "T2M": 21.38,
+        "T2M_MIN": 14.91,
+        "T2M_MAX": 30.33,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-10-23",
+        "T2M": 21.55,
+        "T2M_MIN": 15.57,
+        "T2M_MAX": 29.93,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-10-24",
+        "T2M": 20.9,
+        "T2M_MIN": 14.59,
+        "T2M_MAX": 28.81,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-10-25",
+        "T2M": 20.42,
+        "T2M_MIN": 14.71,
+        "T2M_MAX": 28.02,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-10-26",
+        "T2M": 21.14,
+        "T2M_MIN": 14.65,
+        "T2M_MAX": 28.59,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-10-27",
+        "T2M": 20.06,
+        "T2M_MIN": 17.26,
+        "T2M_MAX": 23.89,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-10-28",
+        "T2M": 16.28,
+        "T2M_MIN": 11.38,
+        "T2M_MAX": 21.07,
+        "PRECTOTCORR": 0.2
+      },
+      {
+        "date": "2024-10-29",
+        "T2M": 12.98,
+        "T2M_MIN": 8.08,
+        "T2M_MAX": 20.06,
+        "PRECTOTCORR": 0.03
+      },
+      {
+        "date": "2024-10-30",
+        "T2M": 14.42,
+        "T2M_MIN": 9.04,
+        "T2M_MAX": 21.73,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-10-31",
+        "T2M": 14.34,
+        "T2M_MIN": 9.43,
+        "T2M_MAX": 21.32,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-11-01",
+        "T2M": 14.73,
+        "T2M_MIN": 9.32,
+        "T2M_MAX": 21.35,
+        "PRECTOTCORR": 0.04
+      },
+      {
+        "date": "2024-11-02",
+        "T2M": 14,
+        "T2M_MIN": 9.73,
+        "T2M_MAX": 20.08,
+        "PRECTOTCORR": 1.88
+      },
+      {
+        "date": "2024-11-03",
+        "T2M": 13.16,
+        "T2M_MIN": 6.74,
+        "T2M_MAX": 21.45,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-11-04",
+        "T2M": 13.86,
+        "T2M_MIN": 8.42,
+        "T2M_MAX": 21.33,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-11-05",
+        "T2M": 15.24,
+        "T2M_MIN": 9.4,
+        "T2M_MAX": 22.58,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-11-06",
+        "T2M": 14.34,
+        "T2M_MIN": 9.98,
+        "T2M_MAX": 20.85,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-11-07",
+        "T2M": 15.56,
+        "T2M_MIN": 10.62,
+        "T2M_MAX": 22.89,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-11-08",
+        "T2M": 16.02,
+        "T2M_MIN": 11.14,
+        "T2M_MAX": 22.97,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-11-09",
+        "T2M": 15.89,
+        "T2M_MIN": 9.15,
+        "T2M_MAX": 22.93,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-11-10",
+        "T2M": 16.66,
+        "T2M_MIN": 11.22,
+        "T2M_MAX": 24.36,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-11-11",
+        "T2M": 13.07,
+        "T2M_MIN": 7.14,
+        "T2M_MAX": 21.26,
+        "PRECTOTCORR": 5.33
+      },
+      {
+        "date": "2024-11-12",
+        "T2M": 10.91,
+        "T2M_MIN": 5.92,
+        "T2M_MAX": 17.56,
+        "PRECTOTCORR": 0.01
+      },
+      {
+        "date": "2024-11-13",
+        "T2M": 13.35,
+        "T2M_MIN": 7.11,
+        "T2M_MAX": 20.36,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-11-14",
+        "T2M": 13.86,
+        "T2M_MIN": 9.58,
+        "T2M_MAX": 19.43,
+        "PRECTOTCORR": 0.01
+      },
+      {
+        "date": "2024-11-15",
+        "T2M": 9.74,
+        "T2M_MIN": 5.67,
+        "T2M_MAX": 13.31,
+        "PRECTOTCORR": 0.89
+      },
+      {
+        "date": "2024-11-16",
+        "T2M": 8.73,
+        "T2M_MIN": 4.32,
+        "T2M_MAX": 15.35,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-11-17",
+        "T2M": 10.57,
+        "T2M_MIN": 5.52,
+        "T2M_MAX": 16.62,
+        "PRECTOTCORR": 0.03
+      },
+      {
+        "date": "2024-11-18",
+        "T2M": 10.17,
+        "T2M_MIN": 6.07,
+        "T2M_MAX": 15.67,
+        "PRECTOTCORR": 0.12
+      },
+      {
+        "date": "2024-11-19",
+        "T2M": 9.98,
+        "T2M_MIN": 4.83,
+        "T2M_MAX": 15.36,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-11-20",
+        "T2M": 13.49,
+        "T2M_MIN": 8.02,
+        "T2M_MAX": 21.34,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-11-21",
+        "T2M": 15.51,
+        "T2M_MIN": 9.86,
+        "T2M_MAX": 22.36,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-11-22",
+        "T2M": 15.96,
+        "T2M_MIN": 11.62,
+        "T2M_MAX": 22.69,
+        "PRECTOTCORR": 2.43
+      },
+      {
+        "date": "2024-11-23",
+        "T2M": 13.34,
+        "T2M_MIN": 11.32,
+        "T2M_MAX": 16.57,
+        "PRECTOTCORR": 15.57
+      },
+      {
+        "date": "2024-11-24",
+        "T2M": 11.88,
+        "T2M_MIN": 8.93,
+        "T2M_MAX": 16.69,
+        "PRECTOTCORR": 0.34
+      },
+      {
+        "date": "2024-11-25",
+        "T2M": 11.88,
+        "T2M_MIN": 9.38,
+        "T2M_MAX": 13.62,
+        "PRECTOTCORR": 14.6
+      },
+      {
+        "date": "2024-11-26",
+        "T2M": 11.47,
+        "T2M_MIN": 8.26,
+        "T2M_MAX": 14,
+        "PRECTOTCORR": 17.61
+      },
+      {
+        "date": "2024-11-27",
+        "T2M": 10.4,
+        "T2M_MIN": 6.75,
+        "T2M_MAX": 16.95,
+        "PRECTOTCORR": 0.1
+      },
+      {
+        "date": "2024-11-28",
+        "T2M": 11,
+        "T2M_MIN": 6.68,
+        "T2M_MAX": 16.52,
+        "PRECTOTCORR": 0.04
+      },
+      {
+        "date": "2024-11-29",
+        "T2M": 11.5,
+        "T2M_MIN": 6.65,
+        "T2M_MAX": 17.12,
+        "PRECTOTCORR": 0.12
+      },
+      {
+        "date": "2024-11-30",
+        "T2M": 12.84,
+        "T2M_MIN": 7.54,
+        "T2M_MAX": 18.71,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-12-01",
+        "T2M": 12.93,
+        "T2M_MIN": 10,
+        "T2M_MAX": 16.93,
+        "PRECTOTCORR": 0.06
+      },
+      {
+        "date": "2024-12-02",
+        "T2M": 13.71,
+        "T2M_MIN": 9.47,
+        "T2M_MAX": 19.47,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-12-03",
+        "T2M": 13.51,
+        "T2M_MIN": 9.78,
+        "T2M_MAX": 19.72,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-12-04",
+        "T2M": 13.12,
+        "T2M_MIN": 8.8,
+        "T2M_MAX": 19.48,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-12-05",
+        "T2M": 12.57,
+        "T2M_MIN": 8.32,
+        "T2M_MAX": 19.02,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-12-06",
+        "T2M": 12.77,
+        "T2M_MIN": 8.1,
+        "T2M_MAX": 19.36,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-12-07",
+        "T2M": 13.28,
+        "T2M_MIN": 8.54,
+        "T2M_MAX": 19.75,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-12-08",
+        "T2M": 12.13,
+        "T2M_MIN": 8.8,
+        "T2M_MAX": 17.23,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-12-09",
+        "T2M": 9.74,
+        "T2M_MIN": 5,
+        "T2M_MAX": 16.74,
+        "PRECTOTCORR": 0.01
+      },
+      {
+        "date": "2024-12-10",
+        "T2M": 8.96,
+        "T2M_MIN": 4.18,
+        "T2M_MAX": 15.65,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-12-11",
+        "T2M": 10.62,
+        "T2M_MIN": 7.72,
+        "T2M_MAX": 17.1,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-12-12",
+        "T2M": 8.99,
+        "T2M_MIN": 6.5,
+        "T2M_MAX": 13.12,
+        "PRECTOTCORR": 5.71
+      },
+      {
+        "date": "2024-12-13",
+        "T2M": 10.6,
+        "T2M_MIN": 7.82,
+        "T2M_MAX": 14.92,
+        "PRECTOTCORR": 0.87
+      },
+      {
+        "date": "2024-12-14",
+        "T2M": 11.24,
+        "T2M_MIN": 7.27,
+        "T2M_MAX": 15.25,
+        "PRECTOTCORR": 4.03
+      },
+      {
+        "date": "2024-12-15",
+        "T2M": 9.51,
+        "T2M_MIN": 4.88,
+        "T2M_MAX": 15.13,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-12-16",
+        "T2M": 10.45,
+        "T2M_MIN": 4.62,
+        "T2M_MAX": 16.21,
+        "PRECTOTCORR": 1.79
+      },
+      {
+        "date": "2024-12-17",
+        "T2M": 10.22,
+        "T2M_MIN": 6.67,
+        "T2M_MAX": 16.93,
+        "PRECTOTCORR": 0.02
+      },
+      {
+        "date": "2024-12-18",
+        "T2M": 11,
+        "T2M_MIN": 7.85,
+        "T2M_MAX": 16.62,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-12-19",
+        "T2M": 13.78,
+        "T2M_MIN": 10.19,
+        "T2M_MAX": 19.75,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-12-20",
+        "T2M": 14.62,
+        "T2M_MIN": 8.83,
+        "T2M_MAX": 21.92,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-12-21",
+        "T2M": 14.48,
+        "T2M_MIN": 9.72,
+        "T2M_MAX": 21.73,
+        "PRECTOTCORR": 0.32
+      },
+      {
+        "date": "2024-12-22",
+        "T2M": 14.42,
+        "T2M_MIN": 12.37,
+        "T2M_MAX": 19.36,
+        "PRECTOTCORR": 2.79
+      },
+      {
+        "date": "2024-12-23",
+        "T2M": 14.9,
+        "T2M_MIN": 11.07,
+        "T2M_MAX": 21.32,
+        "PRECTOTCORR": 0.04
+      },
+      {
+        "date": "2024-12-24",
+        "T2M": 10.72,
+        "T2M_MIN": 7.02,
+        "T2M_MAX": 13.34,
+        "PRECTOTCORR": 9.4
+      },
+      {
+        "date": "2024-12-25",
+        "T2M": 8.53,
+        "T2M_MIN": 5.11,
+        "T2M_MAX": 13.24,
+        "PRECTOTCORR": 0.02
+      },
+      {
+        "date": "2024-12-26",
+        "T2M": 11.62,
+        "T2M_MIN": 6.73,
+        "T2M_MAX": 18.43,
+        "PRECTOTCORR": 2.55
+      },
+      {
+        "date": "2024-12-27",
+        "T2M": 11.85,
+        "T2M_MIN": 8.85,
+        "T2M_MAX": 16.73,
+        "PRECTOTCORR": 8.59
+      },
+      {
+        "date": "2024-12-28",
+        "T2M": 14.18,
+        "T2M_MIN": 10.43,
+        "T2M_MAX": 20.54,
+        "PRECTOTCORR": 0
+      },
+      {
+        "date": "2024-12-29",
+        "T2M": 11.49,
+        "T2M_MIN": 7.87,
+        "T2M_MAX": 14.88,
+        "PRECTOTCORR": 4.12
+      },
+      {
+        "date": "2024-12-30",
+        "T2M": 9.46,
+        "T2M_MIN": 4.87,
+        "T2M_MAX": 15.79,
+        "PRECTOTCORR": 0.01
+      },
+      {
+        "date": "2024-12-31",
+        "T2M": 8.72,
+        "T2M_MIN": 4.3,
+        "T2M_MAX": 14.98,
+        "PRECTOTCORR": 0
+      }
+    ],
+    "missing": {
+      "T2M": 0,
+      "T2M_MIN": 0,
+      "T2M_MAX": 0,
+      "PRECTOTCORR": 0
+    },
+    "query": {
+      "lat": 36.75,
+      "lon": -119.75,
+      "start": "2024-01-01",
+      "end": "2024-12-31"
+    },
+    "units": {
+      "T2M": "C",
+      "T2M_MIN": "C",
+      "T2M_MAX": "C",
+      "PRECTOTCORR": "mm/day"
+    },
+    "source": "NASA POWER Daily · comunidad AG",
+    "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CT2M_MIN%2CT2M_MAX%2CPRECTOTCORR&community=AG&longitude=-119.75&latitude=36.75&start=20240101&end=20241231&format=JSON&time-standard=LST",
+    "retrievedAt": "2026-11-14T18:35:06.106Z",
+    "version": "v2.10.3",
+    "sources": [
+      "MERRA2",
+      "POWER"
+    ],
+    "timeStandard": "LST",
+    "fillValue": -999,
+    "spatialSupport": "Meteorología MERRA-2 de grilla regional; soporte nativo dependiente del producto. No representa mediciones de la parcela.",
+    "warnings": [
+      "Clima histórico; no es un pronóstico ni una medición del predio.",
+      "La precipitación no equivale al agua utilizable ni al riego."
+    ]
+  },
+  "strategies": [],
+  "catalog": {
+    "maize": {
+      "name": "Maíz grano",
+      "names": {
+        "es": "Maíz grano",
+        "en": "Grain maize"
+      },
+      "species": "Zea mays",
+      "family": "Poaceae",
+      "taxonomySource": "https://www.kew.org/plants/maize",
+      "days": [
+        125,
+        180
+      ],
+      "source": "https://www.fao.org/4/s2022e/s2022e07.htm",
+      "applicability": "Referencia general; no demuestra aptitud de una región o variedad"
+    },
+    "bean": {
+      "name": "Frijol seco",
+      "names": {
+        "es": "Frijol seco",
+        "en": "Dry bean"
+      },
+      "species": "Phaseolus vulgaris",
+      "family": "Fabaceae",
+      "taxonomySource": "https://www.kew.org/plants/common-bean",
+      "days": [
+        95,
+        110
+      ],
+      "source": "https://www.fao.org/4/s2022e/s2022e07.htm",
+      "applicability": "Referencia general; necesita evaluación regional independiente"
+    },
+    "sorghum": {
+      "name": "Sorgo",
+      "names": {
+        "es": "Sorgo",
+        "en": "Sorghum"
+      },
+      "species": "Sorghum bicolor",
+      "family": "Poaceae",
+      "taxonomySource": "https://powo.science.kew.org/taxon/urn%3Alsid%3Aipni.org%3Anames%3A422090-1",
+      "days": [
+        120,
+        130
+      ],
+      "source": "https://www.fao.org/4/s2022e/s2022e07.htm",
+      "applicability": "Especie de catálogo, sin recomendación geográfica implícita"
+    }
+  },
+  "priority": {
+    "selected": "diversidad",
+    "effect": "No altera observaciones ni emite un ranking; orienta qué dimensión revisar."
+  },
+  "limitations": [
+    "Sin validación agronómica local ni ensayos de campo; ninguna región tiene análisis agronómico validado actualmente.",
+    "Rangos FAO generales; no son calendarios regionales ni recomendaciones de cultivos.",
+    "Días sin cultivo registrado no implican suelo desnudo.",
+    "No se calcula ETc, ahorro, rendimiento, nitrógeno fijado ni rentabilidad.",
+    "La historia agrícola no se infiere por satélite. Series HLS/NDVI no implementadas."
+  ]
+}
