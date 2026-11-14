@@ -34,3 +34,5 @@ npm audit inicial: 7 avisos moderados en herramientas ESLint/minimatch. `npm aud
 ## Lo que no está probado
 
 Aptitud agronómica local, ensayos de campo, rendimiento, ahorro, balance hídrico, variedades/calendarios peruanos, NDVI, despliegue externo, envío NASA, Safari/Firefox ni dispositivos físicos. La impresión se generó como PDF en Chromium; no se probó impresora física. CI está configurada y su ejecución remota se registra separadamente tras subir código.
+
+CI remota verificada: [run 43625941228](https://github.com/bel001/AgroOrbit-Nexus/actions/runs/43625941228), success sobre 1a40ec5. Ejecutó npm ci, skills, tipado, lint, 40 pruebas y build en Linux; evidence/github-ci.json. No ejecutó e2e ni consultas NASA reales: esas comprobaciones fueron locales. Anotaciones de runtime de actions v4 y transición de imagen del runner fueron informativas.

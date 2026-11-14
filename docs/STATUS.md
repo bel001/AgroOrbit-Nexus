@@ -35,3 +35,5 @@ Actualizado: 2026-11-14, America/Lima. Al inicio había solo 16 documentos, sin 
 Importación MapLibre ESM con namespace; worker servido desde dependencia local para evitar fallo de carga del bundle; tabla desplazable accesible por teclado; línea/barra sin animaciones para capturas íntegras; conteo de historial desconocido/solapado conservado como null; selector e2e acotado para no confundir anunciador Next con alerta del producto.
 
 La evidencia y comandos están en VALIDATION y docs/evidence. Los resultados no equivalen a validación agronómica independiente. El estado GitHub se comprueba mediante historial y referencias remotas al cerrar la entrega; no se presupone éxito por disponer de credenciales.
+
+**Sincronización comprobada:** primer push a main exitoso, hash local/remoto 1a40ec5b5738ff32e9b42e4bb9d9e17ea48b70d9. GitHub Actions 43625941228 finalizó success en Linux (instalación limpia, skills, tipado, lint, 40 pruebas y build). Registro y commits en DELIVERY; este cierre documental añade un commit posterior, sin alterar código de aplicación.
