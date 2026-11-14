@@ -13,3 +13,4 @@ public/vendor/
 .hosting-build/
 dist/
 outputs/
+.openai/

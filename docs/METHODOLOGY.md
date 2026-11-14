@@ -25,7 +25,31 @@ Versión de informe `2.1`, metodología `scientific-review-2026-11-14`. El histo
 
 No se usa ranking ponderado: la prioridad seleccionada organiza la conversación de revisión, sin modificar cálculos ni favorecer una alternativa por una puntuación no validada. La mejora P1 exige definir pesos con el equipo y probar sensibilidad.
 
-FAO-56 permanece referencia metodológica: no se implementó ETo/ETc porque faltan insumos locales y Kc pertinentes. El caso de poca agua positiva queda incompleto; no se afirma insuficiencia cuantificada. Validar con dos casos independientes de un agrónomo sigue pendiente.
+### Demanda hídrica estimada (versión fao56-water-2026-11-14)
+
+Implementado en `src/lib/water.ts` y probado en `tests/water.test.ts`:
+
+| Paso | Fórmula | Fuente |
+|---|---|---|
+| Radiación extraterrestre Ra | FAO-56 ec. 21, con dr (ec. 23), δ (ec. 24) y ωs (ec. 25); ωs acotado en latitudes polares | FAO-56 cap. 3; reproduce el ejemplo 8 (20°S, 3 sep → 32,2 MJ m⁻² día⁻¹) |
+| ETo diaria | Hargreaves, ec. 52: 0,0023 · (Tmedia + 17,8) · (Tmáx − Tmín)^0,5 · 0,408·Ra, con Tmedia = (Tmáx + Tmín)/2 de NASA POWER | FAO-56 cap. 3 |
+| Kc diario | Curva por etapas (fig. 25): ini constante, lineal a mid, mid constante, lineal a end. Etapas de la tabla 11 escaladas a la duración de cada campaña | FAO-56 tablas 11 y 12 |
+| ETc | Σ Kc · ETo en [siembra, cosecha) | FAO-56 cap. 6 |
+| Déficit bruto | máx(0, ETc − precipitación total de grilla) por campaña | Convención del proyecto |
+| Grados-día | Σ máx(0, (Tmáx + Tmín)/2 − Tbase); base 10 °C solo para maíz y sorgo | McMaster y Wilhelm (1997), doi:10.1016/S0168-1923(97)00027-0 |
+
+Valores Kc (ini/mid/end) y etapas usados: maíz grano 0,30/1,20/0,35, etapas 30/50/60/40; frijol seco 0,40/1,15/0,35, etapas 20/30/40/20; sorgo grano 0,30/1,05/0,55 (tabla: 1,00–1,10), etapas 20/35/40/30. El frijol no recibe grados-día porque no se documentó una temperatura base.
+
+Supuestos y límites:
+
+- Si falta un solo día de temperatura o lluvia en una campaña, su ETc, lluvia y déficit quedan `null`; nunca se informa un total parcial como si fuera completo.
+- Hargreaves se usa porque solo requiere temperaturas ya consultadas. FAO-56 lo indica como alternativa cuando faltan radiación, humedad y viento; puede sobrestimar en zonas húmedas o costeras nubosas. Penman-Monteith con `ALLSKY_SFC_SW_DWN`, `RH2M` y `WS2M` es la mejora siguiente.
+- Kc genéricos para clima subhúmedo (RHmín ≈ 45 %, u2 ≈ 2 m/s), sin ajuste ec. 62 ni por frecuencia de humedecimiento. Etapas escaladas, no fenología observada.
+- La precipitación de grilla MERRA-2 corregida puede diferir mucho de la lluvia local, en especial en desiertos costeros como Virú; no es lluvia efectiva. Por eso el déficit bruto subestima el riego y no incluye eficiencia de aplicación ni lavado de sales.
+- El estado de la regla "Agua utilizable" sigue siendo `desconocido` (salvo 0 mm declarados): la ETc estándar es demanda de un cultivo sano, no un mínimo de supervivencia, así que no se declara incompatibilidad por agua menor que la ETc.
+- No se interpreta la diferencia de ETc entre alternativas como agua ahorrada.
+
+Validar con dos casos independientes de un agrónomo sigue pendiente.
 
 ## 1. Principio de evaluación
 

@@ -2,12 +2,11 @@
   "verifiedAt": "2026-11-14T20:09:23.041Z",
   "project_id": "[retirado]",
   "source_commit": "66f2ace530db3a045050786881d2c0677f408b7b",
-  "version_id": "[retirado]~[retirado]",
+  "version_id": "[retirado]",
   "version_number": 2,
   "deployment_id": "[retirado]",
-  "status": "succeeded",
-  "url": "[dirección retirada]",
-  "access_mode": "public",
+  "status": "access-withdrawn",
+  "access_mode": "custom",
   "archive_sha256": "sha256:a4586eae7ff3a660ac424f0c2676f3e5fc2190c2a500718d8bcb313ea881124f",
   "initialReleaseIssue": "Versión 1 sufrió doble compresión; corregido encodeBody manual en versión 2, con verificación de contenido descomprimido.",
   "verification": {
@@ -38,5 +37,11 @@
       "recommendationsAllowed": false
     },
     "officialSubmission": false
-  }
+  },
+  "publicationWithdrawnByUser": true,
+  "currentPublicURL": null,
+  "currentAccess": "owner-only",
+  "anonymousStatusAfterWithdrawal": 401,
+  "publicUseAuthorized": false,
+  "verificationIsHistorical": true
 }

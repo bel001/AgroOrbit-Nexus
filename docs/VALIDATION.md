@@ -1,8 +1,8 @@
-﻿# Validación ejecutada — 2026-11-14
+# Validación ejecutada — 2026-11-14
 
 ## Consolidación científica y entrega
 
-Pruebas finales sobre **[dirección retirada]**, sin sesión: seis comprobaciones de contenido/API (`verify-public.mjs`) y suite completa **22 aprobadas, 2 omitidas, 0 fallos**, 1,5 min. Se comprobó contenido descomprimido después de corregir doble gzip del primer despliegue. Versionado/commit y trazabilidad en `evidence/public-deployment.json`; capturas e informes existentes actualizados por esta última pasada pública. Una respuesta HTTP 200 aislada no se consideró prueba de que la aplicación funcionara.
+**Estado actual: solo localhost.** La publicación anterior se restringió a petición del usuario; HTTP 401 sin sesión comprobado. Sus pruebas históricas, antes del retiro: seis comprobaciones de contenido/API y 22 e2e aprobadas, dos omitidas, cero fallos, 1,5 min. Evidencia conservada sin la dirección retirada; no acredita disponibilidad pública actual. La corrección de la página vacía de impresión tiene una nueva aserción de siete páginas, aprobada en Next local; no se declara la repetición pública de esa última revisión. Un HTTP 200 aislado nunca se consideró prueba de funcionamiento.
 
 Resultado actual: **78 unitarias/API, 22 e2e aprobadas y 2 omitidas**. Las omitidas evitan repetir la fuente ESA en móvil/tablet; integración real comprobada en escritorio. Worker local en 8787: suite completa en 53,5 s. Next producción local en 3000: tres pruebas adicionales de escritorio aprobadas (NASA/comparación/exportación, fallo NASA simulado y presentación).
 

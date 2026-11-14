@@ -1,7 +1,7 @@
 {
-  "schemaVersion": "2.1",
-  "methodologyVersion": "scientific-review-2026-11-14",
-  "createdAt": "2026-11-14T20:05:53.033Z",
+  "schemaVersion": "2.2",
+  "methodologyVersion": "fao56-water-2026-11-14",
+  "createdAt": "2026-11-14T20:29:53.079Z",
   "input": {
     "name": "Mi terreno",
     "lat": -34.5,
@@ -2672,7 +2672,7 @@
     },
     "source": "NASA POWER Daily · comunidad AG",
     "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CT2M_MIN%2CT2M_MAX%2CPRECTOTCORR&community=AG&longitude=146.5&latitude=-34.5&start=20240101&end=20241231&format=JSON&time-standard=LST",
-    "retrievedAt": "2026-11-14T20:05:53.033Z",
+    "retrievedAt": "2026-11-14T20:29:34.916Z",
     "version": "v2.10.3",
     "sources": [
       "MERRA2",
@@ -2702,7 +2702,23 @@
         180
       ],
       "source": "https://www.fao.org/4/s2022e/s2022e07.htm",
-      "applicability": "Referencia general; no demuestra aptitud de una región o variedad"
+      "applicability": "Referencia general; no demuestra aptitud de una región o variedad",
+      "waterUse": {
+        "kc": {
+          "ini": 0.3,
+          "mid": 1.2,
+          "end": 0.35
+        },
+        "stages": [
+          30,
+          50,
+          60,
+          40
+        ],
+        "source": "FAO-56 tabla 12 (maíz grano, cosecha en seco) y tabla 11 (etapas 30/50/60/40)"
+      },
+      "gddBaseC": 10,
+      "gddSource": "https://doi.org/10.1016/S0168-1923(97)00027-0"
     },
     "bean": {
       "name": "Frijol seco",
@@ -2718,7 +2734,23 @@
         110
       ],
       "source": "https://www.fao.org/4/s2022e/s2022e07.htm",
-      "applicability": "Referencia general; necesita evaluación regional independiente"
+      "applicability": "Referencia general; necesita evaluación regional independiente",
+      "waterUse": {
+        "kc": {
+          "ini": 0.4,
+          "mid": 1.15,
+          "end": 0.35
+        },
+        "stages": [
+          20,
+          30,
+          40,
+          20
+        ],
+        "source": "FAO-56 tabla 12 (frijol seco) y tabla 11 (etapas 20/30/40/20)"
+      },
+      "gddBaseC": null,
+      "gddSource": null
     },
     "sorghum": {
       "name": "Sorgo",
@@ -2734,7 +2766,23 @@
         130
       ],
       "source": "https://www.fao.org/4/s2022e/s2022e07.htm",
-      "applicability": "Especie de catálogo, sin recomendación geográfica implícita"
+      "applicability": "Especie de catálogo, sin recomendación geográfica implícita",
+      "waterUse": {
+        "kc": {
+          "ini": 0.3,
+          "mid": 1.05,
+          "end": 0.55
+        },
+        "stages": [
+          20,
+          35,
+          40,
+          30
+        ],
+        "source": "FAO-56 tabla 12 (sorgo grano; Kc medio 1,00–1,10, se usa 1,05) y tabla 11 (etapas 20/35/40/30)"
+      },
+      "gddBaseC": 10,
+      "gddSource": "https://doi.org/10.1016/S0168-1923(97)00027-0"
     }
   },
   "priority": {
@@ -2745,7 +2793,7 @@
     "Sin validación agronómica local ni ensayos de campo; ninguna región tiene análisis agronómico validado actualmente.",
     "Rangos FAO generales; no son calendarios regionales ni recomendaciones de cultivos.",
     "Días sin cultivo registrado no implican suelo desnudo.",
-    "No se calcula ETc, ahorro, rendimiento, nitrógeno fijado ni rentabilidad.",
+    "La ETc es una estimación FAO-56 (Hargreaves y Kc genéricos), no una medición ni una necesidad de riego validada. No se calcula ahorro, rendimiento, nitrógeno fijado ni rentabilidad.",
     "La historia agrícola no se infiere por satélite. Series HLS/NDVI no implementadas."
   ]
 }

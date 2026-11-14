@@ -1,6 +1,6 @@
 # Despliegue y operación
 
-2026-11-14. Se conservan dos destinos con los mismos componentes, validaciones, motor y adaptador NASA. No requieren claves ni base de datos.
+2026-11-14. **Modalidad vigente: solo localhost.** El usuario retiró la autorización de acceso público al alojamiento anterior. Se conservan dos destinos técnicos con los mismos componentes, validaciones, motor y adaptador NASA; ninguno se debe publicar sin una instrucción posterior. No requieren claves ni base de datos.
 
 ## Localhost con Next.js
 
@@ -16,11 +16,11 @@ El plugin oficial Sites registra identidad en `.openai/hosting.json`, sincroniza
 
 ## Resultado de publicación
 
-**Publicado y comprobado sin sesión:** [dirección retirada]. Sites versión 2, fuente `66f2ace530db3a045050786881d2c0677f408b7b`, despliegue `[retirado]`, estado nativo `succeeded` a 2026-11-14T20:04:55Z, audiencia pública. Commits documentales posteriores describen esta publicación; no cambian el código servido.
+**Acceso público retirado y verificado:** política restringida a la cuenta propietaria y HTTP 401 sin sesión. No hay URL pública aprobada. Se eliminaron de los archivos vigentes las referencias a la dirección anterior. Los antecedentes de pruebas conservan resultados sin esa dirección; no prueban disponibilidad actual. No se borraron commits anteriores ni el registro privado del proveedor: las herramientas disponibles no permiten eliminar el sitio, y no se fuerza el historial Git.
 
 La versión 1 devolvía assets con doble gzip: Cloudflare recomprimía bytes ya comprimidos. Corregido con `encodeBody: manual`, según [Response de Cloudflare](https://developers.cloudflare.com/workers/runtime-apis/response/). Se verificó contenido descomprimido HTML/JS y firma PDF, no solo HTTP 200. Worker corregido: 1 673 431 bytes.
 
-`node scripts/verify-public.mjs [dirección retirada]`: seis comprobaciones aprobadas, incluidas validación API/métodos. Suite Playwright sobre URL pública: **22 aprobadas, 2 omitidas y 0 fallos** (1,5 min), con NASA/geocoding/ESA reales y axe. Se descargó desde la interfaz el informe de 540 días NASA, consultado a 20:05:36Z. Omitidas: repeticiones ESA en móvil/tablet. Registro en `evidence/public-deployment.json` y `public-http.json`. Sin prueba de carga masiva ni certificación WCAG.
+Antes del retiro se aprobaron seis comprobaciones de contenido/API y 22 e2e, con dos repeticiones ESA omitidas y cero fallos. Hubo NASA/geocoding/ESA reales y axe. Son antecedentes históricos, separados de la corrección final de impresión probada en Next local. Para un futuro alojamiento autorizado, `node scripts/verify-public.mjs <URL_APROBADA>` comprueba el contenido; no usar una dirección con alias personal sin acuerdo del usuario. Sin prueba de carga masiva ni certificación WCAG.
 
 Producto: `/`. Demo de siete diapositivas: `/submission/index.html` (también `/submission/` en Worker). PDF: `/submission/agroorbit-nexus-demo.pdf`. La presentación no realiza el envío al portal NASA.
 
@@ -28,6 +28,6 @@ Producto: `/`. Demo de siete diapositivas: `/submission/index.html` (también `/
 
 Salida HTTPS necesaria a NASA POWER y geocoding; navegador solicita teselas OSM/ESA. POWER: caché exacta de 64 consultas/24 h, cuatro peticiones en vuelo y 25 s de timeout por instancia. No es límite distribuido. Cuerpo máximo de perfil 32 KiB; no hay base de datos de usuarios ni persistencia de perfiles. NASA solo recibe coordenadas/fechas/parámetros, no nombre del terreno.
 
-Este alojamiento se prepara para demostración pública, sin ensayo de carga ni SLA. Para producción con tráfico sostenido hacen falta cuota/caché distribuidas, observabilidad y proveedor de mapas/geocoding acorde a sus términos. Los informes descargados contienen datos aportados: revisar nombre/coordenadas antes de compartirlos. Límites del proveedor y dependencias: THIRD_PARTY_NOTICES/LOCATION_SEARCH.
+Una futura demostración pública requerirá alojamiento aprobado, sin prometer SLA o carga masiva. Para tráfico sostenido hacen falta cuota/caché distribuidas, observabilidad y proveedor de mapas/geocoding acorde a sus términos. Los informes descargados contienen datos aportados: revisar nombre/coordenadas antes de compartirlos. Límites: THIRD_PARTY_NOTICES/LOCATION_SEARCH.
 
 NASA caída → error visible e informe sin clima; no fallback inventado. Teselas/WebGL caídos → coordenadas alternativas. Fuentes locales insuficientes → evaluación incompleta. Sin HLS/NDVI, cuentas, importador de perfiles ni predicción económica.

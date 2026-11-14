@@ -1,12 +1,10 @@
 {
   "verifiedAt": "2026-11-14T20:05:02.561Z",
-  "origin": "[dirección retirada]",
   "anonymous": true,
   "checks": [
     {
       "path": "/",
       "status": 200,
-      "url": "[dirección retirada]/",
       "contentType": "text/html; charset=utf-8",
       "decodedBytes": 1588,
       "contentVerified": true
@@ -14,7 +12,6 @@
     {
       "path": "/assets/app.js",
       "status": 200,
-      "url": "[dirección retirada]/assets/app.js",
       "contentType": "text/javascript; charset=utf-8",
       "decodedBytes": 254705,
       "contentVerified": true
@@ -22,7 +19,6 @@
     {
       "path": "/submission/index.html",
       "status": 200,
-      "url": "[dirección retirada]/submission/index.html",
       "contentType": "text/html; charset=utf-8",
       "decodedBytes": 11191,
       "contentVerified": true
@@ -30,7 +26,6 @@
     {
       "path": "/submission/agroorbit-nexus-demo.pdf",
       "status": 200,
-      "url": "[dirección retirada]/submission/agroorbit-nexus-demo.pdf",
       "contentType": "application/pdf",
       "decodedBytes": 57342,
       "contentVerified": true
@@ -48,5 +43,11 @@
       "validationVerified": true
     }
   ],
-  "scope": "Contenido HTML/JS/PDF y validación HTTP; pruebas NASA/interfaz registradas por separado."
+  "scope": "Contenido HTML/JS/PDF y validaci\u00f3n HTTP; pruebas NASA/interfaz registradas por separado.",
+  "publicationWithdrawnByUser": true,
+  "currentPublicURL": null,
+  "currentAccess": "owner-only",
+  "anonymousStatusAfterWithdrawal": 401,
+  "publicUseAuthorized": false,
+  "verificationIsHistorical": true
 }

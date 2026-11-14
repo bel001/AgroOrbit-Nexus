@@ -1,6 +1,6 @@
 # Entrega verificable — 2026-11-14
 
-Producto público: [dirección retirada]. [Demo inglesa de siete diapositivas]([dirección retirada]/submission/index.html) y [PDF]([dirección retirada]/submission/agroorbit-nexus-demo.pdf). Sin login; Next local también disponible en http://127.0.0.1:3000 mientras el proceso esté activo. No hay envío NASA comprobado.
+**Entrega actual: solo localhost**, por instrucción expresa del usuario. Aplicación en http://127.0.0.1:3000 mientras el proceso esté activo; demo y PDF bajo `/submission/`. Alojamiento anterior restringido: HTTP 401 sin sesión comprobado. Se retiraron las referencias a su dirección de los archivos vigentes; no se volverá a publicar sin nueva instrucción. No hay envío NASA comprobado.
 
 ## Resultado funcional y científico
 
@@ -27,7 +27,9 @@ Los commits documentales posteriores registran publicación, evidencias y sincro
 
 Push seguro comprobado: `178b321` → `66f2ace` en main; `ls-remote` coincidió con HEAD. [Actions 43635932990](https://github.com/bel001/AgroOrbit-Nexus/actions/runs/43635932990) concluyó **success** para `66f2ace`: instalación, skills, tipado, lint, 78 tests y builds Next/Worker en Linux. Los commits siguientes registran evidencia y ajuste de impresión; su sincronización se comprueba de nuevo al terminar. Las pruebas con servicios reales se ejecutaron sobre servidores local/público, no en Actions.
 
-La inspección final del PDF generado al imprimir el HTML público detectó una octava página vacía, aunque el PDF descargable siempre tuvo siete. Se eliminó el salto tras la última diapositiva y se ocultan elementos de hosting al imprimir. La prueba de navegador ahora exige exactamente siete páginas, además de siete secciones HTML; se verificó primero en Next local. La siguiente versión pública incorpora esa corrección sin alterar datos ni motor agrícola.
+La impresión del HTML alojado produjo una página vacía adicional; el PDF descargable siempre tuvo siete. Se corrigió el salto final y se añadió una aserción de siete páginas, aprobada en Next local. Una publicación posterior incorporó esa corrección y después se retiró el acceso público a petición del usuario. No se afirma haber repetido la suite pública sobre esa revisión, pues se suspendió al retirar el alojamiento.
+
+Límite de la limpieza: los archivos vigentes ya no contienen la dirección retirada. Los commits anteriores publicados y esta conversación conservan historial; no se han reescrito ni se usó push forzado. El proveedor mantiene su registro privado, que no puede eliminarse con las herramientas disponibles. Esto no equivale a un borrado completo de registros históricos.
 
 ## Skills y revisión
 

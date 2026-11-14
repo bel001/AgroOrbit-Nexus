@@ -1,8 +1,8 @@
-﻿# AgroOrbit Nexus — From Space to Soil
+# AgroOrbit Nexus — From Space to Soil
 
 Plataforma agrícola de alcance mundial: clima histórico NASA POWER para coordenadas globales y análisis agrícola condicionado a la evidencia regional. Virú, Perú, es solo la demostración inicial. Sin login ni base de datos.
 
-**Publicado y verificado el 14 de noviembre de 2026:** [abrir AgroOrbit Nexus]([dirección retirada]) · [demo de siete diapositivas en inglés]([dirección retirada]/submission/index.html) · [PDF]([dirección retirada]/submission/agroorbit-nexus-demo.pdf). También funciona en localhost. Clima NASA real; Virú ilustrativo con fichas INIA/MIDAGRI/FAO, sin validación agronómica de parcela o rotaciones. HLS/NDVI pendiente. Sin envío NASA comprobado.
+**Estado al 14 de noviembre de 2026: solo localhost, por decisión del usuario.** Abrir http://127.0.0.1:3000; [demo inglesa local](http://127.0.0.1:3000/submission/index.html) y [PDF local](http://127.0.0.1:3000/submission/agroorbit-nexus-demo.pdf). Se retiró el acceso público al alojamiento anterior y sus referencias de los archivos vigentes. Clima NASA real; Virú ilustrativo con fichas INIA/MIDAGRI/FAO, sin validación agronómica de parcela o rotaciones. HLS/NDVI pendiente. Sin envío NASA comprobado.
 
 ## Ejecutar
 
