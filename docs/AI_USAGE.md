@@ -1,6 +1,6 @@
 # Uso de inteligencia artificial — AgroOrbit Nexus
 
-**Estado 2026-11-14:** declaración de desarrollo real, pendiente de revisión humana y de campos finales del portal.
+**Estado 2026-11-14:** declaración de desarrollo real, pendiente de revisión humana y de campos finales del portal. La [aclaración oficial 2026 #1947](https://github.com/nasa/spaceapps/discussions/1947) permite IA con declaración y exige marca visible en imágenes/videos generados. Aquí no se generaron esas piezas: el deck usa texto/HTML y las capturas registran la aplicación real. Revisión científica humana pendiente.
 
 ## Uso ejecutado durante la implementación
 

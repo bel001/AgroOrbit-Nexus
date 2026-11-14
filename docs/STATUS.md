@@ -1,47 +1,32 @@
-﻿# Estado verificado — AgroOrbit Nexus
+# Estado verificado — AgroOrbit Nexus
 
-Actualizado: 2026-11-14, America/Lima. Al inicio había solo 16 documentos, sin aplicación ni Git local. El remoto público respondía vacío; cuenta GitHub bel001 autenticada. Documentación original conservada en el primer commit.
+2026-11-14, America/Lima. Este estado sustituye los totales de hitos anteriores conservados en Git. No hay envío ni comprobante de recepción NASA.
 
-## Actualización obligatoria de alcance global
+## Funciones terminadas en software
 
-**Búsqueda más sencilla (misma fecha):** localidades/códigos postales con Open-Meteo/GeoNames, elección de coincidencia y acercamiento del mapa; GPS bajo permiso con precisión reportada y errores manejados. No se localizan límites ni se recomiendan cultivos por una búsqueda. Total actual: 69 pruebas unitarias/API aprobadas, 19 e2e aprobadas y dos repeticiones de capa omitidas. Lint/tipado/build correctos; consulta geocoding real guardada en evidence/search. GPS comprobado mediante emulación, no medición de hardware. La primera pasada detectó enlaces de atribución sin subrayado distinguible; corregidos y suite completa repetida. Véase LOCATION_SEARCH. Los totales globales anteriores de abajo corresponden al hito previo.
+- Mapa mundial, coordenadas, búsqueda real de localidad/código postal y GPS bajo permiso. Punto de referencia, sin delimitación predial.
+- Perfil con campañas, fechas, procedencia, suelo/agua opcionales y exclusiones. Inicio sin coordenadas ni campañas; demo Virú explícitamente ilustrativa.
+- NASA POWER real, cuatro variables AG/LST, periodos históricos configurables, unidades, grilla, versión, faltantes, caché acotada, timeout y error sin sustitución ficticia.
+- Cinco pasos visibles: terreno → cultivos → condiciones → alternativas → evidencias. Gráficas con alternativa tabular; edición pendiente de recalcular visible.
+- Historial: especies/familias, racha, dominancia por registros, transiciones de especie/familia e intervalos entre campañas. Riesgos potenciales separados de daño comprobado. Desconocidos/solapamientos impiden indicadores interpretables.
+- Comparación descriptiva de A/B/C únicamente en demo aplicable; fuera de ella no se extrapolan plantillas. Ninguna región habilita recomendaciones. Fechas, exclusiones y ausencia declarada de toda agua se comprueban; aptitud regional permanece incompleta.
+- Fichas INIA 619/404, MIDAGRI y FAO con edición/página, alcance y faltantes en UI/JSON. Frijol de demo: supuesto de 135 días a cosecha, sin confundir madurez fisiológica. Investigación: `research/VIRU_SOURCE_NOTES.md`.
+- JSON 2.1 trazable e impresión. Deck inglés de siete diapositivas y PDF verificado de siete páginas. Capa ESA WorldCover 2021 opcional; estado de teselas corregido y probado sin depender del mapa base.
 
-Inicio mundial sin ubicación/campañas precargadas; modo clima global y revisión parcial de registros. Catálogo ampliable y perfiles regionales separados; plantilla de Virú limitada por coordenadas, modo ilustrativo y horizonte. Ninguna región validada ni recomendaciones habilitadas. Idiomas por registros de nombres ES/EN, sin interfaz completamente traducida. Capa contextual ESA WorldCover 2021 real y opcional, con atribución, año y límites; HLS/NDVI sigue pendiente.
+## Pruebas ejecutadas en esta consolidación
 
-Seis consultas POWER reales verificadas (Perú, Estados Unidos, Francia, Kenia, India, Australia). Nueva pasada: 62 unitarias/API; 10 e2e aprobadas y dos comprobaciones de capa omitidas deliberadamente en móvil/tablet, con capa real probada en escritorio. Tipado/lint/build correctos. Detalles y contrato de extensión en GLOBAL_SCOPE; evidencia en evidence/global. La tabla histórica siguiente describe el hito inicial y no limita el alcance mundial actual.
+78 unitarias/API en seis archivos aprobadas; tipado, lint, cuatro skills descubribles, auditoría npm (0 vulnerabilidades), build Next.js y build Worker correctos. Worker local: **22 e2e aprobadas, 2 omitidas deliberadamente**, 53,5 s; Chromium escritorio, Pixel 7 y tablet emulados, NASA/geocoding reales. Pasada adicional Next.js: tres pruebas de escritorio aprobadas (flujo real, fallo simulado, presentación). axe sin violaciones en estados comprobados; detector Impeccable de componentes y portada renderizada `[]`. No constituye certificación WCAG ni validación agronómica. Detalle: VALIDATION/UI_AUDIT.
 
-## Implementado y probado localmente
+La primera pasada completa tuvo 21 aprobadas, 1 fallo y 2 omitidas: estado ESA atascado aunque llegaba PNG. Se corrigió usando el evento de tesela cargada de MapLibre y se repitió la suite completa hasta el resultado anterior. No se ocultó el fallo ni se sustituyó el servicio por una imagen ficticia.
 
-| Área | Evidencia y alcance |
-|---|---|
-| GeoFarm | Mapa MapLibre/OSM con selección por clic, coordenadas alternativas, perfil, historial editable, procedencia y faltantes |
-| ClimateScope | Consulta real NASA POWER Daily/point; cuatro variables, AG/LST, unidades, versión, caché, timeout y error sin sustitución |
-| CropKnowledge | Maíz grano, frijol seco y sorgo; rangos FAO y familias Kew. Fuente regional/variedad pendientes |
-| RotationIntelligence | Tres secuencias, mismo horizonte histórico de 540 días, fechas, exclusiones, agua total nula y comprobaciones incompletas explícitas |
-| SoilCare / WaterBalance | Familias, repetición e intervalos sin cultivo registrado; no se calculan salud de suelo ni ETc/ahorro |
-| EvidenceReport | Informe visible, JSON descargable con clima diario y trazabilidad, vista de impresión/PDF local |
-| Interfaz | Español, diseño propio con Impeccable, escritorio 1280×720/1440×1000, móvil Pixel 7/390×844, tablet 820×1180 |
-| QA | 40 pruebas unitarias/API y 6 e2e; lint, tipado, build, axe y detector Impeccable sin hallazgos reportados en las comprobaciones ejecutadas |
-| Dependencias | npm audit: 0 vulnerabilidades. Override minimatch 11.0.8 para dependencia de herramientas ESLint; lint/tests ejecutados tras el cambio |
-| Skills | Impeccable de proyecto y tres skills originales; encabezados y rutas verificados; lectura/aplicación explícita en esta sesión |
-| Licencia | MIT elegida expresamente por el usuario; Apache-2.0 conservada para Impeccable; atribuciones documentadas |
+## Publicación y sincronización
 
-## Límites y pendientes que impiden declarar cierre científico de P0
+Sitio registrado con manifiesto persistido; acceso público autorizado por el usuario y configurado. **Aún no hay despliegue público verificado en este punto del registro.** Resultado definitivo y URL: DEPLOYMENT. `main`, origin esperado GitHub; commits de ciencia/alojamiento creados. Sincronización final y CI se registran al cerrar en DELIVERY.
 
-- No hay parcela de campo ni historial real validados. Demo de Virú expresamente ilustrativa; clima NASA real.
-- Catálogo sin calendario/variedad, ficha térmica/suelo y balance hídrico locales. Se devuelve evaluación incompleta; ninguna alternativa se certifica viable con estas fuentes.
-- Agua positiva no se clasifica suficiente/insuficiente sin demanda fiable. ETo/ETc pendiente por datos/Kc adecuados; no ahorro, rendimiento ni rentabilidad.
-- Prioridad orienta revisión, sin ranking multicriterio ni sensibilidad implementados.
-- Caché por consultas exactas, no por celdas nativas; límites por proceso, sin control distribuido. Reforzar antes de exposición de tráfico público.
-- HLS/NDVI y capas agrícolas siguen P1, no implementados. No se comienza procesamiento satelital con estas brechas P0 abiertas.
-- Lectura íntegra de las condiciones/guía 2026 bloqueada por acceso directo; extractos oficiales y aclaraciones recuperados, detalle en NASA_COMPLIANCE.
-- No hay despliegue público, video/slides publicados ni envío NASA. Pasos en DEPLOYMENT y DEMO.
-- Pruebas en Chromium emulado, sin iOS/Safari/Firefox, dispositivo físico ni evaluación humana completa WCAG. Advertencias GPU ReadPixels del navegador de prueba; sin errores JS/console.error en la pasada corregida.
+## Límites científicos y operativos
 
-## Correcciones surgidas de pruebas
+No hay historia ni análisis de campo validados. Las fichas varietales no certifican parcela o rotación; sorgo carece de evidencia local suficiente. Faltan calendario revisado, identidad varietal, suelo/salinidad/drenaje, ETo/Kc y suministro de agua por periodo. No se calcula ETc, ahorro, rendimiento, salud de suelo, fijación de nitrógeno, rentabilidad ni ranking. Prioridad solo orienta revisión.
 
-Importación MapLibre ESM con namespace; worker servido desde dependencia local para evitar fallo de carga del bundle; tabla desplazable accesible por teclado; línea/barra sin animaciones para capturas íntegras; conteo de historial desconocido/solapado conservado como null; selector e2e acotado para no confundir anunciador Next con alerta del producto.
+Clima mundial probado con seis consultas internacionales previas y nuevos recorridos en ambos hemisferios; no equivale a carga masiva ni aptitud de esos países. Caché y límites son por instancia, sin protección global distribuida; servicios públicos de mapas/geocoding sujetos a sus condiciones. Sin cuentas/base de datos; recargar pierde el formulario y no hay importador JSON. Interfaz española, sin traducción completa. Pruebas Chromium emuladas, sin hardware GPS, Safari/iOS, lector de pantalla ni evaluación de agricultores. HLS/NDVI y funciones avanzadas siguen pendientes.
 
-La evidencia y comandos están en VALIDATION y docs/evidence. Los resultados no equivalen a validación agronómica independiente. El estado GitHub se comprueba mediante historial y referencias remotas al cerrar la entrega; no se presupone éxito por disponer de credenciales.
-
-**Sincronización comprobada:** primer push a main exitoso, hash local/remoto 1a40ec5b5738ff32e9b42e4bb9d9e17ea48b70d9. GitHub Actions 43625941228 finalizó success en Linux (instalación limpia, skills, tipado, lint, 40 pruebas y build). Registro y commits en DELIVERY; este cierre documental añade un commit posterior, sin alterar código de aplicación.
+Reglamento/guía y Resources específicos no completamente recuperados: NASA_COMPLIANCE distingue lo confirmado de lo pendiente. Equipo debe revisar elegibilidad, fuente NASA admitida, sede/miembros, condiciones y formulario, y realizar el envío.

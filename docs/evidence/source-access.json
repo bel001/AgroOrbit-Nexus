@@ -1,29 +1,29 @@
 [
   {
     "url": "https://www.spaceappschallenge.org/2026/challenges/field-shift-adapting-farms-with-nasa-data/",
-    "retrievedAt": "2026-11-14T18:09:39.321Z",
+    "retrievedAt": "2026-11-14T19:48:09.302Z",
     "error": "fetch failed"
   },
   {
     "url": "https://www.spaceappschallenge.org/2026/",
-    "retrievedAt": "2026-11-14T18:09:39.448Z",
+    "retrievedAt": "2026-11-14T19:48:09.343Z",
     "error": "fetch failed"
   },
   {
     "url": "https://www.spaceappschallenge.org/legal/",
-    "retrievedAt": "2026-11-14T18:09:39.450Z",
+    "retrievedAt": "2026-11-14T19:48:09.344Z",
     "error": "fetch failed"
   },
   {
     "url": "https://www.spaceappschallenge.org/resources/project-submission-guide/",
-    "retrievedAt": "2026-11-14T18:09:39.452Z",
+    "retrievedAt": "2026-11-14T19:48:09.344Z",
     "error": "fetch failed"
   },
   {
     "url": "https://www.nasa.gov/nasa-brand-center/brand-guidelines/",
-    "retrievedAt": "2026-11-14T18:09:39.454Z",
+    "retrievedAt": "2026-11-14T19:48:09.345Z",
     "status": 200,
-    "bytes": 345129,
+    "bytes": 345131,
     "title": "NASA Brand Guidelines",
     "note": "Estado HTTP no acredita revisión legal completa. Véase NASA_COMPLIANCE.md."
   }

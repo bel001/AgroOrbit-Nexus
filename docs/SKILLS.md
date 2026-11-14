@@ -17,7 +17,9 @@ Ampliación global de la misma fecha: se aplicaron las tres skills Nexus a la se
 | nexus-rotaciones-agronomicas | original, `.agents/skills/nexus-rotaciones-agronomicas/SKILL.md` | MIT | Leída para revisar reglas; se corrigió conteo de historial desconocido/solapado y se probaron extremos |
 | nexus-verificacion-mvp | original, `.agents/skills/nexus-verificacion-mvp/SKILL.md` | MIT | Leída para ejecutar verificación, registrar resultados y sincronizar sin forzar |
 
-No se copiaron ni rebautizaron skills ajenas. No se crearon seis skills redundantes: los tres procedimientos originales cubren las necesidades científicas y de evidencia que no resuelve el diseño general. No se delegó en subagentes.
+No se copiaron ni rebautizaron skills ajenas. Los tres procedimientos originales cubren ciencia y evidencia. En el hito inicial no se delegó; en la consolidación se delegó únicamente investigación documental INIA/MIDAGRI/FAO bajo la instrucción de Sites para investigación acotada. La integración, revisión, Git y publicación se realizaron desde el agente principal.
+
+Consolidación científica/entrega: se volvieron a aplicar Impeccable (context, audit/polish y detector), las tres skills Nexus y Sites, del plugin oficial OpenAI instalado (`sites/1.1.6/skills/sites/SKILL.md`, no redistribuido). Sites aporta registro, manifiesto, empaquetado y publicación; no instala una skill nueva en el repositorio. El destino Worker reutiliza componentes y APIs, conservando Next.js para ejecución local. Pruebas y capturas del estado real: STATUS y VALIDATION.
 
 Impeccable: no se afirma haber completado su entrevista, torneo de conceptos ni hooks automáticos. Se simplificó ese flujo por la instrucción explícita de decisiones técnicas autónomas. La revisión visual se documenta como controles técnicos y refinamiento sobre capturas reales. No se genera una puntuación de calidad que parezca validación científica.
 

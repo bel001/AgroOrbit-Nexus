@@ -1,24 +1,29 @@
-﻿# Despliegue y operación
+# Despliegue y operación
 
-Actualizado: 2026-11-14. Compilación y servidor de producción local verificados; **no hay URL pública de despliegue probada**.
+2026-11-14. Se conservan dos destinos con los mismos componentes, validaciones, motor y adaptador NASA. No requieren claves ni base de datos.
 
-## Operación reproducible
+## Localhost con Next.js
 
-Node.js 24 y npm. `npm ci`, `npm run build`, `npm start`. URL local http://127.0.0.1:3000. Para desarrollo `npm run dev`. El script fija 127.0.0.1 para pruebas locales. No hay variables obligatorias ni API keys: POWER es público y OSM se carga interactivamente. La aplicación necesita salida HTTPS a ambos servicios.
+Node.js 24 y npm: `npm ci`, `npm run dev`; abrir http://127.0.0.1:3000. Producción local: `npm run build`, después `npm start`. El servidor permanece ligado a 127.0.0.1. No hace falta publicar para probar localmente. Para hosting Node propio usar `npx next start --hostname 0.0.0.0 --port 3000` detrás de TLS/proxy; no exponer servidor de desarrollo. GitHub Pages estático no ejecuta estas API.
 
-La caché de clima es por proceso, máximo 64 consultas exactas durante 24 h, 4 peticiones en vuelo y timeout 25 s. No constituye limitación global distribuida. El cuerpo del perfil se valida en servidor (32 KiB). No se persisten perfiles; los informes JSON pueden contener nombre y coordenadas aportados por el usuario: compartirlos conscientemente.
+## Paquete público para Sites
 
-## Publicar en un proveedor compatible con Next.js
+`npm run build:hosting` genera `dist/server/index.js`: Worker ESM con fetch y assets gzip embebidos, sin dependencias Node en ejecución. `hosting/client.tsx` monta los componentes React compartidos; las rutas API usan los mismos handlers Request/Response que Next. Es un destino cliente/Worker, no Next SSR. El alias de carga dinámica solo se aplica en este build. esbuild/PostCSS son dependencias fijadas en lockfile.
 
-1. Importar el repositorio en una cuenta autorizada de Vercel u otro servicio con rutas de servidor Node. GitHub Pages estático no ejecuta este endpoint.
-2. Seleccionar Node 24; instalación `npm ci`, build `npm run build`. En contenedor propio, ejecutar `npx next start --hostname 0.0.0.0 --port 3000` y colocar TLS/proxy del proveedor. No exponer el servidor de desarrollo.
-3. Reservar tiempo de ejecución superior al timeout NASA (al menos 35 s). Para tráfico compartido, añadir rate limit/caché externos y proveedor de teselas apropiado: los límites actuales son por instancia.
-4. Respetar políticas y atribución OSM; no precargar teselas. Verificar disponibilidad de NASA desde la región de alojamiento.
-5. Probar sin login en ventana privada: mapa/coordenadas, consulta NASA, error visible, tres estrategias y descarga JSON. Revisar móvil y teclado.
-6. Registrar URL, commit, fecha y capturas del servicio público en STATUS. No sustituir una URL prevista por una publicación comprobada.
+Para comprobar el artefacto: `node scripts/preview-hosting.mjs`, abrir http://127.0.0.1:8787; fijar `PLAYWRIGHT_BASE_URL` para ejecutar e2e contra ese puerto o una URL desplegada. El puente Node es solo para prueba local, no el servidor de producción. Build actual: 15 assets, Worker 1 673 407 bytes; el tamaño puede variar al cambiar contenido o compilador.
 
-No se creó una cuenta de hosting ni se realizó despliegue. No hubo credenciales de hosting verificadas en esta sesión. GitHub Actions comprueba código, pero no despliega ni envía al portal NASA.
+El plugin oficial Sites registra identidad en `.openai/hosting.json`, sincroniza fuente con su helper oficial y empaqueta el build. Credenciales temporales solo en memoria/stdin del helper. `origin` de GitHub se conserva; no se guarda token ni se fuerza historial. Fuente exacta y archive deben corresponder al commit publicado. CI comprueba ambos builds; no despliega automáticamente.
 
-## Degradación segura
+## Resultado de publicación
 
-NASA caída: error explícito e informe sin clima. Teselas/WebGL no disponibles: coordenadas editables y advertencia. Datos locales incompletos: no certificar viabilidad. HLS/NDVI: P1 sin implementación. Recargar página descarta cambios en memoria; el JSON descargado conserva el informe, sin importador de perfiles todavía.
+Sitio registrado, audiencia pública configurada conforme a petición del usuario. **Publicación pendiente de ejecución y verificación.** No presentar la URL prevista como un despliegue probado. Se completará aquí el resultado real, versión, commit y pruebas del enlace.
+
+Producto: `/`. Demo de siete diapositivas: `/submission/index.html` (también `/submission/` en Worker). PDF: `/submission/agroorbit-nexus-demo.pdf`. La presentación no realiza el envío al portal NASA.
+
+## Operación y límites
+
+Salida HTTPS necesaria a NASA POWER y geocoding; navegador solicita teselas OSM/ESA. POWER: caché exacta de 64 consultas/24 h, cuatro peticiones en vuelo y 25 s de timeout por instancia. No es límite distribuido. Cuerpo máximo de perfil 32 KiB; no hay base de datos de usuarios ni persistencia de perfiles. NASA solo recibe coordenadas/fechas/parámetros, no nombre del terreno.
+
+Este alojamiento se prepara para demostración pública, sin ensayo de carga ni SLA. Para producción con tráfico sostenido hacen falta cuota/caché distribuidas, observabilidad y proveedor de mapas/geocoding acorde a sus términos. Los informes descargados contienen datos aportados: revisar nombre/coordenadas antes de compartirlos. Límites del proveedor y dependencias: THIRD_PARTY_NOTICES/LOCATION_SEARCH.
+
+NASA caída → error visible e informe sin clima; no fallback inventado. Teselas/WebGL caídos → coordenadas alternativas. Fuentes locales insuficientes → evaluación incompleta. Sin HLS/NDVI, cuentas, importador de perfiles ni predicción económica.

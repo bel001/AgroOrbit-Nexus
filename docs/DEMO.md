@@ -1,6 +1,6 @@
 ﻿# Demo y envío — AgroOrbit Nexus
 
-Preparado 2026-11-14. No hay video, deck publicado, despliegue público ni comprobante de envío. Interfaz funcional local; catálogo sin validación agronómica regional.
+Preparado 2026-11-14. Presentación real de siete diapositivas en inglés: `public/submission/index.html`; PDF `public/submission/agroorbit-nexus-demo.pdf`, verificado con pypdf (7 páginas). Prueba Playwright de navegación, móvil/tablet/escritorio y axe. Enlaces públicos y estado de publicación en DEPLOYMENT; no hay video ni comprobante de envío NASA. Catálogo sin validación agronómica regional.
 
 ## Demostración reproducible
 
@@ -16,15 +16,15 @@ Mostrar un descarte: en suelo/agua/preferencias excluir frijol y consultar de nu
 
 “AgroOrbit Nexus connects farmer-provided history with real NASA POWER historical climate. This illustrative Peru case compares three crop sequences over the same period. It shows diversity, constraints and evidence gaps, without predicting yields. Every result keeps its sources so farmers and agronomists can review the assumptions together.”
 
-## Esquema de presentación de hasta siete diapositivas
+## Presentación implementada (siete diapositivas)
 
-1. Problema: decidir bajo información fragmentada; piloto ilustrativo, sin cifras de impacto inventadas.
-2. Usuario e historial: qué declaró y qué se desconoce.
-3. NASA: variables, periodo, unidades y límites de grilla; captura real.
-4. Comparación A/B/C: igual horizonte, fechas y familias.
-5. Restricciones: descarte por exclusión; calendario/suelo/agua sin validar.
-6. Evidencia técnica: pruebas, código MIT, fuentes y uso real de IA.
-7. Próximos pasos: agrónomo local, despliegue público y después HLS/NDVI con calidad temporal.
+1. Producto y alcance: clima mundial, piloto ilustrativo.
+2. Problema cuantificado: 3 campañas, 1 familia, 3/3 registros de maíz; sin daño demostrado.
+3. Recorrido de cinco pasos y reproducción del caso.
+4. NASA POWER: variables, unidades, faltantes y límites de grilla.
+5. Comparación A/B/C: familias y evaluación incompleta; sin ganador inventado.
+6. Evidencia INIA/MIDAGRI/FAO y datos locales pendientes.
+7. Código abierto, verificación, declaración IA y validación futura.
 
 ## Verificación y envío del equipo
 

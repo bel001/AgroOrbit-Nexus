@@ -1,7 +1,7 @@
 {
-  "schemaVersion": "2.0",
-  "methodologyVersion": "global-2026-11-14",
-  "createdAt": "2026-11-14T19:09:46.334Z",
+  "schemaVersion": "2.1",
+  "methodologyVersion": "scientific-review-2026-11-14",
+  "createdAt": "2026-11-14T19:57:26.312Z",
   "input": {
     "name": "Parcela ilustrativa · Virú",
     "lat": -8.42,
@@ -83,6 +83,89 @@
       "Balance hídrico y características locales del suelo"
     ],
     "reason": "Perfil de demostración sin validación agronómica. No genera recomendaciones."
+  },
+  "historyDiagnostics": {
+    "recordCount": 3,
+    "interpretable": true,
+    "unknownOrigins": 0,
+    "invalidDates": false,
+    "species": 1,
+    "families": 1,
+    "maxRun": 3,
+    "transitions": 2,
+    "sameCropTransitions": 2,
+    "sameFamilyTransitions": 2,
+    "dominant": {
+      "crop": "maize",
+      "count": 3,
+      "shareOfRecords": 1
+    },
+    "daysBetweenCampaigns": 430,
+    "interpretation": "Describe registros aportados, no superficie sembrada, cobertura real ni daño medido. Las campañas no documentadas pueden cambiar la interpretación.",
+    "riskContext": "La continuidad de una familia motiva revisar plagas de hospedero y manejo nutricional con un agrónomo. No se ha observado una plaga ni agotamiento del suelo en esta parcela.",
+    "source": "https://www.fao.org/conservation-agriculture/in-practice/species-diversification/en/",
+    "formulas": {
+      "dominance": "registros de especie dominante / registros interpretables",
+      "transitions": "pares consecutivos con especie/familia repetida",
+      "gapDays": "suma(siembra siguiente − cosecha anterior), sin cultivos solapados"
+    }
+  },
+  "regionalEvidence": {
+    "regionProfileId": "pe-viru-demo",
+    "reviewedAt": "2026-11-14",
+    "status": "documentary-only",
+    "localValidation": false,
+    "entries": [
+      {
+        "id": "inia-619-2012",
+        "cropId": "maize",
+        "title": "INIA 619 · Megahíbrido",
+        "institution": "INIA",
+        "edition": "Septiembre de 2012",
+        "pages": "PDF 1–2",
+        "url": "https://repositorio.inia.gob.pe/server/api/core/bitstreams/a4269a08-2041-4fbe-b053-f1346c1fef36/content",
+        "facts": "Periodo vegetativo: 140–150 días en verano y 160–170 en invierno. Siembra durante el año, preferentemente en verano. Manejo de riego diferenciado en suelos francos y franco arenosos; fertilización según análisis de suelo.",
+        "limit": "Referencia para costa y selva peruana, sin fechas mensuales universales ni demanda de agua cuantificada para Virú. Las campañas del formulario no identifican variedad: no se les atribuye automáticamente INIA 619."
+      },
+      {
+        "id": "inia-404-2009",
+        "cropId": "bean",
+        "title": "INIA 404 · CIFAC 90105",
+        "institution": "INIA",
+        "edition": "Diciembre de 2009 (colofón del PDF)",
+        "pages": "PDF 1–2",
+        "url": "https://repositorio.inia.gob.pe/bitstreams/edfce649-824e-40a8-84d2-965acdd73e9e/download",
+        "facts": "Frijol común: 98 días a madurez fisiológica y 135 a madurez de cosecha. Ventana bibliográfica marzo–julio. Describe suelo franco limoso o ligeramente arenoso y riegos ligeros; no aporta lámina total.",
+        "limit": "Adaptación descrita también para costa norte; no se verificó ensayo de esta variedad en Virú. La demo usa 135 días como supuesto de cosecha inspirado en esta ficha, sin validar la secuencia ni su ventana. 98 días no significa terreno liberado."
+      },
+      {
+        "id": "midagri-mad-2021",
+        "cropId": "maize",
+        "title": "Observatorio de maíz amarillo duro · 01-2021",
+        "institution": "MIDAGRI",
+        "edition": "Febrero de 2021",
+        "pages": "Impresas 6 y 15 / PDF 8 y 17",
+        "url": "https://cdn.www.gob.pe/uploads/document/file/1675562/Observatorio%20de%20las%20siembras%20y%20perspectivas%20de%20la%20producci%C3%B3n%20de%20mad.pdf",
+        "facts": "Describe siembras mensuales históricas departamentales y un rezago estadístico siembra–cosecha de cinco meses para La Libertad, estimado por correlaciones.",
+        "limit": "Una estadística departamental de 2021 no es un calendario vigente ni un ciclo varietal de exactamente 150 días; no acredita agua o aptitud de la parcela."
+      },
+      {
+        "id": "fao-water-1991",
+        "cropId": null,
+        "title": "Water harvesting · tabla 2",
+        "institution": "FAO",
+        "edition": "1991",
+        "pages": "Capítulo 2, §2.1.2",
+        "url": "https://www.fao.org/4/U3160E/u3160e04.htm",
+        "facts": "Necesidades hídricas aproximadas generales por ciclo: maíz 500–800 mm, frijol 300–500 mm y sorgo/mijo 450–650 mm.",
+        "limit": "No son necesidades locales de estas variedades ni riego aplicado. No se usan como umbral de viabilidad, ahorro ni se resta lluvia NASA a estas cifras. Faltan ETo, Kc por etapa, suelo y balance local."
+      }
+    ],
+    "gaps": [
+      "No se verificaron variedad, ventana ni ensayo de sorgo aplicables a Virú; C sigue siendo exploratoria.",
+      "No se validó la rotación completa maíz–frijol–sorgo ni un beneficio sobre plagas, fertilidad, rendimiento o consumo de agua.",
+      "Faltan variedad realmente sembrada, análisis de suelo, salinidad, drenaje, suministro de agua por periodo y revisión agronómica local."
+    ]
   },
   "contextualSources": [
     {
@@ -3917,7 +4000,7 @@
     },
     "source": "NASA POWER Daily · comunidad AG",
     "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CT2M_MIN%2CT2M_MAX%2CPRECTOTCORR&community=AG&longitude=-78.75&latitude=-8.42&start=20240101&end=20250623&format=JSON&time-standard=LST",
-    "retrievedAt": "2026-11-14T19:09:46.328Z",
+    "retrievedAt": "2026-11-14T19:57:26.299Z",
     "version": "v2.10.3",
     "sources": [
       "MERRA2",
@@ -3981,8 +4064,8 @@
         {
           "rule": "Calendario y variedad local",
           "status": "desconocido",
-          "detail": "No hay ventanas de siembra ni variedades validadas para esta ubicación y periodo. No se extrapolan reglas de otro país o hemisferio.",
-          "source": "https://www.fao.org/4/s2022e/s2022e07.htm"
+          "detail": "Hay fichas bibliográficas INIA para variedades candidatas, sin validación de la parcela ni de la secuencia. La demo supone frijol de 135 días a cosecha, no 98 de madurez fisiológica. La orientación marzo–julio requiere revisión local; no es una regla aprobada. Los 150 días de maíz no representan todas las estaciones o variedades.",
+          "source": "https://repositorio.inia.gob.pe/bitstreams/edfce649-824e-40a8-84d2-965acdd73e9e/download"
         },
         {
           "rule": "Compatibilidad de suelo",
@@ -4023,7 +4106,7 @@
         {
           "crop": "bean",
           "start": "2024-06-29",
-          "end": "2024-10-07",
+          "end": "2024-11-11",
           "origin": "estimado"
         },
         {
@@ -4053,14 +4136,14 @@
         {
           "rule": "Duración orientativa",
           "status": "desconocido",
-          "detail": "Maíz grano: 150 días; referencia general 125–180 días. Frijol seco: 100 días; referencia general 95–110 días. Maíz grano: 150 días; referencia general 125–180 días",
+          "detail": "Maíz grano: 150 días; referencia general 125–180 días. Frijol seco: 135 días; referencia general 95–110 días, fuera del rango de referencia: revisar variedad. Maíz grano: 150 días; referencia general 125–180 días",
           "source": "https://www.fao.org/4/s2022e/s2022e07.htm"
         },
         {
           "rule": "Calendario y variedad local",
           "status": "desconocido",
-          "detail": "No hay ventanas de siembra ni variedades validadas para esta ubicación y periodo. No se extrapolan reglas de otro país o hemisferio.",
-          "source": "https://www.fao.org/4/s2022e/s2022e07.htm"
+          "detail": "Hay fichas bibliográficas INIA para variedades candidatas, sin validación de la parcela ni de la secuencia. La demo supone frijol de 135 días a cosecha, no 98 de madurez fisiológica. La orientación marzo–julio requiere revisión local; no es una regla aprobada. Los 150 días de maíz no representan todas las estaciones o variedades.",
+          "source": "https://repositorio.inia.gob.pe/bitstreams/edfce649-824e-40a8-84d2-965acdd73e9e/download"
         },
         {
           "rule": "Compatibilidad de suelo",
@@ -4084,8 +4167,8 @@
       "status": "Evaluación incompleta",
       "families": 2,
       "maxRepeat": 1,
-      "cropDays": 400,
-      "idleDays": 140,
+      "cropDays": 435,
+      "idleDays": 105,
       "waterDemandMm": null
     },
     {
@@ -4107,7 +4190,7 @@
         {
           "crop": "bean",
           "start": "2024-12-26",
-          "end": "2025-04-05",
+          "end": "2025-05-10",
           "origin": "estimado"
         }
       ],
@@ -4131,14 +4214,14 @@
         {
           "rule": "Duración orientativa",
           "status": "desconocido",
-          "detail": "Maíz grano: 150 días; referencia general 125–180 días. Sorgo: 125 días; referencia general 120–130 días. Frijol seco: 100 días; referencia general 95–110 días",
+          "detail": "Maíz grano: 150 días; referencia general 125–180 días. Sorgo: 125 días; referencia general 120–130 días. Frijol seco: 135 días; referencia general 95–110 días, fuera del rango de referencia: revisar variedad",
           "source": "https://www.fao.org/4/s2022e/s2022e07.htm"
         },
         {
           "rule": "Calendario y variedad local",
           "status": "desconocido",
-          "detail": "No hay ventanas de siembra ni variedades validadas para esta ubicación y periodo. No se extrapolan reglas de otro país o hemisferio.",
-          "source": "https://www.fao.org/4/s2022e/s2022e07.htm"
+          "detail": "Hay fichas bibliográficas INIA para variedades candidatas, sin validación de la parcela ni de la secuencia. La demo supone frijol de 135 días a cosecha, no 98 de madurez fisiológica. La orientación marzo–julio requiere revisión local; no es una regla aprobada. Los 150 días de maíz no representan todas las estaciones o variedades.",
+          "source": "https://repositorio.inia.gob.pe/bitstreams/edfce649-824e-40a8-84d2-965acdd73e9e/download"
         },
         {
           "rule": "Compatibilidad de suelo",
@@ -4162,8 +4245,8 @@
       "status": "Evaluación incompleta",
       "families": 2,
       "maxRepeat": 1,
-      "cropDays": 375,
-      "idleDays": 165,
+      "cropDays": 410,
+      "idleDays": 130,
       "waterDemandMm": null
     }
   ],

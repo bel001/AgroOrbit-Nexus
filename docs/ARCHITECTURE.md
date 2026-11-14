@@ -4,6 +4,10 @@
 
 ## Implementación real
 
+**Consolidación científica:** `history-diagnostics.ts` conserva denominadores, fórmulas y nulidad al describir repetición. `regional-evidence.ts` adjunta fichas documentales INIA/MIDAGRI/FAO solo al perfil aplicable, sin convertirlas en reglas validadas. Informe 2.1; frijol de la demo supone 135 días hasta cosecha, aunque el rango genérico FAO sea distinto.
+
+**Dos destinos, una lógica:** Next.js conserva desarrollo/producción local. Para Sites, `hosting/client.tsx` monta los mismos componentes React y `hosting/worker.ts` llama los mismos handlers Web Request/Response de las API. esbuild y PostCSS generan `dist/server/index.js` (Worker ESM con assets comprimidos). El alias de `next/dynamic` se limita al build público y mantiene carga diferida con React.lazy; no se publica Next SSR ni un servidor Node dentro de Workers. El manifiesto `.openai/hosting.json` identifica el sitio, sin secretos. Detalles y límites: DEPLOYMENT.
+
 **Búsqueda de terreno:** `location-search.tsx` ofrece búsqueda explícita y GPS con permiso; `geocoding.ts` normaliza coincidencias y aplica caché/deduplicación/intervalo entre solicitudes; `/api/locations` valida y controla errores. El componente permite Enter sin enviar el formulario climático y conserva opciones manuales ante fallo. Detalles/condiciones: LOCATION_SEARCH.
 
 **Ampliación global:** `regions.ts` y `locales.ts` separan ámbito/validación/idioma; catálogo ampliable genera los IDs de validación; `examples/viru.ts` aísla el caso de demo. `sources.ts` registra fuentes y límites de WorldCover. Motor devuelve cero estrategias en clima global; fuera de la demo solo comprueba la secuencia aportada. Ninguna plantilla regional se aplica por defecto. El contrato de reglas está definido, pero no hay umbrales agronómicos regionales aprobados ni recomendaciones habilitadas. Véase GLOBAL_SCOPE.
@@ -18,9 +22,9 @@
 - Worker MapLibre ESM autoalojado: postinstall copia el archivo y su BSD-3-Clause desde la versión fijada a `public/vendor/`. Se excluye este artefacto generado del lint y de Git; no se desactiva el lint de código propio.
 - `climate-chart.tsx`: Recharts y tabla alternativa con completitud mensual. Sin animación de datos.
 - Datos en memoria del navegador; sin base de datos ni almacenamiento persistente. API recibe perfil para procesar, consulta coordenadas/fechas a NASA; OSM recibe solicitudes de teselas. No se envían nombres del terreno a NASA.
-- AgroMonitor y capas agrícolas: no implementados. Despliegue externo pendiente.
+- AgroMonitor HLS/NDVI: no implementado. WorldCover es una capa contextual opcional, sin participación en decisiones. Estado del despliegue externo: DEPLOYMENT/STATUS.
 
-La comparación es una exploración histórica de 540 días. B/C usan inicios separados por 180 días y duraciones de escenario explícitas, dentro de rangos generales. No es una proyección ni un calendario recomendado.
+La demo compara 540 días históricos con inicios B/C separados por 180 días. Sus duraciones son supuestos explícitos; frijol usa referencia específica de cosecha y no el rango general. No es proyección ni calendario recomendado. El modo climático mundial admite 30–731 días sin campañas prefijadas.
 
 ## 1. Stack
 

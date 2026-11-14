@@ -1,6 +1,18 @@
 ﻿# Revisión visual y técnica
 
-2026-11-14. Impeccable: referencias audit/polish y craft-floor aplicadas a una herramienta de operación; detector ejecutado con resultado []. No se completó el flujo de entrevista/torneo de conceptos ni hooks automáticos, según alcance autónomo solicitado.
+## Consolidación de entrega — 2026-11-14
+
+Se preservó el sistema visual y se aclararon cinco pasos; Cultivos abre su panel antes de navegar. Historial con denominadores y distinción riesgo/daño; fichas regionales con alcance y faltantes. Capturas actuales inspeccionadas; tablas mantienen desplazamiento interno/foco. Sin entrevista a agricultores ni prueba táctil física.
+
+Impeccable: context, audit/polish, detector de componentes y portada renderizada en 8787; resultados finales `[]` (evidence/scientific-impeccable-*). Se corrigió un consejo tipográfico con `text-wrap:pretty`. Las pruebas detectaron el aviso ESA atascado y verificaron su corrección. axe sin violaciones en estados global/demo/presentación, sin certificación WCAG.
+
+Evaluación interna acotada según audit: accesibilidad 3/4 (sin lector de pantalla humano); rendimiento 2/4 (mapa pesado, sin métricas de campo); tema 3/4 (tokens, sin modo oscuro); adaptación 3/4 (tres tamaños emulados); integridad 4/4 dentro del alcance inspeccionado. Total 15/20 como juicio de revisión, no medición científica ni certificación.
+
+Bundle público medido, bytes sin comprimir / gzip aproximado: app.js 254 705 / 79 252; mapa diferido 1 084 831 / 297 970; gráfica diferida 424 520 / 122 807; worker MapLibre 519 547 / 147 837; chunk compartido 463 520 / 96 246. No son tiempos de carga ni Core Web Vitals. No se ejecutó Lighthouse, ensayo de carga o prueba en conexión rural; no se promete ese rendimiento. Sin animaciones ni imágenes decorativas nuevas.
+
+## Hito inicial
+
+Impeccable audit/polish y craft-floor aplicados; detector []. No se completó entrevista/torneo de conceptos ni hooks automáticos, por el alcance autónomo solicitado.
 
 | Dimensión | Evidencia | Limitación |
 |---|---|---|

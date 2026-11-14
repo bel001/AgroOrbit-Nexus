@@ -1,6 +1,18 @@
 ﻿# Validación ejecutada — 2026-11-14
 
-Entorno: Windows/PowerShell, Node 24.20.0, npm 11.19.0, Next 16.4.6. Zona de registro humano America/Lima; timestamps JSON en UTC. URL de prueba http://127.0.0.1:3000, servidor de producción `npm start` después de compilar.
+## Consolidación científica y entrega
+
+Resultado actual: **78 unitarias/API, 22 e2e aprobadas y 2 omitidas**. Las omitidas evitan repetir la fuente ESA en móvil/tablet; integración real comprobada en escritorio. Worker local en 8787: suite completa en 53,5 s. Next producción local en 3000: tres pruebas adicionales de escritorio aprobadas (NASA/comparación/exportación, fallo NASA simulado y presentación).
+
+Casos nuevos protegen denominadores por registros, desconocidos/solapamientos, familia maíz/sorgo, aislamiento geográfico de fichas, cosecha de frijol 135 frente a madurez fisiológica 98 y demanda hídrica nula. Tipado, lint, skills, npm audit (0 vulnerabilidades), Next build y build:hosting correctos. CI añade build Worker.
+
+La primera pasada e2e tuvo 21 aprobadas, 1 fallo y 2 omitidas: aviso ESA pendiente pese a PNG recibido. Se leyó el source map de MapLibre 6: el evento de tesela cargada no incluye `sourceDataType: content`. Corregido el listener, se repitió toda la suite hasta aprobar. No se aceptó un estado falso de carga.
+
+Deck inglés probado con axe/navegación en tres tamaños; pypdf confirmó **7 páginas** y cierre en la última. Capturas `submission-*.png`, PDF e informes JSON en evidence. Detector Impeccable de componentes y portada renderizada: `[]` tras ajuste tipográfico menor. axe sin violaciones en estados probados, sin certificación WCAG. GPS emulado, no hardware.
+
+Reproducir: lint, typecheck, test, verify:skills, audit, build, build:hosting de npm; con servidor Worker fijar `PLAYWRIGHT_BASE_URL=http://127.0.0.1:8787` para test:e2e (en PowerShell asignar `$env:PLAYWRIGHT_BASE_URL`). Next usa 3000 por defecto. Pruebas públicas: DEPLOYMENT. Apartados siguientes corresponden a hitos anteriores y no indican los totales actuales.
+
+Entorno inicial: Windows/PowerShell, Node 24.20.0, npm 11.19.0, Next 16.4.6. Zona America/Lima; timestamps JSON UTC. Servidor de producción `npm start` después de compilar.
 
 ## Ampliación global (misma fecha)
 

@@ -1,5 +1,5 @@
 {
-  "retrievedAt": "2026-11-14T18:12:53.127Z",
+  "retrievedAt": "2026-11-14T19:52:23.352Z",
   "node": "v24.20.0",
   "packages": [
     {
@@ -162,6 +162,17 @@
       "developmentOnly": true
     },
     {
+      "name": "esbuild",
+      "requestedVersion": "0.28.2",
+      "installedVersion": "0.28.2",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/evanw/esbuild.git"
+      },
+      "developmentOnly": true
+    },
+    {
       "name": "eslint",
       "requestedVersion": "9.39.5",
       "installedVersion": "9.39.5",
@@ -178,6 +189,14 @@
         "url": "vercel/next.js",
         "directory": "packages/eslint-config-next"
       },
+      "developmentOnly": true
+    },
+    {
+      "name": "postcss",
+      "requestedVersion": "8.5.33",
+      "installedVersion": "8.5.33",
+      "license": "MIT",
+      "repository": "postcss/postcss",
       "developmentOnly": true
     },
     {

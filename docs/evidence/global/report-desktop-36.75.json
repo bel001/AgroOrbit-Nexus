@@ -1,7 +1,7 @@
 {
-  "schemaVersion": "2.0",
-  "methodologyVersion": "global-2026-11-14",
-  "createdAt": "2026-11-14T19:09:32.443Z",
+  "schemaVersion": "2.1",
+  "methodologyVersion": "scientific-review-2026-11-14",
+  "createdAt": "2026-11-14T19:55:16.740Z",
   "input": {
     "name": "Mi terreno",
     "lat": 36.75,
@@ -34,6 +34,29 @@
     ],
     "reason": "Sin perfil regional aplicable a estas coordenadas. Solo clima y comprobaciones descriptivas de registros aportados."
   },
+  "historyDiagnostics": {
+    "recordCount": 0,
+    "interpretable": false,
+    "unknownOrigins": 0,
+    "invalidDates": false,
+    "species": null,
+    "families": null,
+    "maxRun": null,
+    "transitions": null,
+    "sameCropTransitions": null,
+    "sameFamilyTransitions": null,
+    "dominant": null,
+    "daysBetweenCampaigns": null,
+    "interpretation": "Describe registros aportados, no superficie sembrada, cobertura real ni daño medido. Las campañas no documentadas pueden cambiar la interpretación.",
+    "riskContext": "No hay evidencia suficiente para diagnosticar daño. La diversidad registrada tampoco demuestra recuperación del suelo.",
+    "source": "https://www.fao.org/conservation-agriculture/in-practice/species-diversification/en/",
+    "formulas": {
+      "dominance": "registros de especie dominante / registros interpretables",
+      "transitions": "pares consecutivos con especie/familia repetida",
+      "gapDays": "suma(siembra siguiente − cosecha anterior), sin cultivos solapados"
+    }
+  },
+  "regionalEvidence": null,
   "contextualSources": [
     {
       "id": "esa-worldcover-2021",
@@ -2649,7 +2672,7 @@
     },
     "source": "NASA POWER Daily · comunidad AG",
     "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CT2M_MIN%2CT2M_MAX%2CPRECTOTCORR&community=AG&longitude=-119.75&latitude=36.75&start=20240101&end=20241231&format=JSON&time-standard=LST",
-    "retrievedAt": "2026-11-14T19:09:32.440Z",
+    "retrievedAt": "2026-11-14T19:55:16.731Z",
     "version": "v2.10.3",
     "sources": [
       "MERRA2",
