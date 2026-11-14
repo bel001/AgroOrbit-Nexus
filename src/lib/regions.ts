@@ -27,7 +27,7 @@ export const regionProfiles: RegionProfile[] = [regionProfileSchema.parse({
   id: "pe-viru-demo", version: "2026-11-14", names: { es: "Virú · piloto ilustrativo", en: "Viru · illustrative pilot" }, countryCodes: ["PE"],
   bounds: { west: -78.9, east: -78.5, south: -8.6, north: -8.2 }, status: "illustrative", validation: null,
   cropIds: ["maize", "bean", "sorghum"], sources: ["https://www.fao.org/4/s2022e/s2022e07.htm"],
-  scenario: { horizonDays: 540, offsets: [0, 180, 360], durations: { maize: 150, bean: 100, sorghum: 125 }, sequences: [
+  scenario: { horizonDays: 540, offsets: [0, 180, 360], durations: { maize: 150, bean: 135, sorghum: 125 }, sequences: [
     { id: "B", name: "Alternancia con leguminosa", crops: ["maize", "bean", "maize"] },
     { id: "C", name: "Tres especies candidatas", crops: ["maize", "sorghum", "bean"] },
   ] },

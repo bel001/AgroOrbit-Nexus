@@ -2,6 +2,8 @@
 
 Código original: MIT, decisión del usuario 2026-11-14. `LICENSE` no cambia las condiciones de materiales externos.
 
+Revisión documental del piloto: [INIA 619, 2012](https://repositorio.inia.gob.pe/server/api/core/bitstreams/a4269a08-2041-4fbe-b053-f1346c1fef36/content), [INIA 404, edición PDF 2009](https://repositorio.inia.gob.pe/bitstreams/edfce649-824e-40a8-84d2-965acdd73e9e/download), boletín MIDAGRI 01-2021 y FAO *Water harvesting* (1991). Se enlazan y resumen hechos limitados con edición/página; no se incorporan los PDF ni se declara que sus licencias sean MIT. URLs, hashes y alcance en `research/VIRU_SOURCE_NOTES.md`. esbuild y PostCSS son herramientas de compilación, con licencias de dependencias en el inventario actualizado; no se copió el código del plugin Sites al producto.
+
 | Material | Uso / derechos |
 |---|---|
 | [NASA POWER](https://power.larc.nasa.gov/) | Datos públicos del servicio; atribución NASA POWER, fuentes MERRA2/POWER y versión API conservadas en informes. No se reclama propiedad ni respaldo NASA. Consultar [políticas NASA de datos](https://science.nasa.gov/earth-science/earth-science-data/data-information-policy/) para reutilización |
