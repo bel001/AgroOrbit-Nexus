@@ -67,7 +67,7 @@ function useActiveStep() {
 
 function SectionHeading({ step, title, text, children }: { step: number; title: string; text: string; children?: React.ReactNode }) {
   return <div className="section-title">
-    <div className="section-title-text"><span className="step-badge">Paso {step}</span><h2>{title}</h2><p>{text}</p></div>
+    <div className="section-title-text"><h2><span className="step-num" aria-hidden="true">{step}</span>{title}</h2><p>{text}</p></div>
     {children}
   </div>;
 }
@@ -177,14 +177,13 @@ export default function Workspace() {
     <main id="inicio">
       <section className="hero">
         <div className="hero-copy">
-          <span className="eyebrow"><Satellite size={16} aria-hidden="true" /> Clima NASA · método FAO-56 · código abierto</span>
           <h1>Tu siguiente cultivo<br /><em>empieza con evidencia.</em></h1>
           <p>Elige un terreno en cualquier lugar del mundo, registra lo que has sembrado y compara alternativas con datos climáticos reales y límites siempre visibles.</p>
           <div className="hero-actions">
             <button type="button" className="button big" onClick={tryDemo} disabled={loading}><Play size={18} aria-hidden="true" />Probar demo de Virú</button>
             <a className="button secondary big" href="#terreno">Analizar mi terreno <ArrowDown size={18} aria-hidden="true" /></a>
           </div>
-          <p className="hero-hint small"><ShieldCheck size={16} aria-hidden="true" /> La demo usa un historial ilustrativo y clima real. No genera recomendaciones certificadas.</p>
+          <ul className="hero-facts small" aria-label="Fuentes y alcance"><li><Satellite size={16} aria-hidden="true" />Clima diario NASA POWER</li><li><Droplets size={16} aria-hidden="true" />Demanda de agua FAO-56</li><li><ShieldCheck size={16} aria-hidden="true" />Demo con historial ilustrativo; sin recomendaciones certificadas</li></ul>
         </div>
         <div className="hero-visual">
           <OrbitArt />
@@ -345,7 +344,7 @@ export default function Workspace() {
         {report ? <div className="results">
           <p>Metodología {report.methodologyVersion} · informe generado {report.createdAt}. {report.climate ? `NASA consultado ${report.climate.retrievedAt}. Fuentes: ${report.climate.sources.join(", ")}.` : "Sin serie NASA verificada en este informe."}</p>
           <ul className="limit-list">{report.limitations.map(s => <li key={s}>{s}</li>)}</ul>
-          <div className="card on-dark"><RegionalEvidence report={report} /></div>
+          <div className="regional-block"><RegionalEvidence report={report} /></div>
           <h3>Antes de decidir con un agrónomo</h3><p>Confirma parcela, variedad, ventanas de siembra, drenaje, análisis de suelo y balance hídrico. Contrasta los datos de grilla con registros locales.</p>
           <details className="soft-details"><summary>Inspeccionar entradas utilizadas en este informe</summary><pre>{JSON.stringify(report.input, null, 2)}</pre></details>
         </div> : <p>El informe incluirá coordenadas, fechas, procedencia, unidades, versión NASA, reglas y limitaciones. No contiene recomendaciones certificadas.</p>}

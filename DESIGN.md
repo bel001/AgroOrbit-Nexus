@@ -10,17 +10,17 @@ Interfaz guiada en cinco pasos, moderna y tranquila: tarjetas claras sobre fondo
 | Neutros | `--bg`, `--surface`, `--surface-2`, `--ink` #13261f, `--ink-2` #46594f, `--line`, `--line-strong` | Fondo, tarjetas, texto principal y secundario (≥ 4,5:1) |
 | Acentos | `--sun` (decorativo), `--sky` #3f87b5 (agua y lluvia) | Ilustración, barras de demanda hídrica, gráfica de lluvia |
 | Estados | `--warn-*`, `--error-*`, `--focus` | Avisos, errores, contorno de foco de 3 px |
-| Tipografía | Source Sans 3 (400/600/700, OFL-1.1, autoalojada). `--h1` 40–66 px, `--h2` 26–34 px, `--h3` 20 px; cuerpo 17 px | Títulos en 700 con tracking negativo |
+| Tipografía | Source Sans 3 (400/600/700, OFL-1.1, autoalojada). `--h1` 40–66 px, `--h2` 26–34 px, `--h3` 20 px; cuerpo 17 px | Títulos en 700 con tracking negativo; énfasis con color sólido, sin texto en degradado |
 | Espacio | `--s1`…`--s8` = 4/8/12/16/24/32/48/72 px | Rellenos y separaciones |
 | Forma | `--r-sm` 8, `--r-md` 12, `--r-lg` 20, `--r-xl` 28, `--r-pill` | Inputs 12, tarjetas 28, botones en píldora |
 | Elevación | `--shadow-sm`, `--shadow-md`, `--shadow-lg` | Tarjetas (md), barra de acción (lg) |
-| Movimiento | `--ease`, `--ease-spring`, `--t-fast` 150 ms, `--t-med` 260 ms, `--t-slow` 520 ms | Transiciones y entradas |
+| Movimiento | `--ease`, `--ease-out-expo` (salida exponencial, sin rebote), `--t-fast` 150 ms, `--t-med` 260 ms, `--t-slow` 520 ms | Transiciones y entradas |
 
 ## Componentes
 
 - **Botón** (`.button`): primario verde; variantes `secondary`, `ghost`, `light`, `big`; `icon-button` para quitar filas. Estados: hover (eleva 2 px y brillo, solo con puntero fino), active (escala 0,98), disabled (opacidad 0,6), foco visible.
 - **Navegación de pasos** (`.steps` en la cabecera fija): resalta el paso visible según el scroll y marca con ✓ los completados; barra de progreso de 5 tramos con `role="progressbar"`.
-- **Tarjeta** (`.card`, `.section.card`) con insignia «Paso N» (`.step-badge`).
+- **Tarjeta** (`.card`, `.section.card`). El número del paso va dentro del título (`.step-num`), sin etiqueta encima. Dentro de una tarjeta no hay otras cajas: avisos, búsqueda, desplegables y estadísticas usan divisores y espacio.
 - **Selector segmentado** (`.segmented`): radios accesibles para elegir «Solo clima global» o «Revisar mis registros».
 - **Chips** (`.chip-check`) para excluir cultivos; **píldoras** (`.pill`) para el resumen de la consulta.
 - **Barra de acción** (`.action-bar`): resumen de ubicación, periodo y modo, junto con el botón de consulta. Es fija abajo solo en pantallas de más de 1000 px, para no tapar controles del mapa en tablet o móvil.
@@ -38,3 +38,7 @@ Cabecera fija translúcida → hero con «Probar demo de Virú» (carga y analiz
 ## Verificación
 
 Playwright (escritorio, Pixel 7 y tablet 820 px): 22 pruebas aprobadas y 2 omitidas deliberadamente; axe (WCAG 2.0/2.1/2.2 A y AA) sin violaciones en los estados probados. No equivale a una certificación WCAG ni a pruebas con usuarios.
+
+## Auditoría Impeccable 4.9.1 (2026-11-14)
+
+Detector inicial: texto en degradado, curvas con rebote, etiquetas sobre títulos («Paso N» y la frase del inicio) y tarjetas anidadas. Tras las correcciones: 0 hallazgos en `src/` y en la página renderizada; 22 e2e aprobadas (2 omitidas deliberadamente) con axe sin violaciones.
