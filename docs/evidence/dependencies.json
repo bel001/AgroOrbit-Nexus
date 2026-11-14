@@ -1,0 +1,224 @@
+{
+  "retrievedAt": "2026-11-14T18:12:53.127Z",
+  "node": "v24.20.0",
+  "packages": [
+    {
+      "name": "@fontsource/source-sans-3",
+      "requestedVersion": "5.3.1",
+      "installedVersion": "5.3.1",
+      "license": "OFL-1.1",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/fontsource/font-files.git",
+        "directory": "fonts/google/source-sans-3"
+      },
+      "developmentOnly": false
+    },
+    {
+      "name": "lucide-react",
+      "requestedVersion": "1.73.0",
+      "installedVersion": "1.73.0",
+      "license": "ISC",
+      "repository": {
+        "type": "git",
+        "url": "https://github.com/lucide-icons/lucide.git",
+        "directory": "packages/lucide-react"
+      },
+      "developmentOnly": false
+    },
+    {
+      "name": "maplibre-gl",
+      "requestedVersion": "6.18.0",
+      "installedVersion": "6.18.0",
+      "license": "BSD-3-Clause",
+      "repository": {
+        "type": "git",
+        "url": "https://github.com/maplibre/maplibre-gl-js"
+      },
+      "developmentOnly": false
+    },
+    {
+      "name": "next",
+      "requestedVersion": "16.4.6",
+      "installedVersion": "16.4.6",
+      "license": "MIT",
+      "repository": "vercel/next.js",
+      "developmentOnly": false
+    },
+    {
+      "name": "react",
+      "requestedVersion": "19.3.1",
+      "installedVersion": "19.3.1",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "https://github.com/react/react.git",
+        "directory": "packages/react"
+      },
+      "developmentOnly": false
+    },
+    {
+      "name": "react-dom",
+      "requestedVersion": "19.3.1",
+      "installedVersion": "19.3.1",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "https://github.com/react/react.git",
+        "directory": "packages/react-dom"
+      },
+      "developmentOnly": false
+    },
+    {
+      "name": "recharts",
+      "requestedVersion": "3.10.1",
+      "installedVersion": "3.10.1",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/recharts/recharts.git"
+      },
+      "developmentOnly": false
+    },
+    {
+      "name": "zod",
+      "requestedVersion": "4.6.7",
+      "installedVersion": "4.6.7",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/colinhacks/zod.git"
+      },
+      "developmentOnly": false
+    },
+    {
+      "name": "@axe-core/playwright",
+      "requestedVersion": "4.14.0",
+      "installedVersion": "4.14.0",
+      "license": "MPL-2.0",
+      "repository": {
+        "type": "git",
+        "url": "https://github.com/dequelabs/axe-core-npm.git"
+      },
+      "developmentOnly": true
+    },
+    {
+      "name": "@playwright/test",
+      "requestedVersion": "1.65.1",
+      "installedVersion": "1.65.1",
+      "license": "Apache-2.0",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/microsoft/playwright.git"
+      },
+      "developmentOnly": true
+    },
+    {
+      "name": "@tailwindcss/postcss",
+      "requestedVersion": "4.3.5",
+      "installedVersion": "4.3.5",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "https://github.com/tailwindlabs/tailwindcss.git",
+        "directory": "packages/@tailwindcss-postcss"
+      },
+      "developmentOnly": true
+    },
+    {
+      "name": "@types/node",
+      "requestedVersion": "26.6.6",
+      "installedVersion": "26.6.6",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+        "directory": "types/node"
+      },
+      "developmentOnly": true
+    },
+    {
+      "name": "@types/react",
+      "requestedVersion": "19.3.0",
+      "installedVersion": "19.3.0",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+        "directory": "types/react"
+      },
+      "developmentOnly": true
+    },
+    {
+      "name": "@types/react-dom",
+      "requestedVersion": "19.3.0",
+      "installedVersion": "19.3.0",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "https://github.com/DefinitelyTyped/DefinitelyTyped.git",
+        "directory": "types/react-dom"
+      },
+      "developmentOnly": true
+    },
+    {
+      "name": "eslint",
+      "requestedVersion": "9.39.5",
+      "installedVersion": "9.39.5",
+      "license": "MIT",
+      "repository": "eslint/eslint",
+      "developmentOnly": true
+    },
+    {
+      "name": "eslint-config-next",
+      "requestedVersion": "16.4.6",
+      "installedVersion": "16.4.6",
+      "license": "MIT",
+      "repository": {
+        "url": "vercel/next.js",
+        "directory": "packages/eslint-config-next"
+      },
+      "developmentOnly": true
+    },
+    {
+      "name": "tailwindcss",
+      "requestedVersion": "4.3.5",
+      "installedVersion": "4.3.5",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "https://github.com/tailwindlabs/tailwindcss.git",
+        "directory": "packages/tailwindcss"
+      },
+      "developmentOnly": true
+    },
+    {
+      "name": "typescript",
+      "requestedVersion": "6.0.3",
+      "installedVersion": "6.0.3",
+      "license": "Apache-2.0",
+      "repository": {
+        "type": "git",
+        "url": "https://github.com/microsoft/TypeScript.git"
+      },
+      "developmentOnly": true
+    },
+    {
+      "name": "vitest",
+      "requestedVersion": "5.1.0",
+      "installedVersion": "5.1.0",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/vitest-dev/vitest.git",
+        "directory": "packages/vitest"
+      },
+      "developmentOnly": true
+    }
+  ],
+  "override": {
+    "@typescript-eslint/typescript-estree": {
+      "minimatch": "11.0.8"
+    }
+  }
+}

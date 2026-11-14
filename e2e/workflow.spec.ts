@@ -1,0 +1,37 @@
+import { expect, test } from "@playwright/test";
+import AxeBuilder from "@axe-core/playwright";
+test("terreno → NASA real → comparación → descarga", async ({ page }, info) => {
+  const errors: string[] = []; page.on("pageerror", e => errors.push(e.message));
+  const consoleErrors: string[] = []; page.on("console", m => { if (m.type() === "error") consoleErrors.push(m.text()); });
+  await page.goto("/"); await expect(page).toHaveTitle(/AgroOrbit Nexus/);
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  await page.getByLabel("Latitud", { exact: true }).fill("-8.43");
+  await expect(page.getByText(/Punto de referencia · -8.4300/)).toBeVisible();
+  await page.getByRole("button", { name: "Cargar caso ilustrativo" }).click();
+  await page.getByRole("button", { name: "Consultar clima y comparar" }).click();
+  await expect(page.getByText("Informe disponible", { exact: true })).toBeAttached({ timeout: 60_000 });
+  await expect(page.getByRole("heading", { name: "Clima histórico · NASA POWER" })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Abrir consulta de origen NASA" })).toHaveAttribute("href", /power.larc.nasa.gov/);
+  await expect(page.getByText("Evaluación incompleta", { exact: true })).toHaveCount(3);
+  const downloadEvent = page.waitForEvent("download"); await page.getByRole("button", { name: "Descargar JSON" }).click();
+  const download = await downloadEvent; expect(download.suggestedFilename()).toBe("agroorbit-evidencia.json");
+  await download.saveAs(`docs/evidence/report-${info.project.name}.json`);
+  await page.getByText("Ver tabla mensual y días válidos", { exact: true }).click();
+  await expect(page.getByRole("region", { name: "Tabla climática desplazable" })).toBeVisible();
+  await page.getByText("Ver tabla mensual y días válidos", { exact: true }).click();
+  await page.getByRole("heading", { name: "Tu siguiente cultivo", exact: false }).scrollIntoViewIfNeeded();
+  await page.screenshot({ path: `docs/evidence/${info.project.name}.png`, fullPage: true });
+  expect(errors).toEqual([]);
+  expect(consoleErrors).toEqual([]);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  const a11y = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"]).analyze();
+  expect(a11y.violations.map(v => ({ id: v.id, nodes: v.nodes.length }))).toEqual([]);
+});
+test("NASA caída y cambios pendientes conservan estados honestos", async ({ page }) => {
+  await page.route("**/api/analyze", async route => { const result = await route.fetch(); const data = await result.json(); data.report.climate = null; data.climateError = "NASA POWER no disponible (HTTP 503). Reintenta más tarde."; await route.fulfill({ json: data }); });
+  await page.goto("/"); await page.getByRole("button", { name: "Consultar clima y comparar" }).click();
+  await expect(page.getByRole("alert").filter({ hasText: "NASA POWER" })).toContainText("503", { timeout: 60_000 });
+  await expect(page.getByRole("heading", { name: "Clima histórico · NASA POWER" })).toHaveCount(0);
+  await page.getByLabel("Nombre del terreno").fill("Terreno cambiado");
+  await expect(page.getByText(/Hay cambios sin calcular/)).toBeVisible();
+});

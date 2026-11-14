@@ -1,0 +1,31 @@
+{
+  "date": "2026-11-14T18:14:44.459Z",
+  "browser": "Playwright Chromium",
+  "firstFocus": "Saltar al análisis del terreno",
+  "changedLat": "-8.34621",
+  "metrics": {
+    "viewport": 390,
+    "documentWidth": 390,
+    "title": "AgroOrbit Nexus · From Space to Soil"
+  },
+  "downloadedDays": 540,
+  "consoleMessages": [
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x6e4c00cf9800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels"
+    },
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x6e4c00cf9800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels"
+    },
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x6e4c00cf9800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels"
+    },
+    {
+      "type": "warning",
+      "text": "[.WebGL-0x6e4c00cf9800]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)"
+    }
+  ],
+  "failures": []
+}
