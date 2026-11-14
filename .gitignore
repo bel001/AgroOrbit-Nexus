@@ -1,0 +1,12 @@
+node_modules/
+.next/
+out/
+coverage/
+*.tsbuildinfo
+.env*
+!.env.example
+test-results/
+playwright-report/
+.impeccable/config.local.json
+.agents/skills/impeccable/scripts/bin/
+public/vendor/

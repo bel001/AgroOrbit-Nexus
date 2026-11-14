@@ -1,0 +1,28 @@
+{
+  "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M,T2M_MIN,T2M_MAX,PRECTOTCORR&community=AG&longitude=-78.75&latitude=-8.42&start=20240101&end=20241231&format=JSON&time-standard=LST",
+  "retrievedAt": "2026-11-14T18:03:56.891Z",
+  "status": 200,
+  "api": {
+    "version": "v2.10.3",
+    "name": "POWER Daily API"
+  },
+  "units": {
+    "T2M": {
+      "units": "C",
+      "longname": "Temperature at 2 Meters"
+    },
+    "T2M_MIN": {
+      "units": "C",
+      "longname": "Temperature at 2 Meters Minimum"
+    },
+    "T2M_MAX": {
+      "units": "C",
+      "longname": "Temperature at 2 Meters Maximum"
+    },
+    "PRECTOTCORR": {
+      "units": "mm/day",
+      "longname": "Precipitation Corrected"
+    }
+  },
+  "days": 366
+}

@@ -1,0 +1,10 @@
+import { mkdir, writeFile } from "node:fs/promises";
+const url = "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M,T2M_MIN,T2M_MAX,PRECTOTCORR&community=AG&longitude=-78.75&latitude=-8.42&start=20240101&end=20241231&format=JSON&time-standard=LST";
+const response = await fetch(url, { signal: AbortSignal.timeout(60_000) });
+if (!response.ok) throw new Error(`NASA HTTP ${response.status}`);
+const data = await response.json();
+if (!data.header?.api?.version || data.parameters?.T2M?.units !== "C" || data.parameters?.PRECTOTCORR?.units !== "mm/day") throw new Error("Contrato NASA inesperado");
+await mkdir("docs/evidence", { recursive: true });
+await writeFile("docs/evidence/power-viru-2024.json", JSON.stringify(data));
+await writeFile("docs/evidence/power-request.json", JSON.stringify({ url, retrievedAt: new Date().toISOString(), status: response.status, api: data.header.api, units: data.parameters, days: Object.keys(data.properties.parameter.T2M).length }, null, 2));
+console.log(`NASA real: HTTP ${response.status}; ${data.header.api.version}; ${Object.keys(data.properties.parameter.T2M).length} días. Evidencia guardada.`);
