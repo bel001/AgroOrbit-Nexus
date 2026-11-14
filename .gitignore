@@ -10,3 +10,6 @@ playwright-report/
 .impeccable/config.local.json
 .agents/skills/impeccable/scripts/bin/
 public/vendor/
+.hosting-build/
+dist/
+outputs/

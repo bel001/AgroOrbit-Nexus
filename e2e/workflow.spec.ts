@@ -14,6 +14,11 @@ test("terreno → NASA real → comparación → descarga", async ({ page }, inf
   await expect(page.getByRole("heading", { name: "Clima histórico · NASA POWER" })).toBeVisible();
   await expect(page.getByRole("link", { name: "Abrir consulta de origen NASA" })).toHaveAttribute("href", /power.larc.nasa.gov/);
   await expect(page.getByText("Evaluación incompleta", { exact: true })).toHaveCount(3);
+  await expect(page.getByRole("heading", { name: "¿Qué dice el historial sobre la repetición de cultivos?" })).toBeVisible();
+  await expect(page.getByText("Daño comprobado en este informe:", { exact: false })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Virú: qué respaldan las fuentes y qué falta" })).toBeAttached();
+  await page.getByText("INIA · INIA 404 · CIFAC 90105", { exact: true }).click();
+  await expect(page.getByText(/135 a madurez de cosecha/)).toBeVisible();
   const downloadEvent = page.waitForEvent("download"); await page.getByRole("button", { name: "Descargar JSON" }).click();
   const download = await downloadEvent; expect(download.suggestedFilename()).toBe("agroorbit-evidencia.json");
   await download.saveAs(`docs/evidence/report-${info.project.name}.json`);

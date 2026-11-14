@@ -16,6 +16,7 @@
     "postinstall": "node scripts/prepare-map-worker.mjs",
     "dev": "next dev --hostname 127.0.0.1",
     "build": "next build",
+    "build:hosting": "node scripts/build-hosting.mjs",
     "start": "next start --hostname 127.0.0.1",
     "lint": "eslint . --max-warnings 0",
     "typecheck": "tsc --noEmit",
@@ -42,8 +43,10 @@
     "@types/node": "26.6.6",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
+    "esbuild": "0.28.2",
     "eslint": "9.39.5",
     "eslint-config-next": "16.4.6",
+    "postcss": "8.5.33",
     "tailwindcss": "4.3.5",
     "typescript": "6.0.3",
     "vitest": "5.1.0"

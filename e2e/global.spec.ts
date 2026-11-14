@@ -30,7 +30,7 @@ test("capa WorldCover real, opcional, con año y atribución", async ({ page }, 
   const responsePromise = page.waitForResponse(r => r.url().includes("titiler.terrascope.be/wms") && r.status() === 200 && (r.headers()["content-type"] ?? "").includes("image/png"), { timeout: 60_000 });
   await page.getByLabel("Mostrar cobertura terrestre ESA · 2021").check();
   const response = await responsePromise; expect((await response.body()).byteLength).toBeGreaterThan(0);
-  await expect(page.getByText("Capa ESA cargada.", { exact: true })).toBeVisible({ timeout: 60_000 });
+  await expect(page.getByText("Capa ESA: datos recibidos; pueden quedar teselas pendientes.", { exact: true })).toBeVisible({ timeout: 60_000 });
   await expect(page.getByText("ESA WorldCover v200", { exact: false })).toBeVisible();
   await page.getByRole("region", { name: "Mapa mundial.", exact: false }).scrollIntoViewIfNeeded();
   await page.screenshot({ path: "docs/evidence/global/worldcover-map.png" });

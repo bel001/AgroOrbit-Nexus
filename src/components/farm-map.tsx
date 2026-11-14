@@ -29,7 +29,9 @@ export default function FarmMap({ lat, lon, onSelect }: Props) {
       instance.addControl(new maplibregl.NavigationControl({ showCompass: false }), "top-right");
       instance.on("click", e => callback.current(Number(e.lngLat.lat.toFixed(5)), Number(((((e.lngLat.lng + 180) % 360 + 360) % 360) - 180).toFixed(5))));
       instance.on("error", e => { if ("sourceId" in e && e.sourceId === "worldcover") setCoverFailed(true); else setFailed(true); });
-      instance.on("idle", () => { if (instance.getSource("worldcover") && instance.getLayoutProperty("worldcover", "visibility") !== "none" && instance.isSourceLoaded("worldcover")) setCoverLoaded(true); });
+      // A slow base-map tile must not keep the ESA status pending forever.
+      // Report received ESA tile content, not completion of every map source.
+      instance.on("sourcedata", e => { if (e.sourceId === "worldcover" && e.tile?.state === "loaded") setCoverLoaded(true); });
     } catch { queueMicrotask(() => setFailed(true)); }
     return () => { marker.current?.remove(); instance?.remove(); map.current = null; };
   }, []);
@@ -59,8 +61,8 @@ export default function FarmMap({ lat, lon, onSelect }: Props) {
     <div className="map-caption">Punto de referencia · {Number.isFinite(lat) ? lat.toFixed(4) : "—"}, {Number.isFinite(lon) ? lon.toFixed(4) : "—"}</div>
     {failed && <p className="notice" role="status">No se pudo cargar una parte del mapa. Puedes continuar con las coordenadas.</p>}
     {Number.isFinite(lat) && Math.abs(lat) > 85 && <p className="notice">Zona polar: la proyección Mercator no permite mostrar este punto exacto. La consulta NASA utiliza tus coordenadas originales.</p>}
-    <label className="check-label"><input type="checkbox" checked={showCover} onChange={e => { setShowCover(e.target.checked); setCoverFailed(false); setCoverLoaded(false); }} /> Mostrar cobertura terrestre ESA · 2021</label>
-    {showCover && <div className="small"><p role="status">{coverFailed ? "Capa ESA no disponible para esta vista. Desactívala para continuar; no se sustituye por datos de ejemplo." : coverLoaded ? "Capa ESA cargada." : "Cargando capa ESA…"}</p><p>ESA WorldCover {worldCover.version} · 10 m nominales · clasificación histórica, no imagen actual. La capa incluye cultivos y otras coberturas; no identifica especies, límites ni rotaciones. Disponibilidad del servicio: latitudes −60° a 83°.</p><p>{worldCoverAttribution}. <a href={worldCover.documentation} target="_blank" rel="noreferrer">Fuente, leyenda y licencia CC BY 4.0</a></p></div>}
+    <label className="check-label"><input type="checkbox" checked={showCover} onChange={e => { setShowCover(e.target.checked); setCoverFailed(false); }} /> Mostrar cobertura terrestre ESA · 2021</label>
+    {showCover && <div className="small"><p role="status">{coverFailed ? "Algunas teselas ESA no están disponibles. La vista puede estar incompleta; desactiva la capa para continuar." : coverLoaded ? "Capa ESA: datos recibidos; pueden quedar teselas pendientes." : "Cargando capa ESA…"}</p><p>ESA WorldCover {worldCover.version} · 10 m nominales · clasificación histórica, no imagen actual. La capa incluye cultivos y otras coberturas; no identifica especies, límites ni rotaciones. Disponibilidad del servicio: latitudes −60° a 83°.</p><p>{worldCoverAttribution}. <a href={worldCover.documentation} target="_blank" rel="noreferrer">Fuente, leyenda y licencia CC BY 4.0</a></p></div>}
     <p className="small muted">Haz clic para ubicar el terreno. El punto no delimita una propiedad. Mapa base: OpenStreetMap. La capa ESA es contexto visual y no se utiliza para recomendar cultivos.</p>
   </div>;
 }
