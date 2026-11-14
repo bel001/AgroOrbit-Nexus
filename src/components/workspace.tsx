@@ -5,7 +5,7 @@ import {
   AlertCircle, ArrowDown, ArrowRight, Check, CloudRain, Download, Droplets, FileText, Leaf, MapPin,
   Play, Printer, RotateCcw, Satellite, Sprout, Thermometer, CalendarDays, Plus, Trash2, ShieldCheck,
 } from "lucide-react";
-import { addDays, farmSchema, newGlobalFarm, type Farm, type CropId, type Campaign } from "@/lib/model";
+import { addDays, farmSchema, newGlobalFarm, type Farm, type CropId, type Campaign, type Alternative } from "@/lib/model";
 import { exampleFarm } from "@/lib/examples/viru";
 import { catalog } from "@/lib/catalog";
 import { monthlyClimate } from "@/lib/power";
@@ -35,6 +35,34 @@ type StepId = typeof STEPS[number]["id"];
 
 function CropSelect({ value, onChange, label }: { value: CropId; onChange: (crop: CropId) => void; label: string }) {
   return <label>{label}<select value={value} onChange={e => onChange(e.target.value as CropId)}>{crops.map(c => <option key={c} value={c}>{catalog[c].name}</option>)}</select></label>;
+}
+
+/** Nueva campaña: empieza tras la última y dura lo mínimo del rango general FAO del cultivo. */
+function nextCampaign(list: Campaign[], fallbackStart: string): Campaign {
+  const crop = crops[0];
+  const last = [...list].sort((a, b) => a.end.localeCompare(b.end)).at(-1);
+  const start = last ? addDays(last.end, 1) : fallbackStart;
+  return { crop, start, end: addDays(start, catalog[crop].days[0]), origin: "declarado" };
+}
+
+const FIELD_NAMES: Record<string, string> = {
+  name: "Nombre del terreno", lat: "Latitud", lon: "Longitud", areaHa: "Área", ph: "pH", waterMm: "Agua total utilizable",
+  waterOrigin: "Procedencia del agua", soilOrigin: "Procedencia del suelo", start: "Inicio del periodo", horizonDays: "Duración del periodo",
+  history: "Historial", current: "Lo que planeas sembrar (A)", alternatives: "Alternativas",
+};
+const SUBFIELD_NAMES: Record<string, string> = { crop: "cultivo", start: "siembra", end: "cosecha", origin: "procedencia", name: "nombre", campaigns: "ciclos" };
+/** Convierte un error de validación en una frase que un agricultor entienda. */
+function humanizeIssue(issue: { path: PropertyKey[]; message: string; code: string }) {
+  const [root, index, sub, subIndex, field] = issue.path.map(String);
+  let where = FIELD_NAMES[root] ?? root;
+  if (index !== undefined) where += root === "alternatives" ? ` ${String.fromCharCode(66 + Number(index))}` : ` · campaña ${Number(index) + 1}`;
+  if (sub !== undefined) where += ` · ${SUBFIELD_NAMES[sub] ?? sub}`;
+  if (subIndex !== undefined) where += ` ${Number(subIndex) + 1}`;
+  if (field !== undefined) where += ` · ${SUBFIELD_NAMES[field] ?? field}`;
+  // Los mensajes propios (reglas "custom") ya están en español; los genéricos de Zod se traducen por tipo.
+  const what = issue.code === "custom" ? issue.message
+    : issue.code === "invalid_type" ? "falta o no es un valor válido" : issue.code === "too_small" ? "está vacío o es demasiado pequeño" : issue.code === "too_big" ? "es demasiado grande" : "no es válido";
+  return `${where}: ${what}`;
 }
 
 function download(report: EvidenceReport) {
@@ -128,24 +156,34 @@ export default function Workspace() {
   const coverage = resolveCoverage(farm);
   const hasPoint = Number.isFinite(farm.lat) && Number.isFinite(farm.lon);
 
-  const update = (patch: Partial<Farm>) => { setFarm(f => ({ ...f, ...patch })); setDirty(true); };
-  const location = (patch: Partial<Farm>) => update({ ...patch, analysisMode: "climate", regionProfileId: null });
+  // Cualquier corrección retira los avisos anteriores; se vuelven a validar al consultar.
+  const update = (patch: Partial<Farm>) => { setFarm(f => ({ ...f, ...patch })); setDirty(true); setErrors([]); };
+  // Mover el punto anula la plantilla regional (p. ej. la demo de Virú), pero conserva el tipo de análisis elegido.
+  const location = (patch: Partial<Farm>) => update({ ...patch, regionProfileId: null });
   const campaign = (key: "history" | "current", i: number, patch: Partial<Campaign>) => update({ [key]: farm[key].map((c, index) => index === i ? { ...c, ...patch } : c) });
   const scrollTo = (id: string) => setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: "instant" }), 50);
+  const showErrors = (list: string[]) => {
+    setErrors(list);
+    setTimeout(() => { const box = document.getElementById("form-errors"); box?.scrollIntoView({ behavior: "instant", block: "center" }); box?.focus({ preventScroll: true }); }, 50);
+  };
+  const altOffset = coverage.demoAllowed ? 3 : 1;
+  const setAlternative = (i: number, patch: Partial<Alternative>) => update({ alternatives: farm.alternatives.map((a, n) => n === i ? { ...a, ...patch } : a) });
+  const altCampaign = (ai: number, ci: number, patch: Partial<Campaign>) => setAlternative(ai, { campaigns: farm.alternatives[ai].campaigns.map((c, n) => n === ci ? { ...c, ...patch } : c) });
 
   async function runAnalysis(input: Farm) {
     setErrors([]);
+    if (!Number.isFinite(input.lat) || !Number.isFinite(input.lon)) { showErrors(["Falta la ubicación del terreno: busca una localidad, pulsa «Usar mi ubicación» o haz clic en el mapa."]); return; }
     const parsed = farmSchema.safeParse(input);
-    if (!parsed.success) { setErrors(parsed.error.issues.map(i => `${i.path.join(".")}: ${i.message}`)); return; }
+    if (!parsed.success) { showErrors(parsed.error.issues.map(humanizeIssue)); return; }
     setLoading(true); setReport(null); setClimateError(null);
     scrollTo("diagnostico");
     try {
       const response = await fetch("/api/analyze", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(parsed.data), signal: AbortSignal.timeout(35_000) });
       const result = await response.json();
-      if (!response.ok) { setErrors([result.error, ...(result.issues ?? [])]); scrollTo("accion"); return; }
+      if (!response.ok) { showErrors([result.error, ...(result.issues ?? [])]); return; }
       setReport(result.report); setClimateError(result.climateError); setDirty(false);
       scrollTo("diagnostico");
-    } catch { setErrors(["No se pudo contactar con el servidor. Comprueba la conexión y vuelve a consultar."]); scrollTo("accion"); }
+    } catch { showErrors(["No se pudo contactar con el servidor. Comprueba la conexión y vuelve a consultar."]); }
     finally { setLoading(false); }
   }
   const analyze = (e: React.FormEvent) => { e.preventDefault(); void runAnalysis(farm); };
@@ -193,7 +231,7 @@ export default function Workspace() {
         </div>
       </section>
 
-      <form onSubmit={analyze} aria-label="Perfil agrícola">
+      <form onSubmit={analyze} aria-label="Perfil agrícola" noValidate>
         <fieldset disabled={loading} className="form-fieldset"><legend className="sr-only">Ubicación y perfil</legend>
 
         <section id="terreno" className="section card">
@@ -250,8 +288,9 @@ export default function Workspace() {
           <p className="small muted">El periodo climático es configurable. No se asignan calendarios de cultivo por país o hemisferio sin evidencia.</p>
 
           <div className="campaign-block" id="registro">
-            <h3>Historial agrícola <span className="count-pill">{farm.history.length} campañas registradas</span></h3>
-            <p className="small muted">Completa fechas y procedencia. Se ordenan por fecha para contar repeticiones; no se infiere daño al suelo.</p>
+            <h3>Lo que ya sembraste (historial) <span className="count-pill">{farm.history.length} campañas registradas</span></h3>
+            <p className="small muted">Campañas pasadas en este terreno. Sirven para ver si se repite el mismo cultivo; no se infiere daño al suelo.</p>
+            <p className="small muted origin-help"><b>Procedencia:</b> «declarado» = lo indicas tú · «medido» = con registros o instrumentos · «estimado» = aproximado · «desconocido» = no se usa para interpretar.</p>
             {farm.history.length === 0 && <p className="empty-inline">Sin campañas todavía. Añade lo que se sembró antes en este terreno.</p>}
             {farm.history.map((c, i) => <div className="campaign-row" key={i}>
               <CropSelect label={`Cultivo histórico ${i + 1}`} value={c.crop} onChange={crop => campaign("history", i, { crop })} />
@@ -260,30 +299,49 @@ export default function Workspace() {
               <label>Procedencia<select value={c.origin} onChange={e => campaign("history", i, { origin: e.target.value as Campaign["origin"] })}>{origins.map(o => <option key={o}>{o}</option>)}</select></label>
               <button type="button" className="icon-button" onClick={() => update({ history: farm.history.filter((_, n) => n !== i) })}><Trash2 size={16} aria-hidden="true" /><span>Quitar campaña {i + 1}</span></button>
             </div>)}
-            <button type="button" className="button ghost" disabled={farm.history.length >= 12} onClick={() => update({ history: [...farm.history, { crop: crops[0], start: farm.start, end: addDays(farm.start, 1), origin: "desconocido" }] })}><Plus size={16} aria-hidden="true" />Añadir campaña</button>
+            <button type="button" className="button ghost" disabled={farm.history.length >= 12} onClick={() => update({ history: [...farm.history, nextCampaign(farm.history, addDays(farm.start, -365))] })}><Plus size={16} aria-hidden="true" />Añadir campaña</button>
           </div>
 
           {farm.analysisMode === "regional" && <div className="campaign-block reveal">
-            <h3>Secuencia a evaluar (A)</h3>
-            <p className="small muted">Introduce tus campañas con sus fechas y procedencia. Fuera del piloto no se generan alternativas B/C. La demo de Virú requiere su etiqueta ilustrativa y periodo de 540 días.</p>
+            <h3>Lo que planeas sembrar (A)</h3>
+            <p className="small muted">Las campañas que quieres evaluar dentro del periodo. Debajo puedes añadir hasta dos alternativas propias para compararlas.</p>
             {farm.current.map((c, i) => <div className="campaign-row current" key={i}>
               <CropSelect label={`A · ciclo ${i + 1}`} value={c.crop} onChange={crop => campaign("current", i, { crop })} />
               <label>Siembra<input type="date" required value={c.start} onChange={e => campaign("current", i, { start: e.target.value })} /></label>
               <label>Cosecha<input type="date" required value={c.end} onChange={e => campaign("current", i, { end: e.target.value })} /></label>
               <label>Procedencia<select value={c.origin} onChange={e => campaign("current", i, { origin: e.target.value as Campaign["origin"] })}>{origins.map(o => <option key={o}>{o}</option>)}</select></label>
             </div>)}
-            <button type="button" className="button ghost" disabled={farm.current.length >= 12} onClick={() => update({ current: [...farm.current, { crop: crops[0], start: farm.start, end: addDays(farm.start, 1), origin: "desconocido" }] })}><Plus size={16} aria-hidden="true" />Añadir ciclo para completar</button>
+            <button type="button" className="button ghost" disabled={farm.current.length >= 12} onClick={() => update({ current: [...farm.current, nextCampaign(farm.current, farm.start)] })}><Plus size={16} aria-hidden="true" />Añadir ciclo para completar</button>
+          </div>}
+
+          {farm.analysisMode === "regional" && <div className="campaign-block reveal">
+            <h3>Alternativas para comparar <span className="count-pill">opcional</span></h3>
+            <p className="small muted">¿Y si sembraras otra cosa? Crea una alternativa (parte de una copia de A) y cambia cultivos o fechas. Son escenarios tuyos, no recomendaciones.</p>
+            {coverage.demoAllowed && <p className="small muted">En la demo de Virú ya se añaden B y C ilustrativas; las tuyas aparecerán después.</p>}
+            {farm.alternatives.map((alt, ai) => { const letter = String.fromCharCode(65 + altOffset + ai); return <div className="alt-card" key={ai}>
+              <div className="alt-head"><span className="alt-letter" aria-hidden="true">{letter}</span>
+                <label className="alt-name">Nombre de la alternativa {letter}<input value={alt.name} maxLength={60} onChange={e => setAlternative(ai, { name: e.target.value })} /></label>
+                <button type="button" className="icon-button" onClick={() => update({ alternatives: farm.alternatives.filter((_, n) => n !== ai) })}><Trash2 size={16} aria-hidden="true" /><span>Quitar alternativa {letter}</span></button></div>
+              {alt.campaigns.map((c, ci) => <div className="campaign-row alt-row" key={ci}>
+                <CropSelect label={`${letter} · ciclo ${ci + 1}`} value={c.crop} onChange={crop => altCampaign(ai, ci, { crop })} />
+                <label>Siembra<input type="date" required value={c.start} onChange={e => altCampaign(ai, ci, { start: e.target.value })} /></label>
+                <label>Cosecha<input type="date" required value={c.end} onChange={e => altCampaign(ai, ci, { end: e.target.value })} /></label>
+                <button type="button" className="icon-button" disabled={alt.campaigns.length <= 1} onClick={() => setAlternative(ai, { campaigns: alt.campaigns.filter((_, n) => n !== ci) })}><Trash2 size={16} aria-hidden="true" /><span>Quitar ciclo {ci + 1} de {letter}</span></button>
+              </div>)}
+              <button type="button" className="button ghost" disabled={alt.campaigns.length >= 12} onClick={() => setAlternative(ai, { campaigns: [...alt.campaigns, { ...nextCampaign(alt.campaigns, farm.start), origin: "estimado" }] })}><Plus size={16} aria-hidden="true" />Añadir ciclo a {letter}</button>
+            </div>; })}
+            <button type="button" className="button secondary" disabled={farm.alternatives.length >= 2} onClick={() => update({ alternatives: [...farm.alternatives, { name: `Alternativa ${String.fromCharCode(65 + altOffset + farm.alternatives.length)}`, campaigns: farm.current.length ? farm.current.map(c => ({ ...c, origin: "estimado" as const })) : [{ ...nextCampaign([], farm.start), origin: "estimado" as const }] }] })}><Plus size={16} aria-hidden="true" />Añadir alternativa</button>
           </div>}
           <label className="check-label"><input type="checkbox" checked={farm.illustrative} onChange={e => update({ illustrative: e.target.checked })} /> Estos registros son un caso ilustrativo</label>
         </section>
         </fieldset>
 
-        {errors.length > 0 && <div className="notice error shake" role="alert"><AlertCircle size={20} aria-hidden="true" /><div><strong>Revisa los datos para continuar</strong><ul>{errors.map((s, i) => <li key={i}>{s}</li>)}</ul></div></div>}
+        {errors.length > 0 && <div className="notice error shake" role="alert" id="form-errors" tabIndex={-1}><AlertCircle size={20} aria-hidden="true" /><div><strong>Revisa los datos para continuar</strong><ul>{errors.map((s, i) => <li key={i}>{s}</li>)}</ul></div></div>}
         <div className="action-bar" id="accion">
           <div className="action-summary">
             <span className={hasPoint ? "pill ok" : "pill"}><MapPin size={14} aria-hidden="true" />{hasPoint ? `${farm.lat.toFixed(3)}, ${farm.lon.toFixed(3)}` : "Sin ubicación"}</span>
             <span className="pill"><CalendarDays size={14} aria-hidden="true" />{Number.isNaN(farm.horizonDays) ? "—" : farm.horizonDays} días</span>
-            <span className="pill">{farm.analysisMode === "climate" ? "Solo clima" : `${farm.current.length} ciclos a comparar`}</span>
+            <span className="pill">{farm.analysisMode === "climate" ? "Solo clima" : `${farm.current.length} ${farm.current.length === 1 ? "ciclo" : "ciclos"} en A${farm.alternatives.length ? ` · ${farm.alternatives.length} ${farm.alternatives.length === 1 ? "alternativa" : "alternativas"}` : ""}`}</span>
           </div>
           <button className="button big" type="submit" disabled={loading}>{loading ? "Consultando NASA POWER…" : farm.analysisMode === "climate" ? "Consultar clima NASA" : "Consultar clima y comparar"}<ArrowRight size={18} aria-hidden="true" /></button>
         </div>
@@ -319,7 +377,7 @@ export default function Workspace() {
           <p className="notice neutral">Horizonte común: {report.strategies[0].horizon.start} a {report.strategies[0].horizon.end} · intervalos de cultivo [siembra, cosecha). Prioridad: {report.input.priority}. No se aplica una puntuación sin validar.</p>
           <WaterBars report={report} />
           <p className="small muted scroll-hint">En pantallas pequeñas, desliza la tabla para ver B y C.</p>
-          <div className="table-scroll card flush" tabIndex={0} role="region" aria-label="Comparación desplazable de tres estrategias"><table className="comparison"><caption>Comparación descriptiva de estrategias. B y C son propuestas ilustrativas; requieren validar variedades y ventanas locales.</caption><thead><tr><th>Criterio</th>{report.strategies.map(s => <th key={s.id}><span className="strategy-id">{s.id}</span> {s.name}</th>)}</tr></thead><tbody>
+          <div className="table-scroll card flush" tabIndex={0} role="region" aria-label={`Comparación desplazable de ${report.strategies.length} estrategias`}><table className="comparison"><caption>Comparación descriptiva de estrategias. {report.coverage.demoAllowed ? "B y C son propuestas ilustrativas de la demo; requieren validar variedades y ventanas locales. " : ""}{report.strategies.some(s => s.userProposed) ? "Las alternativas propias son escenarios tuyos, no recomendaciones." : report.strategies.length === 1 ? "Solo hay una secuencia: añade alternativas en el paso 2 para compararlas." : ""}</caption><thead><tr><th>Criterio</th>{report.strategies.map(s => <th key={s.id}><span className="strategy-id">{s.id}</span> {s.name}</th>)}</tr></thead><tbody>
             <tr><th>Secuencia</th>{report.strategies.map(s => <td key={s.id}>{s.campaigns.map((c, i) => <div className="cycle" key={i}><span className={`crop-dot ${c.crop}`} /><div><strong>{catalog[c.crop].name}</strong><small>{c.start} → {c.end}<br />{c.origin}</small></div></div>)}</td>)}</tr>
             <tr><th>Estado</th>{report.strategies.map(s => <td key={s.id}><span className={`status ${s.status === "Incompatible" ? "bad" : ""}`}>{s.status}</span></td>)}</tr>
             <tr><th>Familias botánicas</th>{report.strategies.map(s => <td key={s.id}>{s.families}</td>)}</tr>

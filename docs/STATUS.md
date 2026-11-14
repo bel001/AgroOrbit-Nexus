@@ -13,6 +13,19 @@
 - Fichas INIA 619/404, MIDAGRI y FAO con edición/página, alcance y faltantes en UI/JSON. Frijol de demo: supuesto de 135 días a cosecha, sin confundir madurez fisiológica. Investigación: `research/VIRU_SOURCE_NOTES.md`.
 - JSON 2.1 trazable e impresión. Deck inglés de siete diapositivas y PDF verificado de siete páginas. Capa ESA WorldCover 2021 opcional; estado de teselas corregido y probado sin depender del mapa base.
 
+## Actualización 2026-11-14 (noche): usabilidad del flujo con terreno propio
+
+Revisión manual del recorrido como usuario nuevo (escritorio y móvil) y correcciones:
+
+- Errores de validación visibles (se centran y reciben foco) y redactados en lenguaje claro, sin nombres internos; aviso específico si falta la ubicación (`noValidate` sustituye la burbuja genérica del navegador). Los avisos se retiran al corregir un dato.
+- Mover el punto ya no devuelve el análisis a «Solo clima»; solo anula la plantilla regional.
+- Campañas nuevas: empiezan tras la anterior, duran el mínimo del rango FAO del cultivo y tienen procedencia «declarado» (antes: 1 día y «desconocido»).
+- Alternativas propias (hasta 2) para comparar con A fuera de Virú; validadas igual que A, marcadas como escenarios del usuario y no como recomendaciones. Informe JSON con `alternatives` (por defecto `[]`, compatible con perfiles anteriores).
+- Marcador del mapa: la animación movía el marcador a la esquina; corregido.
+- Textos: «Lo que ya sembraste», «Lo que planeas sembrar (A)» y ayuda sobre «Procedencia».
+- Pruebas: 94 unitarias (6 nuevas) y 25 e2e aprobadas (nueva `e2e/user-flow.spec.ts` en tres dispositivos), 2 omitidas deliberadamente; axe sin violaciones.
+- Pendiente: aviso si el punto cae en el mar, persistencia del formulario e importación del JSON.
+
 ## Actualización 2026-11-14 (tarde): demanda hídrica FAO-56
 
 - Nuevo `src/lib/water.ts`: ETo Hargreaves (FAO-56 ec. 52), Kc por etapas (tablas 11-12), ETc, lluvia de grilla y déficit bruto por campaña; grados-día base 10 °C para maíz y sorgo. Detalle y supuestos en METHODOLOGY.

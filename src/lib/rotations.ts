@@ -6,7 +6,7 @@ import { diagnoseHistory } from "./history-diagnostics";
 import { regionalEvidenceFor } from "./regional-evidence";
 import { waterBalance, type WaterBalance } from "./water";
 export type Check = { rule: string; status: "cumple" | "incumple" | "desconocido"; detail: string; source: string };
-export type Strategy = { id: string; name: string; campaigns: Campaign[]; horizon: { start: string; end: string }; checks: Check[]; status: "Viable bajo supuestos" | "Incompatible" | "Evaluación incompleta"; families: number; maxRepeat: number; idleDays: number | null; cropDays: number | null; waterDemandMm: number | null; water: WaterBalance | null };
+export type Strategy = { id: string; name: string; campaigns: Campaign[]; horizon: { start: string; end: string }; checks: Check[]; status: "Viable bajo supuestos" | "Incompatible" | "Evaluación incompleta"; families: number; maxRepeat: number; idleDays: number | null; cropDays: number | null; waterDemandMm: number | null; water: WaterBalance | null; userProposed?: boolean };
 export function maxRepeat(campaigns: Campaign[]) {
   let max = 0, run = 0, prev: CropId | undefined;
   for (const c of [...campaigns].sort((a, b) => a.start.localeCompare(b.start))) { run = c.crop === prev ? run + 1 : 1; max = Math.max(max, run); prev = c.crop; }
@@ -41,10 +41,13 @@ export function compareStrategies(input: Farm, climate: Climate | null) {
   const result = [evaluateStrategy(f, "A", "Secuencia aportada por el usuario", f.current, climate)];
   const coverage = resolveCoverage(f);
   const scenario = coverage.demoAllowed ? regionProfiles.find(r => r.id === coverage.profile?.id)?.scenario : null;
-  if (!scenario) return result;
-  for (const sequence of scenario.sequences) {
-    const campaigns: Campaign[] = sequence.crops.map((crop, i) => ({ crop, start: addDays(f.start, scenario.offsets[i]), end: addDays(f.start, scenario.offsets[i] + scenario.durations[crop]), origin: "estimado" }));
+  for (const sequence of scenario?.sequences ?? []) {
+    const campaigns: Campaign[] = sequence.crops.map((crop, i) => ({ crop, start: addDays(f.start, scenario!.offsets[i]), end: addDays(f.start, scenario!.offsets[i] + scenario!.durations[crop]), origin: "estimado" }));
     result.push(evaluateStrategy(f, sequence.id, sequence.name, campaigns, climate));
+  }
+  // Alternativas del usuario: letras consecutivas tras A y las de la demo.
+  for (const alt of f.alternatives) {
+    result.push({ ...evaluateStrategy(f, String.fromCharCode(65 + result.length), alt.name, alt.campaigns, climate), userProposed: true });
   }
   return result;
 }

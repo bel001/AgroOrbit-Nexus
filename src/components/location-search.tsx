@@ -28,7 +28,7 @@ export default function LocationSearch({ lat, lon, onSelect }: { lat: number; lo
       const data: PlaceSearch & { error?: string } = await response.json();
       if (action.current !== token) return;
       if (!response.ok) throw new Error(data.error ?? "No se pudo buscar la localidad.");
-      setResults(data.results); setMessage(data.results.length ? `${data.results.length} resultados. Selecciona la localidad más cercana.` : "Sin resultados. Prueba con otra localidad cercana o añade el país, por ejemplo: Córdoba, Argentina.");
+      setResults(data.results); setTimeout(() => document.querySelector(".place-results")?.scrollIntoView({ behavior: "smooth", block: "nearest" }), 60); setMessage(data.results.length ? `${data.results.length} resultados. Selecciona la localidad más cercana.` : "Sin resultados. Prueba con otra localidad cercana o añade el país, por ejemplo: Córdoba, Argentina.");
     } catch (e) { if (action.current === token) setError(e instanceof Error && e.name !== "AbortError" ? e.message : "La búsqueda se interrumpió. Vuelve a intentarlo."); }
     finally { if (action.current === token) setBusy(false); }
   }

@@ -10,6 +10,8 @@ export const cropId = z.enum(catalogCropIds);
 export const origin = z.enum(["declarado", "medido", "estimado", "desconocido"]);
 const optionalNumber = (min: number, max: number) => z.number().finite().min(min).max(max).nullable();
 export const campaignSchema = z.object({ crop: cropId, start: isoDate, end: isoDate, origin });
+export const alternativeSchema = z.object({ name: z.string().trim().min(1).max(60), campaigns: z.array(campaignSchema).min(1).max(12) });
+export type Alternative = z.infer<typeof alternativeSchema>;
 export const farmSchema = z.object({
   name: z.string().trim().min(1).max(80), lat: z.number().finite().min(-90).max(90), lon: z.number().finite().min(-180).max(180),
   areaHa: optionalNumber(0.001, 1_000_000), soil: z.enum(["desconocido", "arenoso", "franco", "arcilloso"]),
@@ -19,6 +21,8 @@ export const farmSchema = z.object({
   illustrative: z.boolean(), start: isoDate, horizonDays: z.number().int().min(30).max(731),
   analysisMode: z.enum(["climate", "regional"]).default("climate"), regionProfileId: z.string().max(80).nullable().default(null),
   history: z.array(campaignSchema).max(12), current: z.array(campaignSchema).max(12),
+  // Escenarios que propone el propio usuario para comparar con su secuencia A; no son recomendaciones.
+  alternatives: z.array(alternativeSchema).max(2).default([]),
 }).superRefine((f, ctx) => {
   if (f.analysisMode === "regional" && f.current.length === 0) ctx.addIssue({ code: "custom", path: ["current"], message: "Registra al menos una campaña para revisar una secuencia" });
   if (f.waterMm !== null && f.waterOrigin === "desconocido") ctx.addIssue({ code: "custom", path: ["waterOrigin"], message: "Indica la procedencia del agua o deja el dato vacío" });
@@ -42,5 +46,5 @@ export type Climate = {
   query: ClimateQuery; missing: Record<Variable, number>; warnings: string[]; spatialSupport: string;
 };
 export function newGlobalFarm(): Farm {
-  return { name: "Mi terreno", lat: NaN, lon: NaN, areaHa: null, soil: "desconocido", ph: null, soilOrigin: "desconocido", irrigation: "desconocido", waterMm: null, waterOrigin: "desconocido", priority: "diversidad", excluded: [], illustrative: false, start: "2024-01-01", horizonDays: 366, analysisMode: "climate", regionProfileId: null, history: [], current: [] };
+  return { name: "Mi terreno", lat: NaN, lon: NaN, areaHa: null, soil: "desconocido", ph: null, soilOrigin: "desconocido", irrigation: "desconocido", waterMm: null, waterOrigin: "desconocido", priority: "diversidad", excluded: [], illustrative: false, start: "2024-01-01", horizonDays: 366, analysisMode: "climate", regionProfileId: null, history: [], current: [], alternatives: [] };
 }
