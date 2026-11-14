@@ -1,6 +1,6 @@
 # Requisitos de producto — AgroOrbit Nexus
 
-**Estado:** requisitos planificados; no funcionalidad comprobada.
+**Estado actualizado 2026-11-14:** RF-01/02/03/04/06/08/09/10 tienen implementación y pruebas locales; RF-05/07 parciales por falta de calendario/variedad y reglas regionales. RF-11/12/13/14 pendientes; prioridad capturada sin ranking validado. Acceso público RNF-08 pendiente. Véanse STATUS y VALIDATION; la tabla siguiente conserva los criterios de aceptación, no acredita por sí sola su cierre.
 
 ## Requisitos funcionales
 

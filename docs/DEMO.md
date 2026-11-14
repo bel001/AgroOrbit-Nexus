@@ -1,50 +1,35 @@
-# Guion de demostración y preparación de entrega — AgroOrbit Nexus
+﻿# Demo y envío — AgroOrbit Nexus
 
-**Estado:** guion previsto; debe actualizarse para reflejar **solo funciones implementadas y verificadas**.
+Preparado 2026-11-14. No hay video, deck publicado, despliegue público ni comprobante de envío. Interfaz funcional local; catálogo sin validación agronómica regional.
 
-## 1. Historia que debe entender el jurado
+## Demostración reproducible
 
-> Un agricultor reporta tres campañas de maíz repetido en una parcela de La Libertad. AgroOrbit Nexus registra ese historial, consulta clima NASA y compara estrategias de rotación con criterios explícitos. No diagnostica degradación ni promete rendimientos, pero muestra qué alternativas merecen evaluación agronómica.
+Arrancar `npm run build` y `npm start`. Abrir http://127.0.0.1:3000, cargar caso ilustrativo de Virú, conservar su etiqueta, consultar clima, revisar 540 días reales de NASA, comparar A/B/C y descargar JSON. A tiene tres campañas de maíz; B y C dos familias. Estos conteos describen escenarios y no demuestran recuperación del suelo. Abrir restricciones para explicar los datos faltantes.
 
-El ejemplo es **ilustrativo** hasta que se seleccione un caso documentado. No inventar valores de una parcela, daños económicos ni resultados de satélite.
+Mostrar un descarte: en suelo/agua/preferencias excluir frijol y consultar de nuevo. B/C pasan a incompatibles por esa prohibición. Para demostrar ausencia total de suministro, agua = 0 mm y procedencia declarada; incluye lluvia. Agua desconocida no se cambia a cero. No afirmar ahorro ni suficiencia.
 
-## 2. Recorrido de demo del producto (para presentación extendida, si se permite)
+## Guion español (revisar duración al grabar)
 
-1. Mostrar el problema: repetición de cultivo y falta de información integrada.
-2. Seleccionar un terreno piloto y declarar las campañas anteriores.
-3. Consultar y mostrar una serie histórica **real** de NASA POWER con unidades.
-4. Ver los indicadores del historial (p. ej., campañas consecutivas de la misma especie).
-5. Comparar tres estrategias, explicando al menos una restricción real.
-6. Abrir el informe con fuentes, supuestos y datos que faltan.
-7. Si está **implementado**, enseñar el NDVI como contexto histórico y sus limitaciones.
+«AgroOrbit Nexus conecta la historia declarada de un terreno con clima histórico real de NASA POWER. En este caso ilustrativo de Virú comparamos tres secuencias en el mismo horizonte. Mostramos diversidad, restricciones y los datos que faltan, sin prometer rendimientos. Cada resultado conserva sus fuentes para revisarlo con un agrónomo».
 
-## 3. Guion breve orientativo (30 segundos)
+## English script
 
-> «Muchos agricultores repiten cultivos y deben decidir bajo incertidumbre climática. AgroOrbit Nexus combina datos históricos de NASA POWER, información de su terreno y reglas agronómicas para comparar estrategias de rotación. El usuario registra su historial, observa restricciones y recibe alternativas explicadas con fuentes y límites científicos. Nuestra prueba piloto está enfocada en La Libertad, Perú.»
+“AgroOrbit Nexus connects farmer-provided history with real NASA POWER historical climate. This illustrative Peru case compares three crop sequences over the same period. It shows diversity, constraints and evidence gaps, without predicting yields. Every result keeps its sources so farmers and agronomists can review the assumptions together.”
 
-**Adaptar el texto**: no decir «combina» o «recibe» como funcionalidad actual si todavía es solo diseño; en tal caso usar «estamos desarrollando».
+## Esquema de presentación de hasta siete diapositivas
 
-## 4. Material para jurado internacional
+1. Problema: decidir bajo información fragmentada; piloto ilustrativo, sin cifras de impacto inventadas.
+2. Usuario e historial: qué declaró y qué se desconoce.
+3. NASA: variables, periodo, unidades y límites de grilla; captura real.
+4. Comparación A/B/C: igual horizonte, fechas y familias.
+5. Restricciones: descarte por exclusión; calendario/suelo/agua sin validar.
+6. Evidencia técnica: pruebas, código MIT, fuentes y uso real de IA.
+7. Próximos pasos: agrónomo local, despliegue público y después HLS/NDVI con calidad temporal.
 
-Preparar al menos una descripción corta en inglés; si las reglas vigentes lo requieren, entregar los materiales principales en inglés. Ejemplo:
+## Verificación y envío del equipo
 
-> **AgroOrbit Nexus** is an explainable crop-rotation decision-support prototype. It connects NASA climate observations with farmer-provided crop history, soil context and transparent agronomic constraints to compare possible planting sequences, identify evidence gaps and support climate-resilient farm planning.
+La aclaración oficial [NASA Space Apps #1991](https://github.com/nasa/spaceapps/discussions/1991) indica video de **menos de 30 segundos** O presentación de máximo 7 diapositivas y enlaces separados a demo/producto. No se midió duración de un video: no se ha grabado. Confirmar el formulario y la [guía 2026](https://www.spaceappschallenge.org/resources/project-submission-guide/), cuyo acceso directo falló en esta sesión.
 
-## 5. Lista de entrega
+El extracto indexado de la [página oficial 2026](https://www.spaceappschallenge.org/2026/) confirma cierre el 15 de noviembre, 23:59 hora local. Confirmar zona de la sede. No traducirlo automáticamente en un plazo distinto para el equipo.
 
-- [ ] Nombre **AgroOrbit Nexus** consistente en aplicación, repo, capturas y descripción.
-- [ ] Enlace del proyecto públicamente accesible, sin permisos especiales.
-- [ ] Enlace a demo y presentación en el formato permitido.
-- [ ] Fuente de datos NASA identificada con enlace y uso concreto.
-- [ ] Historial/caso de prueba claramente etiquetado real o ilustrativo.
-- [ ] Componentes implementados separados de planes futuros.
-- [ ] Uso real de IA declarado, incluida IA generativa si se usó.
-- [ ] Fuentes, licencias y atribuciones verificadas.
-- [ ] Pruebas realizadas y limitaciones documentadas.
-- [ ] Campos del proyecto oficial completos antes del cierre.
-
-## 6. Reglas vigentes y fecha
-
-La [página oficial de NASA Space Apps 2026](https://www.spaceappschallenge.org/2026/) anuncia el evento para el **14–15 de noviembre de 2026** y cierre de entrega el **15 de noviembre a las 11:59 p. m., hora local**. Las aclaraciones publicadas por organizadores en [GitHub NASA Space Apps](https://github.com/nasa/spaceapps/discussions/1991) mencionan una demo de **hasta 30 segundos** o una presentación de **hasta 7 diapositivas** y enlace público. **Verificar el formulario y las reglas finales del evento antes de entregar**; las preguntas/respuestas pueden cambiar.
-
-No afirmar que NASA avala, valida o patrocina individualmente el producto ni usar su logotipo sin verificar condiciones de marca.
+Pasos: verificar registro/miembros y Field Shift → revisar condiciones/licencias/idioma/IA → publicar producto con endpoint servidor → grabar y publicar demo o slides → abrir ambos enlaces en ventana privada → completar ficha oficial, fuentes, límites y declaración IA → enviar antes del plazo → guardar comprobante con fecha/hora. Véase NASA_COMPLIANCE para qué está corroborado y qué sigue pendiente. Un push no completa este recorrido.

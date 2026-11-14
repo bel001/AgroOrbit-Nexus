@@ -1,6 +1,18 @@
 # Uso de inteligencia artificial — AgroOrbit Nexus
 
-**Estado:** documento de declaración a completar por el equipo antes de la entrega.
+**Estado 2026-11-14:** declaración de desarrollo real, pendiente de revisión humana y de campos finales del portal.
+
+## Uso ejecutado durante la implementación
+
+Codex (asistente basado en GPT-6; sin identificador de snapshot expuesto) leyó el prompt maestro y documentación, investigó fuentes oficiales, escribió TypeScript/React/CSS, reglas y pruebas, ejecutó comandos, inspeccionó capturas y preparó documentación/commits. Herramientas: terminal, navegador web de consulta, npm, Git/GitHub CLI, Impeccable y Playwright/axe. No se generaron imágenes ni observaciones satelitales sintéticas.
+
+Entradas de IA: instrucciones del equipo, documentos del repositorio, documentación pública NASA/FAO/librerías y datos meteorológicos públicos POWER. Perfil de demo expresamente ficticio. No hubo datos personales de agricultores ni entrenamiento de un modelo.
+
+Producto implementado: reglas deterministas e indicadores descriptivos; no usa API de IA en ejecución ni genera recomendaciones con un LLM. Tests automatizados y revisión del propio asistente no equivalen a revisión científica humana. El usuario eligió MIT; faltan validación agronómica local y revisión final del equipo.
+
+Declaración breve para adaptar al portal: «Utilizamos Codex para asistir en programación, pruebas y documentación. El producto consulta NASA POWER y aplica reglas deterministas trazables, sin modelo predictivo entrenado. El historial del caso piloto es ilustrativo. Conservamos incertidumbres y limitaciones; no validamos mejoras de rendimiento o ahorro hídrico».
+
+Las tablas originales siguientes describen la propuesta inicial; AgroMonitor, clustering y generación automática de explicaciones siguen sin implementarse.
 
 ## 1. Distinción técnica fundamental
 
@@ -8,8 +20,8 @@ La especificación propone un **sistema inteligente de apoyo a decisiones**, bas
 
 | Componente | Tipo de técnica | Estado |
 |---|---|---|
-| Rotation Intelligence | Reglas verificables y comparación/optimización con restricciones | Propuesto |
-| Comparador climático | Estadística descriptiva / escenarios históricos | Propuesto |
+| Rotation Intelligence | Reglas verificables y comparación con restricciones, sin optimización validada | Implementado; validación regional pendiente |
+| Comparador climático | Agregaciones descriptivas mensuales de series históricas | Implementado con NASA real |
 | AgroMonitor | Procesamiento de índices espectrales | Opcional, propuesto |
 | Clustering de años climáticos | Aprendizaje no supervisado | Posible ampliación; no implementado |
 | Redacción explicativa automática | Generación de lenguaje natural | Posible ampliación; no implementado |
@@ -25,7 +37,7 @@ No atribuir capacidad predictiva, «precisión del 95 %», entrenamiento ni opti
 | Herramienta/modelo | Actividad | Archivos o resultados | Revisión humana | Fecha |
 |---|---|---|---|---|
 | Asistente de IA (documentación) | Preparación de borradores Markdown | `README.md`, `docs/*.md`, `AGENTS.md`, `CONTRIBUTING.md` | Pendiente de revisión del equipo | 2026-11-14 |
-| Por completar | Por completar | Por completar | Por completar | Por completar |
+| Codex (GPT-6; snapshot no expuesto) | Programación, investigación, pruebas, inspección visual, documentación y Git | src/, tests/, e2e/, docs/, skills originales | Revisión del asistente; revisión humana y agronómica pendientes | 2026-11-14 |
 
 **No afirmar** que una IA programó, probó o entrenó componentes hasta que exista evidencia real.
 

@@ -1,6 +1,25 @@
 # Metodología científica — AgroOrbit Nexus
 
-**Estado:** reglas metodológicas propuestas. **No hay validación experimental ni agronómica del prototipo documentada todavía.**
+**Estado 2026-11-14:** reglas de integridad temporal, exclusión e indicadores implementados y probados en software. **No hay validación experimental ni agronómica local.**
+
+## Reglas efectivamente implementadas (versión p0-2026-11-14)
+
+Comparación histórica en 540 días. Se usan intervalos [siembra,cosecha), con fin exclusivo. La consulta NASA incluye desde inicio hasta fin menos un día. A es editable; B/C son supuestos de exploración, con inicios en días 0, 180 y 360. Duraciones supuestas: maíz 150, frijol 100, sorgo 125 días; no se estiman fechas de madurez del predio. Se muestran los rangos factuales de [FAO, tabla 6](https://www.fao.org/4/s2022e/s2022e07.htm); no se redistribuye el manual.
+
+| Regla | Aplicación / supuesto | Resultado / prueba |
+|---|---|---|
+| Intervalos y horizonte | Una misma superficie no admite dos campañas activas a la vez en este modelo simplificado; intercalados fuera de alcance | Solapamiento, orden inverso o campaña fuera del horizonte → incompatible; science.test.ts |
+| Exclusión | Prohibición expresa del usuario para cualquier cultivo de la secuencia | Incumplimiento → incompatible antes de considerar diversidad |
+| Agua total nula | El valor declarado incluye toda agua utilizable, también lluvia; no representa solo riego | 0 → incompatible por ausencia de suministro; null o cantidad positiva sin demanda → incompleta. No se establece umbral de insuficiencia inventado |
+| Suelo, térmica, ventanas locales | Sin ficha regional por variedad, drenaje y requisitos de suelo no se aplican umbrales universales | Desconocido, aun con datos NASA y pH aportados. Los rangos de ciclo solo orientan revisión |
+| Estado final | Incumplimiento esencial prevalece sobre faltantes; faltantes prevalecen sobre ventajas | Incompatible / evaluación incompleta. Con este catálogo no se certifica viabilidad; faltan reglas locales |
+| Historial | Registros ordenados por siembra. Fechas solapadas/inválidas o procedencia desconocida impiden racha interpretable | Conteo máximo null con advertencia; cero campañas significa cero registros, no ausencia demostrada de agricultura |
+| Indicadores | Familias distintas, repetición máxima y suma de días de cultivo válidos; intervalos sin cultivo = 540 − días registrados | Son descripciones de escenarios, sin equivalencia con cobertura real, salud de suelo o rendimiento |
+| Clima | Media mensual de T2M válida, suma de PRECTOTCORR válida; informar días válidos/total | Fill -999, ausentes y lluvia negativa → null; cero real conservado. Sin imputación ni pronóstico |
+
+No se usa ranking ponderado: la prioridad seleccionada organiza la conversación de revisión, sin modificar cálculos ni favorecer una alternativa por una puntuación no validada. La mejora P1 exige definir pesos con el equipo y probar sensibilidad.
+
+FAO-56 permanece referencia metodológica: no se implementó ETo/ETc porque faltan insumos locales y Kc pertinentes. El caso de poca agua positiva queda incompleto; no se afirma insuficiencia cuantificada. Validar con dos casos independientes de un agrónomo sigue pendiente.
 
 ## 1. Principio de evaluación
 

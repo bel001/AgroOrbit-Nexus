@@ -2,6 +2,8 @@
 
 **Fecha del plan:** 2026-11-14. **Evento:** NASA Space Apps Challenge, 14–15 de noviembre de 2026. El plan no constituye evidencia de tareas completadas.
 
+**Avance verificado en esta fecha:** recorrido P0 técnico local implementado y probado, con evaluación incompleta explícita en criterios sin fuentes regionales. Antes de comenzar P1 se requieren validación agronómica del catálogo/reglas, despliegue público y cierre de comprobaciones del concurso. No se implementaron HLS/NDVI ni capas agrícolas. Resultados y brechas concretas: STATUS y VALIDATION.
+
 ## P0 — MVP indispensable
 
 | Orden | Entrega | Condición de terminación |

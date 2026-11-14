@@ -1,12 +1,24 @@
 # Fuentes de datos y procedencia — AgroOrbit Nexus
 
-**Objetivo:** documentar qué fuentes se contemplan, qué permiten afirmar y qué **no** permiten afirmar. La selección de una fuente aquí **no prueba una integración técnica**.
+**Estado verificado 2026-11-14:** NASA POWER está integrado y fue consultado realmente. El catálogo usa rangos generales FAO. HLS, Dynamic World, GAEZ, MIDAGRI, SENAMHI y SoilGrids siguen como fuentes previstas, sin integración.
+
+## Evidencia de integración actual
+
+`npm run verify:nasa` guarda respuesta original y URL/fecha/unidades en `docs/evidence/power-viru-2024.json` y `power-request.json`: comunidad AG, T2M/T2M_MIN/T2M_MAX (C), PRECTOTCORR (mm/day), LST, API v2.10.3, 366 días de 2024, coordenadas -8.42/-78.75. Pruebas de navegador consultan además el horizonte 2024-01-01–2025-06-23 (540 días); el JSON exportado incluye consulta exacta y metadatos.
+
+Endpoint: `https://power.larc.nasa.gov/api/temporal/daily/point`. Es información meteorológica de grilla; no se interpreta como sensor de parcela. No se declara una resolución única para todos los productos. Conserva fuentes MERRA2/POWER, versión y escala temporal. Las series no demuestran causalidad agrícola.
+
+No se solicitan radiación, viento o humedad porque todavía no se aplica FAO Penman–Monteith. No se calcula ETo/ETc ni riego. Las fechas/variables ausentes quedan null. Meses parciales se muestran con días válidos y advertencia de agregación.
+
+Catálogo: [FAO Crop Water Needs, tabla 6](https://www.fao.org/4/s2022e/s2022e07.htm), rangos generales de ciclo; no se confirmó una fuente de calendario/variedad para Virú. Licencias y atribuciones en THIRD_PARTY_NOTICES. Accesos oficiales del concurso en NASA_COMPLIANCE; varios fallaron directamente aunque se recuperaron extractos indexados.
+
+Familias botánicas verificadas en Kew: [maíz, Poaceae](https://www.kew.org/plants/maize), [frijol, Fabaceae](https://www.kew.org/plants/common-bean), [sorgo, Poaceae](https://powo.science.kew.org/taxon/urn%3Alsid%3Aipni.org%3Anames%3A422090-1). Los enlaces taxonómicos se conservan por especie en el catálogo del JSON exportado. Solo se usan hechos taxonómicos, sin reproducir textos o imágenes de Kew.
 
 ## Matriz de fuentes
 
 | Fuente | Rol | Estado/prioridad | Advertencia clave |
 |---|---|---|---|
-| [NASA POWER](https://power.larc.nasa.gov/) | Clima histórico y variables agroclimáticas | P0 / integración por verificar | Grilla regional, no medición en parcela |
+| [NASA POWER](https://power.larc.nasa.gov/) | Clima histórico y variables agroclimáticas | P0 / integrado y probado, ver evidencias | Grilla regional, no medición en parcela |
 | [NASA HLS](https://hls.gsfc.nasa.gov/) | Reflectancia y series de vegetación (incl. índices derivados) | P1 / evaluación de acceso | No identifica automáticamente causas o especies |
 | [Dynamic World](https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_DYNAMICWORLD_V1) | Cobertura de suelo estimada, clase *crops* | P1 / fuente complementaria no NASA | Probabilidades de clasificación, no catastro |
 | [FAO-56](https://www.fao.org/4/X0490E/X0490E00.htm) | Método hídrico `ETc = Kc × ETo` | P0 / referencia metodológica | ETc no equivale al riego real |
@@ -61,4 +73,4 @@ Cada dato o indicador utilizado debe conservar: `provider`, `dataset`, `version`
 
 Antes de distribuir datos, capturas de mapa o teselas, verificar licencia y atribución vigentes del proveedor. No asumir que toda imagen abierta es reutilizable en cualquier formato. Registrar una comprobación de licencias en la entrega final.
 
-**Fecha de revisión de documentación:** 2026-11-14. **Integraciones:** no confirmadas por este paquete.
+**Fecha de revisión:** 2026-11-14. El bloque inicial describe las integraciones reales; la matriz de referencia histórica de abajo conserva fuentes propuestas que no deben darse por conectadas.

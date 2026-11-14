@@ -1,6 +1,22 @@
 # Arquitectura técnica propuesta — AgroOrbit Nexus
 
-**Estado:** propuesta; no se afirma que exista una implementación verificada.
+**Estado actualizado 2026-11-14:** implementación P0 local en Next.js 16 / React 19. El resto del documento conserva el diseño de referencia; las diferencias reales se detallan a continuación.
+
+## Implementación real
+
+- `src/lib/model.ts`: Zod, fechas y contratos GeoFarm/ClimateScope.
+- `src/lib/power.ts`: integración pública Daily/point, cuatro variables, validación de unidades, fill y calendario completo. Caché en memoria 24 h, máximo 64 consultas exactas y 4 peticiones concurrentes, deduplicación en vuelo y timeout 25 s. No es una cuota global ni caché compartida entre instancias; no se redondean coordenadas a celdas supuestas. Agrupación por celda nativa pendiente.
+- `src/lib/catalog.ts`: CropKnowledge, tres especies, rangos FAO generales; sin validación regional.
+- `src/lib/rotations.ts`: RotationIntelligence, indicadores SoilCare y salida WaterBalance incompleta. Funciones puras: `evaluateStrategy`, `compareStrategies`, `maxRepeat`, `buildReport`. No se calcula ETc.
+- `src/app/api/analyze/route.ts`: POST con validación servidor, cuerpo máximo 32 KiB y consulta histórica. Fallo NASA produce informe parcial con error explícito.
+- `src/components/workspace.tsx`: flujo sin login, edición de campañas, comparación, exportación JSON e impresión. Mapa y gráfica se cargan dinámicamente. Formularios nativos; no se añadió shadcn/ui para duplicar estos controles. Tailwind 4 y CSS con tokens.
+- `farm-map.tsx`: MapLibre y teselas OSM con atribución; coordenadas alternativas. Selección de punto, no catastro.
+- Worker MapLibre ESM autoalojado: postinstall copia el archivo y su BSD-3-Clause desde la versión fijada a `public/vendor/`. Se excluye este artefacto generado del lint y de Git; no se desactiva el lint de código propio.
+- `climate-chart.tsx`: Recharts y tabla alternativa con completitud mensual. Sin animación de datos.
+- Datos en memoria del navegador; sin base de datos ni almacenamiento persistente. API recibe perfil para procesar, consulta coordenadas/fechas a NASA; OSM recibe solicitudes de teselas. No se envían nombres del terreno a NASA.
+- AgroMonitor y capas agrícolas: no implementados. Despliegue externo pendiente.
+
+La comparación es una exploración histórica de 540 días. B/C usan inicios separados por 180 días y duraciones de escenario explícitas, dentro de rangos generales. No es una proyección ni un calendario recomendado.
 
 ## 1. Stack
 

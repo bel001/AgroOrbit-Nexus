@@ -1,77 +1,36 @@
-# Plan de validación — AgroOrbit Nexus
+﻿# Validación ejecutada — 2026-11-14
 
-> **Estado:** criterios y casos previstos. **No se han ejecutado pruebas de software ni ensayos de campo como parte de este paquete documental.** Registrar pruebas reales, comandos, resultados y evidencias cuando existan.
+Entorno: Windows/PowerShell, Node 24.20.0, npm 11.19.0, Next 16.4.6. Zona de registro humano America/Lima; timestamps JSON en UTC. URL de prueba http://127.0.0.1:3000, servidor de producción `npm start` después de compilar.
 
-## Objetivo
+| Comando / control | Resultado observado |
+|---|---|
+| `npm install`, instalación reproducible con package-lock | Instalación ejecutada; versiones fijadas. Worker se prepara en postinstall desde el paquete local |
+| `npm run verify:nasa` | HTTP 200 real, API v2.10.3, 366 días de 2024. URL, unidades y fecha en power-request.json; respuesta original en power-viru-2024.json |
+| `npm run verify:skills` | 4 SKILL.md con encabezados y nombres válidos. No se afirma un reinicio automático de Codex |
+| `npm test` | 40 pruebas aprobadas, 2 archivos. Contratos, fechas, null/cero/fill, lluvia negativa, unidades, calendario completo, API caída/timeout, deduplicación, restricciones y trazabilidad |
+| `npm run lint` | Sin errores ni advertencias tras correcciones |
+| `npm run typecheck` | Sin errores |
+| `npm run build` | Compilación producción correcta; página / y endpoint dinámico /api/analyze |
+| `npm run test:e2e` | 6 pruebas aprobadas: dos flujos en escritorio, móvil y tablet; última pasada corregida sin pageerror ni console.error en el flujo real |
+| axe vía e2e | Cero violaciones en etiquetas WCAG A/AA/2.1/2.2 seleccionadas, sobre los estados comprobados. No es certificación WCAG completa |
+| Impeccable `detect --json src/components src/app/globals.css` | Resultado [] en impeccable-detect.json; no es prueba suficiente de calidad visual por sí sola |
+| `node scripts/inspect-browser.mjs` | Clic mapa cambió latitud a -8.34621, primer foco en enlace de salto, JSON descargado con 540 días y tres estrategias, PDF de impresión generado; sin errores de consola tras corregir worker; advertencias GPU ReadPixels del entorno |
+| `node scripts/dependency-inventory.mjs` | 19 dependencias directas con versiones/licencias registradas |
+| `npm audit` | 0 vulnerabilidades tras override acotado de minimatch; no se utilizó audit fix --force |
+| `node scripts/verify-sources.mjs` | Registra acceso HTTP: páginas Space Apps fallaron; NASA Brand Guidelines 200. Búsqueda web recuperó extractos oficiales por separado |
 
-Demostrar que el prototipo integra datos NASA de forma correcta, gestiona incertidumbre y produce comparaciones agrícolas reproducibles, sin afirmar resultados que los datos no respaldan.
+## Flujos y controles reales de navegador
 
-## 1. Matriz de pruebas funcionales
+Identidad y título correctos, pantalla no vacía, sin overlay de Next. Editar coordenadas actualiza punto; cargar caso devuelve datos etiquetados. Consultar produce clima NASA real para 2024-01-01–2025-06-23, tres estrategias incompletas e informe descargable. Se verifica tabla mensual alternativa. Error NASA se inyecta en la respuesta de prueba, claramente como simulación de fallo; la prueba API usa fetch mock con HTTP 503 para verificar degradación servidor. Editar después del cálculo produce aviso de informe pendiente de actualizar.
 
-| ID | Caso | Resultado esperado | Prioridad |
-|---|---|---|---|
-| T-01 | Coordenada válida | Consulta permitida y perfil estructurado | P0 |
-| T-02 | Latitud fuera de rango | Error de validación, no solicitud a NASA | P0 |
-| T-03 | API NASA responde correctamente | Fechas, unidades, metadatos y valores visibles | P0 |
-| T-04 | NASA devuelve valores ausentes | Se muestran como desconocidos/no disponibles, nunca cero | P0 |
-| T-05 | Servicio NASA no responde | Mensaje claro y sin resultados simulados como reales | P0 |
-| T-06 | Secuencia con campañas solapadas | Detecta incompatibilidad o solicita aclaración | P0 |
-| T-07 | Falta pH o disponibilidad de riego | Evaluación incompleta si son criterios críticos | P0 |
-| T-08 | Tres rotaciones de distinto horizonte | Compara tras normalizar horizonte o bloquea comparación | P0 |
-| T-09 | Repetición de maíz declarada | Cuenta campañas consecutivas sin diagnosticar daño del suelo | P0 |
-| T-10 | Orden de prioridades cambia | Se actualiza decisión sin modificar los datos climáticos | P1 |
-| T-11 | HLS con escena nublada | Enmascara/no usa observación de mala calidad | P1 |
-| T-12 | NDVI en épocas no comparables | Advierte sesgo fenológico, evita conclusión causal | P1 |
-| T-13 | Parcela demasiado pequeña para HLS | Advierte limitación de píxeles y resultado no concluyente | P1 |
-| T-14 | Capa Dynamic World | Etiqueta predicción de cobertura, no título legal | P1 |
-| T-15 | Demo en móvil | Navegación, gráficas y formularios legibles | P0 |
+Chromium desktop 1280×720; Pixel 7 emulado (393×851 CSS); tablet 820×1180. Inspección adicional a 1440×1000 y 390×844, sin desbordamiento horizontal del documento; tablas con scroll interno y foco. Capturas completas desktop/mobile/tablet y capturas de primer viewport; se inspeccionaron visualmente. Móvil requiere desplazamiento lateral dentro de tabla comparativa, indicado en texto.
 
-## 2. Validación científica
+## Fallos encontrados y resueltos
 
-**Revisión agronómica requerida** para:
+La primera ejecución de tipado detectó import default de MapLibre no disponible; se sustituyó por namespace. Lint detectó export anónimo; corregido. Primera e2e: 2/6 aprobadas; tabla móvil sin foco y selector de alerta ambiguo. Se añadió tabIndex/región etiquetada y se acotó selector. Luego la inspección de consola encontró worker MapLibre fallido aunque mapa raster visible; se autoaloja el worker ESM instalado y se añaden aserciones console.error. Pasada posterior: 6/6 y consola sin errores de aplicación.
 
-- Elegir cultivos, variedades y ventanas para el piloto de La Libertad.
-- Confirmar fuentes de duración del ciclo y requisitos térmicos/hídricos.
-- Determinar cuándo una restricción es esencial o solo informativa.
-- Revisar tratamiento de leguminosas, suelo, plagas y continuidad de cultivo.
-- Contrastar los resultados del sistema con al menos dos casos preparados por un agrónomo (uno viable y otro incompatible) y registrar discrepancias.
+npm audit inicial: 7 avisos moderados en herramientas ESLint/minimatch. `npm audit fix` no bastó; override específico a minimatch 11.0.8, compatible con el Node usado, seguido de lint, tests y build. Resultado audit 0. npm informa que ESLint 9 está fuera de soporte; se conserva por compatibilidad con la configuración Next fijada y se debe revisar su actualización futura.
 
-**Revisión de índices de vegetación requerida** para:
+## Lo que no está probado
 
-- Producto HLS y bandas correctas; máscara de calidad y ausencia de nubes.
-- Comparabilidad estacional/fenológica.
-- Cantidad de píxeles y área de la parcela.
-- Claridad de los términos: «cambio de verdor» ≠ «degradación confirmada».
-
-## 3. Validación de datos
-
-Guardar para cada consulta: URL/referencia del origen, fecha, parámetros, unidades, versión y cantidad de muestras válidas. Verificar que datos faltantes y valores fuera de rango no entren a cálculos numéricos sin tratamiento explícito.
-
-## 4. Evidencias por adjuntar al ejecutar
-
-```text
-Fecha/hora de la prueba: PENDIENTE
-Commit o versión: PENDIENTE
-Entorno: PENDIENTE
-Comando o pasos: PENDIENTE
-Datos de entrada (sin información privada): PENDIENTE
-Resultado observado: NO EJECUTADO
-Resultado esperado: (ver matriz)
-Captura/log referenciado: PENDIENTE
-Responsable de revisión: PENDIENTE
-```
-
-## 5. Criterios de aceptación del MVP
-
-- [ ] Al menos un caso completo se ejecuta desde el formulario hasta el informe.
-- [ ] La consulta NASA POWER es real y reproducible.
-- [ ] Las alternativas muestran razones y restricciones específicas.
-- [ ] Se distingue evidencia real de escenario ilustrativo.
-- [ ] Se evita transformar datos desconocidos en números ficticios.
-- [ ] Interfaz pública probada en escritorio y móvil.
-- [ ] Los criterios científicos críticos tienen fuente y prueba.
-- [ ] La documentación describe con precisión lo efectivamente construido.
-
-## 6. Límites de la validación
-
-Pruebas de software y revisiones de un especialista **no demuestran** aumento de cosecha, ahorro real de agua, cambios en la salud del suelo o eficacia económica. Esos impactos requieren seguimiento de campo o evidencia independiente.
+Aptitud agronómica local, ensayos de campo, rendimiento, ahorro, balance hídrico, variedades/calendarios peruanos, NDVI, despliegue externo, envío NASA, Safari/Firefox ni dispositivos físicos. La impresión se generó como PDF en Chromium; no se probó impresora física. CI está configurada y su ejecución remota se registra separadamente tras subir código.

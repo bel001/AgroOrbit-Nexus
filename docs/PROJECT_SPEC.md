@@ -6,10 +6,10 @@
 
 **AgroOrbit Nexus — From Space to Soil** es una propuesta de plataforma web que transforma información ambiental de NASA y datos agrícolas locales en comparaciones de estrategias de rotación de cultivos. Integra el enfoque original de AgroOrbit AI con una mejora derivada de la mentoría: **mostrar y cuantificar indicadores de un problema antes de presentar alternativas**.
 
-**Desafío:** [NASA Space Apps 2026 — Field Shift: Adapting Farms with NASA Data](https://www.spaceappschallenge.org/2026/challenges/field-shift-adapting-farms-with-nasa-data/).  
-**Piloto:** zona por confirmar de Virú/La Libertad, Perú.  
-**Usuarios:** agricultor, técnico agrónomo, investigador/estudiante.  
-**Producto:** aplicación web responsiva y pública, inicialmente sin cuentas obligatorias.  
+**Desafío:** [NASA Space Apps 2026 — Field Shift: Adapting Farms with NASA Data](https://www.spaceappschallenge.org/2026/challenges/field-shift-adapting-farms-with-nasa-data/).
+**Piloto:** zona por confirmar de Virú/La Libertad, Perú.
+**Usuarios:** agricultor, técnico agrónomo, investigador/estudiante.
+**Producto:** aplicación web responsiva y pública, inicialmente sin cuentas obligatorias.
 **Enfoque:** asistencia para decisiones, no prescripción agronómica automática.
 
 ## 2. Problema central refinado

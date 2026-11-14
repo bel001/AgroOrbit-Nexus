@@ -1,60 +1,24 @@
-# Despliegue y operación — AgroOrbit Nexus
+﻿# Despliegue y operación
 
-> **Estado:** procedimiento propuesto. No se dispone en este paquete de código fuente compilado, instalación verificada ni sitio desplegado.
+Actualizado: 2026-11-14. Compilación y servidor de producción local verificados; **no hay URL pública de despliegue probada**.
 
-## 1. Entorno propuesto
+## Operación reproducible
 
-- Aplicación Next.js / React / TypeScript.
-- Dependencias concretas y versiones: **por establecer al iniciar el repositorio de código**.
-- Hosting tentativo: Vercel u otro proveedor compatible con rutas de servidor y mapas.
-- Datos NASA POWER consultados con políticas de caché y validación.
-- HLS / Dynamic World: integrar solo tras verificar autenticación, cuotas y licencia.
+Node.js 24 y npm. `npm ci`, `npm run build`, `npm start`. URL local http://127.0.0.1:3000. Para desarrollo `npm run dev`. El script fija 127.0.0.1 para pruebas locales. No hay variables obligatorias ni API keys: POWER es público y OSM se carga interactivamente. La aplicación necesita salida HTTPS a ambos servicios.
 
-## 2. Preparación antes de publicar
+La caché de clima es por proceso, máximo 64 consultas exactas durante 24 h, 4 peticiones en vuelo y timeout 25 s. No constituye limitación global distribuida. El cuerpo del perfil se valida en servidor (32 KiB). No se persisten perfiles; los informes JSON pueden contener nombre y coordenadas aportados por el usuario: compartirlos conscientemente.
 
-1. Crear/confirmar el proyecto de código y el `package.json` real.
-2. Validar en el entorno de desarrollo: compilación, tipado, pruebas y recorrido completo.
-3. Configurar variables de entorno solo si las APIs/proveedores reales las necesitan.
-4. No guardar tokens ni claves en el repo; usar gestor de secretos del proveedor.
-5. Comprobar límites, tiempos de respuesta y fallos de NASA POWER.
-6. Comprobar atribución de mapas y recursos satelitales.
-7. Publicar versión y verificar el enlace externo sin iniciar sesión.
-8. Actualizar [`STATUS.md`](STATUS.md) con URL probada, fecha, comandos y evidencias.
+## Publicar en un proveedor compatible con Next.js
 
-## 3. Variables de entorno
+1. Importar el repositorio en una cuenta autorizada de Vercel u otro servicio con rutas de servidor Node. GitHub Pages estático no ejecuta este endpoint.
+2. Seleccionar Node 24; instalación `npm ci`, build `npm run build`. En contenedor propio, ejecutar `npx next start --hostname 0.0.0.0 --port 3000` y colocar TLS/proxy del proveedor. No exponer el servidor de desarrollo.
+3. Reservar tiempo de ejecución superior al timeout NASA (al menos 35 s). Para tráfico compartido, añadir rate limit/caché externos y proveedor de teselas apropiado: los límites actuales son por instancia.
+4. Respetar políticas y atribución OSM; no precargar teselas. Verificar disponibilidad de NASA desde la región de alojamiento.
+5. Probar sin login en ventana privada: mapa/coordenadas, consulta NASA, error visible, tres estrategias y descarga JSON. Revisar móvil y teclado.
+6. Registrar URL, commit, fecha y capturas del servicio público en STATUS. No sustituir una URL prevista por una publicación comprobada.
 
-**Pendientes de definir.** No crear variables ficticias ni introducir credenciales de producción en documentación. La API NASA POWER de consulta pública podría no requerir un token para su uso básico, pero verificar la política vigente y el endpoint implementado.
+No se creó una cuenta de hosting ni se realizó despliegue. No hubo credenciales de hosting verificadas en esta sesión. GitHub Actions comprueba código, pero no despliega ni envía al portal NASA.
 
-## 4. Comandos de despliegue
+## Degradación segura
 
-**No indicados todavía:** dependerán del código, scripts y entorno realmente creados. Sustituir esta sección después de inspeccionar `package.json` y ejecutar instalación, verificación y compilación. No afirmar que un comando pasó sin ejecutarlo.
-
-## 5. Pruebas posteriores a la publicación
-
-- [ ] Acceso a página inicial sin cuenta.
-- [ ] Mapa y formulario operativos.
-- [ ] Endpoint del clima responde con datos reales y procedencia.
-- [ ] Consulta errónea muestra mensaje claro.
-- [ ] Tres estrategias se comparan correctamente.
-- [ ] Informe muestra fuentes y supuestos.
-- [ ] Móvil y escritorio probados.
-- [ ] Enlaces de GitHub y demo accesibles a jurados externos.
-- [ ] Licencias/atribuciones completas.
-
-## 6. Fallos conocidos y degradación segura
-
-- **POWER no disponible:** mostrar indisponibilidad; no sustituir por datos fingidos.
-- **NDVI no disponible:** ocultar o marcar P1 como no disponible; el núcleo P0 debe seguir funcionando.
-- **Datos locales incompletos:** emitir «evaluación incompleta» cuando corresponda.
-- **Capa agrícola sin probabilidad suficiente:** no mostrar superficie como certeza.
-
-## 7. Información real de despliegue
-
-```text
-Proveedor: PENDIENTE
-URL: PENDIENTE
-Commit/versión: PENDIENTE
-Fecha de publicación: PENDIENTE
-Pruebas ejecutadas: NINGUNA REGISTRADA
-Responsable: PENDIENTE
-```
+NASA caída: error explícito e informe sin clima. Teselas/WebGL no disponibles: coordenadas editables y advertencia. Datos locales incompletos: no certificar viabilidad. HLS/NDVI: P1 sin implementación. Recargar página descarta cambios en memoria; el JSON descargado conserva el informe, sin importador de perfiles todavía.
