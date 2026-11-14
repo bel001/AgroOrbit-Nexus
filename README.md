@@ -2,7 +2,7 @@
 
 Plataforma agrícola de alcance mundial: clima histórico NASA POWER para coordenadas globales y análisis agrícola condicionado a la evidencia regional. Virú, Perú, es solo la demostración inicial. Sin login ni base de datos.
 
-**Estado al 14 de noviembre de 2026:** recorrido funcional local implementado. No se considera una recomendación agronómica validada: faltan variedades, calendarios y requisitos locales. HLS/NDVI y despliegue público pendientes. El caso de Virú es ilustrativo; el clima se consulta realmente.
+**Publicado y verificado el 14 de noviembre de 2026:** [abrir AgroOrbit Nexus]([dirección retirada]) · [demo de siete diapositivas en inglés]([dirección retirada]/submission/index.html) · [PDF]([dirección retirada]/submission/agroorbit-nexus-demo.pdf). También funciona en localhost. Clima NASA real; Virú ilustrativo con fichas INIA/MIDAGRI/FAO, sin validación agronómica de parcela o rotaciones. HLS/NDVI pendiente. Sin envío NASA comprobado.
 
 ## Ejecutar
 
@@ -44,7 +44,7 @@ Con `npm start` en otra terminal, ejecutar `npm run test:e2e`. Las pruebas de na
 
 ## Alcance científico
 
-- Catálogo de tres especies con rangos generales FAO. No se confirmó calendario/variedad del piloto de La Libertad; las fechas B/C son supuestos de exploración.
+- Catálogo general FAO separado de fichas INIA 619/404 y contexto MIDAGRI. Variedades candidatas documentadas, sin identificar la realmente sembrada ni validar calendario local. Frijol de demo: supuesto de 135 días hasta cosecha, no 98 de madurez fisiológica. Fuentes/páginas/límites visibles y exportados.
 - Horizonte común configurable; la demo mantiene 540 días. Intervalos [siembra,cosecha), conteos de repetición/familias e intervalos sin cultivo registrado.
 - No se calcula ETo/ETc, ahorro de riego, nitrógeno fijado, rentabilidad, rendimiento ni daño del suelo. Un presupuesto positivo de agua no demuestra suficiencia.
 - La prioridad guía la revisión; no existe puntuación ni ranking validado. En el catálogo actual ninguna alternativa se certifica viable.

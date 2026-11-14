@@ -1,0 +1,42 @@
+{
+  "verifiedAt": "2026-11-14T20:09:23.041Z",
+  "project_id": "[retirado]",
+  "source_commit": "66f2ace530db3a045050786881d2c0677f408b7b",
+  "version_id": "[retirado]~[retirado]",
+  "version_number": 2,
+  "deployment_id": "[retirado]",
+  "status": "succeeded",
+  "url": "[dirección retirada]",
+  "access_mode": "public",
+  "archive_sha256": "sha256:a4586eae7ff3a660ac424f0c2676f3e5fc2190c2a500718d8bcb313ea881124f",
+  "initialReleaseIssue": "Versión 1 sufrió doble compresión; corregido encodeBody manual en versión 2, con verificación de contenido descomprimido.",
+  "verification": {
+    "httpContentChecks": 6,
+    "browser": {
+      "passed": 22,
+      "skipped": 2,
+      "failed": 0,
+      "reportedDuration": "1.5m",
+      "engine": "Playwright Chromium",
+      "viewports": [
+        "desktop",
+        "Pixel 7 emulated",
+        "tablet"
+      ],
+      "realServices": [
+        "NASA POWER",
+        "Open-Meteo geocoding",
+        "ESA WorldCover"
+      ],
+      "axeViolations": 0,
+      "scope": "Estados probados; no certificación WCAG ni hardware GPS."
+    },
+    "NASAExample": {
+      "retrievedAt": "2026-11-14T20:05:36.572Z",
+      "days": 540,
+      "coverage": "partial",
+      "recommendationsAllowed": false
+    },
+    "officialSubmission": false
+  }
+}

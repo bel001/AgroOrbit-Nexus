@@ -21,7 +21,7 @@ La primera pasada completa tuvo 21 aprobadas, 1 fallo y 2 omitidas: estado ESA a
 
 ## Publicación y sincronización
 
-Sitio registrado con manifiesto persistido; acceso público autorizado por el usuario y configurado. **Aún no hay despliegue público verificado en este punto del registro.** Resultado definitivo y URL: DEPLOYMENT. `main`, origin esperado GitHub; commits de ciencia/alojamiento creados. Sincronización final y CI se registran al cerrar en DELIVERY.
+**Sitio público verificado:** [dirección retirada]. Versión 2, fuente `66f2ace530db3a045050786881d2c0677f408b7b`. Se corrigió doble compresión descubierta en la primera publicación. Verificación posterior sin sesión: seis comprobaciones de contenido/API y **22 e2e aprobadas, 2 omitidas, 0 fallos**, aproximadamente 1,5 minutos. NASA real, demo/exportación, localidades, capa ESA y axe en tres tamaños. Evidencia: `evidence/public-http.json`, `evidence/public-deployment.json` e informes/capturas de la última suite pública. Acceso público autorizado y confirmado; Next local sigue en 3000. `main` y CI finales: DELIVERY.
 
 ## Límites científicos y operativos
 

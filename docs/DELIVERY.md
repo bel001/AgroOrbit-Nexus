@@ -1,44 +1,42 @@
-# Entrega comprobada — 2026-11-14
+# Entrega verificable — 2026-11-14
 
-Estado: recorrido funcional **local** implementado y probado; validación agronómica regional y despliegue público pendientes. No se declara el cierre científico completo de P0 ni se inicia P1.
+Producto público: [dirección retirada]. [Demo inglesa de siete diapositivas]([dirección retirada]/submission/index.html) y [PDF]([dirección retirada]/submission/agroorbit-nexus-demo.pdf). Sin login; Next local también disponible en http://127.0.0.1:3000 mientras el proceso esté activo. No hay envío NASA comprobado.
 
-## Repositorio y sincronización
+## Resultado funcional y científico
 
-Directorio inicial con 16 documentos, sin aplicación ni `.git`; remoto público vacío. Se preservó la documentación original en el primer commit. Cuenta GitHub `bel001` verificada; no se almacenaron credenciales. Rama `main`; origin exacto `https://github.com/bel001/AgroOrbit-Nexus.git`.
+Mapa mundial, buscador de localidades, coordenadas/GPS, registro agrícola, NASA POWER real, indicadores de historial, comparación regional y JSON/impresión. Recorrido visible de cinco pasos. Catálogo general separado de fichas INIA 619/404, contexto MIDAGRI y FAO: edición/página, alcance, procedencia y faltantes en pantalla e informe.
 
-Se ejecutó fetch y se comprobó que no había ramas remotas antes de `git push -u origin main`. Push exitoso; `HEAD` y `refs/heads/main` remota coincidían en `1a40ec5b5738ff32e9b42e4bb9d9e17ea48b70d9`. No se utilizó force ni se sobrescribió historial remoto. Este registro añade un commit documental posterior; el hash definitivo se comprueba en GitHub y con `git log`.
+La demo de Virú tiene datos agrícolas ilustrativos. El frijol supone 135 días hasta cosecha; 98 es madurez fisiológica en su ficha candidata. No se identifica variedad realmente sembrada ni se valida la secuencia. Maíz tiene duración dependiente de estación/variedad; sorgo carece de evidencia local suficiente. Conteos de registros/familias/transiciones no son daños comprobados. Ninguna región habilita recomendaciones. No se calcula ahorro, ETc, rendimiento, rentabilidad o recuperación del suelo. HLS/NDVI no se priorizó.
 
-| Commit | Mensaje |
+## Pruebas y publicación
+
+78 unitarias/API; lint, tipado, cuatro skills verificables, npm audit sin vulnerabilidades y ambos builds aprobados. Worker local: 22 e2e aprobadas, 2 omitidas. Next local: tres comprobaciones adicionales de escritorio aprobadas. **URL pública: seis comprobaciones de contenido/API y 22 e2e aprobadas, dos omitidas, cero fallos**, en Chromium escritorio, Pixel 7 y tablet emulados; NASA/geocoding/ESA reales, exportación y axe. No certifica WCAG, dispositivos físicos, carga masiva ni agronomía.
+
+Sites versión 2 corresponde a `66f2ace530db3a045050786881d2c0677f408b7b`. La primera publicación detectó doble compresión; se corrigió y se verificó HTML/JS/PDF descomprimidos antes de repetir toda la suite pública. Estado nativo succeeded, audiencia public. Metadatos, fuente, hash del artefacto y resultados en `evidence/public-deployment.json` y `public-http.json`. Capturas e informes más recientes proceden de las pruebas públicas. DEPLOYMENT permite reproducir ambos destinos.
+
+## Commits de esta consolidación
+
+| Commit | Cambio |
 |---|---|
-| 7d04d0c | docs: conservar especificación y documentación inicial del proyecto |
-| 4832d30 | feat(ciencia): integrar NASA POWER y evaluar rotaciones con trazabilidad |
-| c4c3cec | feat(interfaz): completar recorrido del terreno al informe explicable |
-| 95eab28 | feat(skills): incorporar Impeccable y procedimientos científicos originales |
-| 44fa415 | style(skills): normalizar espacios de referencias sin alterar instrucciones |
-| 5ea84ad | test(mvp): verificar flujo NASA en tres tamaños y añadir CI |
-| 1a40ec5 | docs: registrar metodología real, licencias y pendientes de entrega NASA |
+| `f83a3f9` | Fuentes varietales oficiales e indicadores cuantificables de repetición |
+| `41ff17c` | Destino público con lógica compartida, estado ESA corregido, CI con ambos builds y deck de siete slides |
+| `4f25264` | Requisitos NASA corroborados/pendientes, revisión Impeccable y evidencia de pruebas |
+| `66f2ace` | Corrección de doble compresión Cloudflare y comprobación de contenido público |
 
-Revisión previa: diff --check, archivos staged y patrones habituales de secretos. Ningún token, archivo .env real ni binario Impeccable se versionó. `.env.example` contiene solo explicación sin claves.
+Los commits documentales posteriores registran publicación, evidencias y sincronización; no cambian el código desplegado. El historial anterior se conserva. `origin` permanece `https://github.com/bel001/AgroOrbit-Nexus.git`, rama main. No se fuerza el historial; el helper de Sites usa su destino por separado sin reemplazar origin. Credenciales temporales solo por stdin, sin persistencia.
 
-## Verificación remota
+Push seguro comprobado: `178b321` → `66f2ace` en main; `ls-remote` coincidió con HEAD. [Actions 43635932990](https://github.com/bel001/AgroOrbit-Nexus/actions/runs/43635932990) concluyó **success** para `66f2ace`: instalación, skills, tipado, lint, 78 tests y builds Next/Worker en Linux. Los commits siguientes registran evidencia y ajuste de impresión; su sincronización se comprueba de nuevo al terminar. Las pruebas con servicios reales se ejecutaron sobre servidores local/público, no en Actions.
 
-[GitHub Actions 43625941228](https://github.com/bel001/AgroOrbit-Nexus/actions/runs/43625941228) **success**, job quality en Linux: `npm ci`, `verify:skills`, `typecheck`, `lint`, `npm test` y `npm run build`. Detalles guardados en evidence/github-ci.json. E2E con datos NASA se ejecutaron localmente, no en este workflow.
+La inspección final del PDF generado al imprimir el HTML público detectó una octava página vacía, aunque el PDF descargable siempre tuvo siete. Se eliminó el salto tras la última diapositiva y se ocultan elementos de hosting al imprimir. La prueba de navegador ahora exige exactamente siete páginas, además de siete secciones HTML; se verificó primero en Next local. La siguiente versión pública incorpora esa corrección sin alterar datos ni motor agrícola.
 
-Anotaciones informativas del runner: acciones v4 usan runtime Node 20 migrado a 24 por GitHub; aviso de transición de imagen ubuntu-latest. El runtime del proyecto se seleccionó en Node 24. No causaron fallos. ESLint 9 conserva compatibilidad con la configuración Next fijada, con aviso npm de fin de soporte; revisar mantenimiento posterior.
+## Skills y revisión
 
-## Producto, ciencia y calidad
+Impeccable de proyecto (context/audit/polish/detect), tres skills Nexus y plugin oficial Sites. Investigación documental acotada delegada; integración/verificación/publicación desde el agente principal. Fuentes, versiones y licencias en SKILLS. MIT para código original, Apache-2.0 conservada para Impeccable; condiciones de datos/documentos/servicios separadas. No hay imágenes/videos generados. Codex declarado en AI_USAGE y deck; reglas deterministas sin LLM en ejecución.
 
-- Implementado: mapa y coordenadas, perfil/historial/procedencia, NASA POWER real, gráfica y tabla, tres estrategias históricas, restricciones, indicadores y reporte JSON/imprimible.
-- Probado: 40 unitarias/API, 6 e2e en Chromium escritorio/móvil/tablet, axe sin violaciones en los estados evaluados, detector Impeccable [], consola sin errores de aplicación tras corregir worker. Capturas e informes en evidence/. No hubo ensayos de campo ni certificación WCAG completa.
-- NASA: Daily/point, AG/LST, T2M/T2M_MIN/T2M_MAX en C y PRECTOTCORR en mm/day, API v2.10.3; grilla regional, sin medición del predio. Fixture real de 366 días y consulta UI de 540 días.
-- Catálogo: rangos generales FAO, familias Kew. Calendarios/variedades locales y balance hídrico no validados; se conserva evaluación incompleta. No se calculan ETc, ahorros, productividad, nitrógeno fijado ni rentabilidad.
-- Skills: Impeccable CLI 4.9.1 instalado en proyecto (skill 4.9.0, motor 0.1.23), más tres procedimientos originales MIT; uso y licencias en SKILLS. Skills oficiales/plugin usadas desde el entorno, sin copiar sus textos.
-- MIT elegida por el usuario, atribuciones en THIRD_PARTY_NOTICES, declaración real de Codex en AI_USAGE. Reglas Space Apps parcialmente verificadas mediante fuentes oficiales indexadas y aclaraciones; lectura íntegra bloqueada, ver NASA_COMPLIANCE.
+## Intervención humana pendiente
 
-La búsqueda regional encontró un extracto oficial de condiciones agrometeorológicas enero 2024 con contexto de frijol/Laredo, pero [el PDF](https://cdn.www.gob.pe/uploads/document/file/5676659/5038894-condiciones-agrometeorologicas-2023-2024.pdf) devolvió 403 al abrirlo. No se extrajeron umbrales ni ventanas locales de ese extracto, ni se generalizaron a Virú.
+1. Agrónomo y productor: confirmar parcela/historial, variedad, suelo/salinidad/drenaje, calendario y agua por periodo; validar la secuencia antes de usarla para decidir.
+2. Equipo: abrir guía/condiciones y Resources de Field Shift; confirmar que POWER sea una fuente admitida para Global Awards (lista específica no recuperada), sede, miembros, elegibilidad, fechas y campos del formulario. Aclaraciones oficiales y sus límites en NASA_COMPLIANCE.
+3. Revisar borrador inglés SUBMISSION, citas/licencias y declaración IA; pegar enlaces separados a producto y demo, enviar desde la cuenta registrada y guardar comprobante. No compartir credenciales; la publicación y GitHub no realizan el envío NASA.
 
-## Pendientes para publicación y concurso
-
-No existe URL pública de aplicación verificada. El repositorio público es código, no hosting. DEPLOYMENT detalla cómo desplegar Next con backend y ejecutar comprobaciones externas. La app local queda en http://127.0.0.1:3000 mientras el proceso de esta sesión siga activo.
-
-El equipo debe: validar fuentes/reglas con agrónomo; abrir guía/condiciones 2026 y confirmar registro, idioma y hora de sede; desplegar y verificar enlaces sin login; producir video de menos de 30 s o hasta 7 slides según aclaración oficial y confirmar formulario; completar ficha Field Shift con datos NASA, licencias y declaración IA; enviar y guardar comprobante antes del cierre confirmado. DEMO incluye guion ES/EN. No se publicó demo ni se envió al portal NASA.
+No se garantiza servicio masivo: caché/límites por instancia y proveedores públicos sujetos a condiciones. Interfaz completa aún en español; sin importador JSON, persistencia de perfiles, Safari/iOS o ensayo con agricultores. No se afirman precisión, beneficios productivos ni aceptación al concurso.

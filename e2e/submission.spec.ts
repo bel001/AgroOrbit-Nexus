@@ -12,5 +12,9 @@ test("presentación inglesa de siete diapositivas accesible e imprimible", async
   const result = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"]).analyze();
   expect(result.violations.map(v => v.id)).toEqual([]);
   await page.screenshot({ path: `docs/evidence/submission-${info.project.name}.png`, fullPage: true });
-  if (info.project.name === "desktop") await page.pdf({ path: "docs/evidence/submission-seven-slides.pdf", printBackground: true, preferCSSPageSize: true });
+  if (info.project.name === "desktop") {
+    const pdf = await page.pdf({ path: "docs/evidence/submission-seven-slides.pdf", printBackground: true, preferCSSPageSize: true });
+    // Chromium emits uncompressed page dictionaries. Count Page, excluding Pages.
+    expect(pdf.toString("latin1").match(/\/Type\s*\/Page\b/g)?.length).toBe(7);
+  }
 });

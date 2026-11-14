@@ -16,7 +16,11 @@ El plugin oficial Sites registra identidad en `.openai/hosting.json`, sincroniza
 
 ## Resultado de publicación
 
-Sitio registrado, audiencia pública configurada conforme a petición del usuario. **Publicación pendiente de ejecución y verificación.** No presentar la URL prevista como un despliegue probado. Se completará aquí el resultado real, versión, commit y pruebas del enlace.
+**Publicado y comprobado sin sesión:** [dirección retirada]. Sites versión 2, fuente `66f2ace530db3a045050786881d2c0677f408b7b`, despliegue `[retirado]`, estado nativo `succeeded` a 2026-11-14T20:04:55Z, audiencia pública. Commits documentales posteriores describen esta publicación; no cambian el código servido.
+
+La versión 1 devolvía assets con doble gzip: Cloudflare recomprimía bytes ya comprimidos. Corregido con `encodeBody: manual`, según [Response de Cloudflare](https://developers.cloudflare.com/workers/runtime-apis/response/). Se verificó contenido descomprimido HTML/JS y firma PDF, no solo HTTP 200. Worker corregido: 1 673 431 bytes.
+
+`node scripts/verify-public.mjs [dirección retirada]`: seis comprobaciones aprobadas, incluidas validación API/métodos. Suite Playwright sobre URL pública: **22 aprobadas, 2 omitidas y 0 fallos** (1,5 min), con NASA/geocoding/ESA reales y axe. Se descargó desde la interfaz el informe de 540 días NASA, consultado a 20:05:36Z. Omitidas: repeticiones ESA en móvil/tablet. Registro en `evidence/public-deployment.json` y `public-http.json`. Sin prueba de carga masiva ni certificación WCAG.
 
 Producto: `/`. Demo de siete diapositivas: `/submission/index.html` (también `/submission/` en Worker). PDF: `/submission/agroorbit-nexus-demo.pdf`. La presentación no realiza el envío al portal NASA.
 
