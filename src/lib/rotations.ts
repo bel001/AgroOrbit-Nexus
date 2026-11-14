@@ -1,5 +1,7 @@
 import { catalog, FAO_CYCLES, FAO56 } from "./catalog";
 import { addDays, daysBetween, farmSchema, type Campaign, type Climate, type Farm, type CropId } from "./model";
+import { regionProfiles, resolveCoverage } from "./regions";
+import { worldCover } from "./sources";
 export type Check = { rule: string; status: "cumple" | "incumple" | "desconocido"; detail: string; source: string };
 export type Strategy = { id: string; name: string; campaigns: Campaign[]; horizon: { start: string; end: string }; checks: Check[]; status: "Viable bajo supuestos" | "Incompatible" | "Evaluación incompleta"; families: number; maxRepeat: number; idleDays: number | null; cropDays: number | null; waterDemandMm: null };
 export function maxRepeat(campaigns: Campaign[]) {
@@ -13,11 +15,11 @@ export function evaluateStrategy(f: Farm, id: string, name: string, campaigns: C
   const add = (rule: string, status: Check["status"], detail: string, source: string) => checks.push({ rule, status, detail, source });
   const sorted = [...campaigns].sort((a, b) => a.start.localeCompare(b.start));
   const validDates = sorted.every((c, i) => c.start < c.end && c.start >= f.start && c.end <= end && (i === 0 || c.start >= sorted[i - 1].end));
-  add("Integridad temporal", validDates ? "cumple" : "incumple", `Intervalos [siembra, cosecha) sin solapamiento dentro de ${f.start} a ${end} (540 días).`, "docs/METHODOLOGY.md §5 · convención de software");
+  add("Integridad temporal", validDates ? "cumple" : "incumple", `Intervalos [siembra, cosecha) sin solapamiento dentro de ${f.start} a ${end} (${f.horizonDays} días).`, "docs/METHODOLOGY.md §5 · convención de software");
   const forbidden = sorted.filter(c => f.excluded.includes(c.crop));
   add("Exclusiones del productor", forbidden.length ? "incumple" : "cumple", forbidden.length ? forbidden.map(c => catalog[c.crop].name).join(", ") : "Sin cultivos prohibidos en la secuencia.", "Perfil declarado del terreno");
   add("Duración orientativa", "desconocido", sorted.map(c => { const crop = catalog[c.crop]; const d = daysBetween(c.start, c.end); return `${crop.name}: ${d} días; referencia general ${crop.days.join("–")} días${d < crop.days[0] || d > crop.days[1] ? ", fuera del rango de referencia: revisar variedad" : ""}`; }).join(". "), FAO_CYCLES);
-  add("Calendario y variedad local", "desconocido", "No hay ventanas de siembra ni variedades validadas para la parcela piloto. Las fechas propuestas son supuestos editables.", FAO_CYCLES);
+  add("Calendario y variedad local", "desconocido", "No hay ventanas de siembra ni variedades validadas para esta ubicación y periodo. No se extrapolan reglas de otro país o hemisferio.", FAO_CYCLES);
   add("Compatibilidad de suelo", "desconocido", `Textura: ${f.soil}; pH: ${f.ph ?? "desconocido"} (${f.soilOrigin}). Falta ficha regional por variedad y drenaje.`, "Perfil + docs/METHODOLOGY.md §5");
   add("Agua utilizable", f.waterMm === 0 ? "incumple" : "desconocido", f.waterMm === 0 ? "Se declararon 0 mm de agua total utilizable durante todo el horizonte, incluida lluvia. No existe suministro para establecer los cultivos." : `Agua total: ${f.waterMm === null ? "desconocida" : `${f.waterMm} mm (${f.waterOrigin})`}. Demanda e insuficiencia no cuantificables sin ETo, Kc por etapa y balance local.`, FAO56);
   const sameClimate = climate && climate.query.lat === f.lat && climate.query.lon === f.lon && climate.query.start <= f.start && climate.query.end >= addDays(end, -1);
@@ -29,14 +31,22 @@ export function evaluateStrategy(f: Farm, id: string, name: string, campaigns: C
 }
 export function compareStrategies(input: Farm, climate: Climate | null) {
   const f = farmSchema.parse(input);
-  const generate = (crops: CropId[]): Campaign[] => crops.map((crop, i) => ({ crop, start: addDays(f.start, i * 180), end: addDays(f.start, i * 180 + catalog[crop].scenarioDays), origin: "estimado" }));
-  return [evaluateStrategy(f, "A", "Secuencia de referencia", f.current, climate), evaluateStrategy(f, "B", "Alternancia con leguminosa", generate(["maize", "bean", "maize"]), climate), evaluateStrategy(f, "C", "Tres especies candidatas", generate(["maize", "sorghum", "bean"]), climate)];
+  if (f.analysisMode === "climate") return [];
+  const result = [evaluateStrategy(f, "A", "Secuencia aportada por el usuario", f.current, climate)];
+  const coverage = resolveCoverage(f);
+  const scenario = coverage.demoAllowed ? regionProfiles.find(r => r.id === coverage.profile?.id)?.scenario : null;
+  if (!scenario) return result;
+  for (const sequence of scenario.sequences) {
+    const campaigns: Campaign[] = sequence.crops.map((crop, i) => ({ crop, start: addDays(f.start, scenario.offsets[i]), end: addDays(f.start, scenario.offsets[i] + scenario.durations[crop]), origin: "estimado" }));
+    result.push(evaluateStrategy(f, sequence.id, sequence.name, campaigns, climate));
+  }
+  return result;
 }
 export function buildReport(farm: Farm, climate: Climate | null) {
   const invalidHistory = farm.history.some((c, i, a) => c.start >= c.end || a.some((d, j) => i !== j && c.start < d.end && d.start < c.end));
   const knownHistory = farm.history.filter(c => c.origin !== "desconocido");
-  return { schemaVersion: "1.0", methodologyVersion: "p0-2026-11-14", createdAt: new Date().toISOString(), input: farm, history: { count: farm.history.length, knownCount: knownHistory.length, maxRepeat: invalidHistory || knownHistory.length !== farm.history.length ? null : maxRepeat(knownHistory), overlappingOrInvalid: invalidHistory }, climate, strategies: compareStrategies(farm, climate), catalog,
+  return { schemaVersion: "2.0", methodologyVersion: "global-2026-11-14", createdAt: new Date().toISOString(), input: farm, coverage: resolveCoverage(farm), contextualSources: [{ ...worldCover, usedInAgronomicEvaluation: false, access: "Capa visual opcional; su activación en el mapa no implica uso en cálculos" }], history: { count: farm.history.length, knownCount: knownHistory.length, maxRepeat: invalidHistory || knownHistory.length !== farm.history.length ? null : maxRepeat(knownHistory), overlappingOrInvalid: invalidHistory }, climate, strategies: compareStrategies(farm, climate), catalog,
     priority: { selected: farm.priority, effect: "No altera observaciones ni emite un ranking; orienta qué dimensión revisar." },
-    limitations: ["Sin validación agronómica local ni ensayos de campo.", "Rangos FAO generales; no son calendarios de La Libertad.", "Días sin cultivo registrado no implican suelo desnudo.", "No se calcula ETc, ahorro, rendimiento, nitrógeno fijado ni rentabilidad.", "La historia agrícola no se infiere por satélite. HLS/NDVI no implementado."] };
+    limitations: ["Sin validación agronómica local ni ensayos de campo; ninguna región tiene análisis agronómico validado actualmente.", "Rangos FAO generales; no son calendarios regionales ni recomendaciones de cultivos.", "Días sin cultivo registrado no implican suelo desnudo.", "No se calcula ETc, ahorro, rendimiento, nitrógeno fijado ni rentabilidad.", "La historia agrícola no se infiere por satélite. Series HLS/NDVI no implementadas."] };
 }
 export type EvidenceReport = ReturnType<typeof buildReport>;

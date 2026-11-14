@@ -1,0 +1,16 @@
+import { mkdir, writeFile } from "node:fs/promises";
+const layer = "esa-worldcover-map-10m-2021-v2_map";
+const capabilitiesUrl = "https://titiler.terrascope.be/wms?request=GetCapabilities&service=WMS";
+const cap = await fetch(capabilitiesUrl, { signal: AbortSignal.timeout(40_000) });
+if (!cap.ok) throw new Error(`Capabilities HTTP ${cap.status}`);
+const xml = await cap.text();
+const block = xml.match(new RegExp(`<Layer[^>]*>\\s*<Name>${layer}</Name>[\\s\\S]*?</Layer>`))?.[0];
+if (!block || !block.includes("2021-01-01")) throw new Error("Capa o periodo no anunciado por el servicio");
+const tileUrl = `https://titiler.terrascope.be/wms?service=WMS&version=1.3.0&request=GetMap&layers=${layer}&time=2021-01-01&styles=&format=image/png&transparent=true&width=256&height=256&crs=EPSG:3857&bbox=-10018754,-5009377,-5009377,0`;
+const response = await fetch(tileUrl, { headers: { Origin: "http://127.0.0.1:3000" }, signal: AbortSignal.timeout(40_000) });
+const bytes = new Uint8Array(await response.arrayBuffer());
+if (!response.ok || bytes.slice(0, 8).join(",") !== "137,80,78,71,13,10,26,10") throw new Error(`No es tesela PNG válida, HTTP ${response.status}`);
+await mkdir("docs/evidence/global", { recursive: true });
+await writeFile("docs/evidence/global/worldcover-tile.png", bytes);
+await writeFile("docs/evidence/global/worldcover-service.json", JSON.stringify({ retrievedAt: new Date().toISOString(), capabilitiesUrl, advertisedLayer: block, tileUrl, status: response.status, contentType: response.headers.get("content-type"), cors: response.headers.get("access-control-allow-origin"), bytes: bytes.length, use: "Contexto visual. No se extrae una especie ni un diagnóstico causal." }, null, 2));
+console.log(`WorldCover real: HTTP ${response.status}, PNG ${bytes.length} bytes, capa/fecha verificadas en GetCapabilities.`);

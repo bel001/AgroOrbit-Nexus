@@ -1,11 +1,12 @@
 import { z } from "zod";
+import { catalogCropIds } from "./catalog";
 
 export const DAY = 86_400_000;
 export function dateMs(s: string) { return Date.parse(`${s}T00:00:00Z`); }
 export function addDays(s: string, days: number) { return new Date(dateMs(s) + days * DAY).toISOString().slice(0, 10); }
 export function daysBetween(start: string, end: string) { return Math.round((dateMs(end) - dateMs(start)) / DAY); }
 export const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/).refine(s => Number.isFinite(dateMs(s)) && new Date(dateMs(s)).toISOString().slice(0, 10) === s, "Fecha inválida");
-export const cropId = z.enum(["maize", "bean", "sorghum"]);
+export const cropId = z.enum(catalogCropIds);
 export const origin = z.enum(["declarado", "medido", "estimado", "desconocido"]);
 const optionalNumber = (min: number, max: number) => z.number().finite().min(min).max(max).nullable();
 export const campaignSchema = z.object({ crop: cropId, start: isoDate, end: isoDate, origin });
@@ -14,10 +15,12 @@ export const farmSchema = z.object({
   areaHa: optionalNumber(0.001, 1_000_000), soil: z.enum(["desconocido", "arenoso", "franco", "arcilloso"]),
   ph: optionalNumber(0, 14), soilOrigin: origin, irrigation: z.enum(["desconocido", "secano", "goteo", "gravedad"]),
   waterMm: optionalNumber(0, 100_000), waterOrigin: origin,
-  priority: z.enum(["diversidad", "agua", "continuidad"]), excluded: z.array(cropId).max(3),
-  illustrative: z.boolean(), start: isoDate, horizonDays: z.literal(540),
-  history: z.array(campaignSchema).max(12), current: z.array(campaignSchema).length(3),
+  priority: z.enum(["diversidad", "agua", "continuidad"]), excluded: z.array(cropId).max(100),
+  illustrative: z.boolean(), start: isoDate, horizonDays: z.number().int().min(30).max(731),
+  analysisMode: z.enum(["climate", "regional"]).default("climate"), regionProfileId: z.string().max(80).nullable().default(null),
+  history: z.array(campaignSchema).max(12), current: z.array(campaignSchema).max(12),
 }).superRefine((f, ctx) => {
+  if (f.analysisMode === "regional" && f.current.length === 0) ctx.addIssue({ code: "custom", path: ["current"], message: "Registra al menos una campaña para revisar una secuencia" });
   if (f.waterMm !== null && f.waterOrigin === "desconocido") ctx.addIssue({ code: "custom", path: ["waterOrigin"], message: "Indica la procedencia del agua o deja el dato vacío" });
   if ((f.ph !== null || f.soil !== "desconocido") && f.soilOrigin === "desconocido") ctx.addIssue({ code: "custom", path: ["soilOrigin"], message: "Indica la procedencia del suelo o deja los datos desconocidos" });
 });
@@ -38,10 +41,6 @@ export type Climate = {
   retrievedAt: string; version: string; sources: string[]; timeStandard: string; fillValue: number;
   query: ClimateQuery; missing: Record<Variable, number>; warnings: string[]; spatialSupport: string;
 };
-export const exampleFarm: Farm = {
-  name: "Parcela ilustrativa · Virú", lat: -8.42, lon: -78.75, areaHa: null,
-  soil: "desconocido", ph: null, soilOrigin: "desconocido", irrigation: "desconocido", waterMm: null, waterOrigin: "desconocido",
-  priority: "diversidad", excluded: [], illustrative: true, start: "2024-01-01", horizonDays: 540,
-  history: [2021, 2022, 2023].map(y => ({ crop: "maize", start: `${y}-01-01`, end: `${y}-05-31`, origin: "estimado" })),
-  current: [0, 180, 360].map(offset => ({ crop: "maize", start: addDays("2024-01-01", offset), end: addDays("2024-01-01", offset + 150), origin: "estimado" })),
-};
+export function newGlobalFarm(): Farm {
+  return { name: "Mi terreno", lat: NaN, lon: NaN, areaHa: null, soil: "desconocido", ph: null, soilOrigin: "desconocido", irrigation: "desconocido", waterMm: null, waterOrigin: "desconocido", priority: "diversidad", excluded: [], illustrative: false, start: "2024-01-01", horizonDays: 366, analysisMode: "climate", regionProfileId: null, history: [], current: [] };
+}
