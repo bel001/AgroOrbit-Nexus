@@ -1,6 +1,6 @@
 "use client";
 import dynamic from "next/dynamic";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   AlertCircle, ArrowDown, ArrowRight, Check, CloudRain, Download, Droplets, Leaf, MapPin,
   Play, Printer, RotateCcw, Satellite, Sprout, Thermometer, CalendarDays, Plus, Trash2, ShieldCheck, Users,
@@ -192,15 +192,15 @@ export default function Workspace() {
 
 function WorkspaceView({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
   const t: T = (es, en) => lang === "en" ? en : es;
-  const initialFarm = useRef<Farm>(newGlobalFarm());
+  const [initialFarm] = useState<Farm>(newGlobalFarm);
   const [latestEnd, setLatestEnd] = useState<string | null>(null);
-  const [farm, setFarm] = useState<Farm>(() => initialFarm.current);
+  const [farm, setFarm] = useState<Farm>(initialFarm);
   // The page is prerendered at build time: compute "the last 12 months" in the browser, not at build.
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- date-dependent default, browser only
-    setFarm(f => f === initialFarm.current ? { ...f, ...latestPeriod(365) } : f);
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- date-dependent default, browser only (page is prerendered)
+    setFarm(f => f === initialFarm ? { ...f, ...latestPeriod(365) } : f);
     setLatestEnd(latestPeriod().end);
-  }, []);
+  }, [initialFarm]);
   const [report, setReport] = useState<EvidenceReport | null>(null);
   const [errors, setErrors] = useState<string[]>([]);
   const [climateError, setClimateError] = useState<string | null>(null);
