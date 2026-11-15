@@ -210,6 +210,8 @@ input[type="checkbox"], input[type="radio"] { accent-color: var(--brand); }
 .segmented span b { display: block; }
 .segmented small { color: var(--ink-2); font-weight: 400; }
 .period { max-width: 560px; }
+.period-actions { display: flex; gap: var(--s3) var(--s4); align-items: center; flex-wrap: wrap; margin: var(--s3) 0; }
+.period-actions p { margin: 0; flex: 1; min-width: 260px; }
 .campaign-block { margin-top: var(--s5); padding-top: var(--s5); border-top: 1px solid var(--line); }
 .campaign-block h3 { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 .count-pill { font-size: var(--text-xs); font-weight: 700; color: var(--brand-strong); background: var(--brand-tint); border-radius: var(--r-pill); padding: 3px 10px; }

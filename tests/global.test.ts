@@ -44,3 +44,19 @@ describe("Alcance global y aislamiento regional", () => {
   it("el catálogo admite nuevas especies sin modificar un enum del motor", () => { const extended = createCropCatalog({ ...catalog, "test-crop": { ...catalog.bean, name: "Especie de prueba, no catálogo real" } }); expect(extended["test-crop"]).toBeDefined(); expect(catalog["test-crop"]).toBeUndefined(); });
   it("idioma adicional y fallback no alteran identificadores científicos", () => { expect(localizedName({ es: "Maíz", en: "Maize", fr: "Maïs" }, "fr")).toBe("Maïs"); expect(localizedName(catalog.maize.names, "sw")).toBe("Maíz grano"); });
 });
+
+describe("Clima reciente", () => {
+  it("el último periodo termina 3 días antes de hoy (latencia de NASA POWER) y dura lo pedido", async () => {
+    const { latestPeriod, addDays, daysBetween } = await import("@/lib/model");
+    const p = latestPeriod(365, new Date("2026-11-15T15:00:00Z"));
+    expect(p.end).toBe("2026-11-12");
+    expect(p.start).toBe("2025-11-13");
+    expect(daysBetween(p.start, p.end) + 1).toBe(365);
+    expect(addDays(p.start, p.horizonDays - 1)).toBe(p.end);
+  });
+  it("produce una consulta NASA válida para la fecha actual", async () => {
+    const { latestPeriod, climateQuerySchema, addDays } = await import("@/lib/model");
+    const p = latestPeriod();
+    expect(climateQuerySchema.safeParse({ lat: 0, lon: 0, start: p.start, end: addDays(p.start, p.horizonDays - 1) }).success).toBe(true);
+  });
+});

@@ -1,11 +1,11 @@
 "use client";
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   AlertCircle, ArrowDown, ArrowRight, Check, CloudRain, Download, Droplets, Leaf, MapPin,
   Play, Printer, RotateCcw, Satellite, Sprout, Thermometer, CalendarDays, Plus, Trash2, ShieldCheck, Users,
 } from "lucide-react";
-import { addDays, farmSchema, newGlobalFarm, type Farm, type CropId, type Campaign, type Alternative } from "@/lib/model";
+import { addDays, farmSchema, latestPeriod, newGlobalFarm, POWER_LATENCY_DAYS, type Farm, type CropId, type Campaign, type Alternative } from "@/lib/model";
 import { exampleFarm } from "@/lib/examples/viru";
 import { catalog } from "@/lib/catalog";
 import { monthlyClimate } from "@/lib/power";
@@ -13,7 +13,7 @@ import LocationSearch from "./location-search";
 import HistoryEvidence from "./history-evidence";
 import RegionalEvidence from "./regional-evidence";
 import PriorityRanking from "./priority-ranking";
-import { BottomLine, ElNinoTable, EXPLORATION_LABEL, ExplorationTag, SoilCards, ViruWaterContext, WaterCard, useStrategyName } from "./insights";
+import { BottomLine, ElNinoTable, EXPLORATION_LABEL, SoilCards, ViruWaterContext, WaterCard, useStrategyName } from "./insights";
 import { DEFAULT_WEIGHTS, rankStrategies, type Weights } from "@/lib/priorities";
 import { CountUp, OrbitArt } from "./motion";
 import { LangProvider, useNum, useT, type Lang } from "./i18n";
@@ -126,6 +126,12 @@ function useLanguage(): [Lang, (l: Lang) => void] {
   return [lang, choose];
 }
 
+/** New global analysis: the most recent 12 months NASA POWER should have complete. */
+function freshGlobalFarm(): Farm {
+  const { start, horizonDays } = latestPeriod(365);
+  return { ...newGlobalFarm(), start, horizonDays };
+}
+
 function SectionHeading({ step, title, text, children }: { step: number; title: string; text: string; children?: React.ReactNode }) {
   return <div className="section-title">
     <div className="section-title-text"><h2><span className="step-num" aria-hidden="true">{step}</span>{title}</h2><p>{text}</p></div>
@@ -175,7 +181,7 @@ function ComparisonTable({ report }: { report: EvidenceReport }) {
       <tr><th>{t("Días sin cultivo registrado", "Days without a recorded crop")}</th>{report.strategies.map(s => <td key={s.id}>{s.idleDays ?? t("No calculable", "Not computable")}</td>)}</tr>
       <tr><th>{t("Grados-día por campaña", "Degree-days per campaign")}</th>{report.strategies.map(s => <td key={s.id}>{s.water ? s.water.campaigns.map((c, i) => <div key={i}><small>{t(catalog[c.crop].names.es, catalog[c.crop].names.en)}: {c.gdd === null ? (c.gddBaseC === null ? t("sin base térmica documentada", "no documented base temperature") : t("datos incompletos", "incomplete data")) : `${num(Math.round(c.gdd))} °C·${t("día", "day")} (base ${c.gddBaseC} °C)`}</small></div>) : t("No calculable", "Not computable")}</td>)}</tr>
       <tr className="row-muted"><th>{t("Lluvia del modelo en campañas", "Model rainfall in campaigns")}</th>{report.strategies.map(s => <td key={s.id}>{mmCell(s.water?.rainMm)}</td>)}</tr>
-      <tr className="row-muted"><th>{t("Validación", "Validation")}</th>{report.strategies.map(s => <td key={s.id}>{s.status === "Incompatible" ? <span className="status bad">{t("Incompatible", "Incompatible")}</span> : <span className="status-secondary" lang="en">{EXPLORATION_LABEL}</span>}</td>)}</tr>
+      <tr className="row-muted"><th>{t("Validación", "Validation")}</th>{report.strategies.map(s => <td key={s.id}>{s.status === "Incompatible" ? <span className="status bad">{t("Incompatible", "Incompatible")}</span> : <span className="status-secondary">{t("Sin validación agronómica regional", "No regional agronomist validation")}</span>}</td>)}</tr>
     </tbody></table></div></>;
 }
 
@@ -186,7 +192,15 @@ export default function Workspace() {
 
 function WorkspaceView({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
   const t: T = (es, en) => lang === "en" ? en : es;
-  const [farm, setFarm] = useState<Farm>(() => newGlobalFarm());
+  const initialFarm = useRef<Farm>(newGlobalFarm());
+  const [latestEnd, setLatestEnd] = useState<string | null>(null);
+  const [farm, setFarm] = useState<Farm>(() => initialFarm.current);
+  // The page is prerendered at build time: compute "the last 12 months" in the browser, not at build.
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- date-dependent default, browser only
+    setFarm(f => f === initialFarm.current ? { ...f, ...latestPeriod(365) } : f);
+    setLatestEnd(latestPeriod().end);
+  }, []);
   const [report, setReport] = useState<EvidenceReport | null>(null);
   const [errors, setErrors] = useState<string[]>([]);
   const [climateError, setClimateError] = useState<string | null>(null);
@@ -290,7 +304,7 @@ function WorkspaceView({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => vo
         <section id="terreno" className="section card">
           <SectionHeading step={1} title={t("Conozcamos el terreno", "Find the field")} text={t("Busca una localidad, usa tu ubicación o haz clic en el mapa.", "Search for a place, use your location or click on the map.")}>
             <div className="report-actions">
-              <button type="button" className="button ghost" disabled={loading} onClick={() => { setFarm(newGlobalFarm()); setDirty(true); setErrors([]); }}><RotateCcw size={16} aria-hidden="true" />{t("Nuevo análisis global", "New global analysis")}</button>
+              <button type="button" className="button ghost" disabled={loading} onClick={() => { setFarm(freshGlobalFarm()); setDirty(true); setErrors([]); }}><RotateCcw size={16} aria-hidden="true" />{t("Nuevo análisis global", "New global analysis")}</button>
               <button type="button" className="button secondary" disabled={loading} onClick={() => { setFarm(structuredClone(exampleFarm)); setDirty(true); setErrors([]); }}>{t("Cargar caso ilustrativo", "Load illustrative case")}</button>
             </div>
           </SectionHeading>
@@ -338,6 +352,8 @@ function WorkspaceView({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => vo
             <label>{t("Inicio del periodo", "Period start")}<input type="date" required value={farm.start} onChange={e => update({ start: e.target.value })} /></label>
             <label>{t("Duración del periodo (días)", "Period length (days)")}<input type="number" required min="30" max="731" value={Number.isNaN(farm.horizonDays) ? "" : farm.horizonDays} onChange={e => update({ horizonDays: e.target.value === "" ? NaN : Number(e.target.value) })} /></label>
           </div>
+          <div className="period-actions"><button type="button" className="button ghost" onClick={() => update(latestPeriod(365))}><CalendarDays size={16} aria-hidden="true" />{t("Últimos 12 meses", "Last 12 months")}</button>
+            <p className="small muted">{t(`NASA POWER publica los datos diarios con unos ${POWER_LATENCY_DAYS} días de retraso: lo más reciente disponible es hasta el ${latestEnd ?? "…"}. Los días aún no publicados aparecen como faltantes, nunca como cero.`, `NASA POWER publishes daily data with about ${POWER_LATENCY_DAYS} days of delay: the most recent available data run to ${latestEnd ?? "…"}. Days not yet published show as missing, never as zero.`)}</p></div>
           <p className="small muted">{t("El periodo climático es configurable. No se asignan calendarios de cultivo por país o hemisferio sin evidencia.", "The climate period is configurable. No crop calendars are assigned by country or hemisphere without evidence.")}</p>
 
           <div className="campaign-block" id="registro">
@@ -434,7 +450,7 @@ function WorkspaceView({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => vo
           <WaterCard report={report} tariff={tariff} onTariff={setTariff} />
           <SoilCards report={report} />
           <ElNinoTable report={report} />
-          <p className="notice neutral small">{t("Horizonte común", "Common horizon")}: {report.strategies[0].horizon.start} → {report.strategies[0].horizon.end} · {t("intervalos de cultivo [siembra, cosecha)", "crop intervals [sowing, harvest)")}. <ExplorationTag /></p>
+          <p className="notice neutral small">{t("Horizonte común", "Common horizon")}: {report.strategies[0].horizon.start} → {report.strategies[0].horizon.end} · {t("intervalos de cultivo [siembra, cosecha)", "crop intervals [sowing, harvest)")}.</p>
           <ComparisonTable report={report} />
           <p className="small muted">{t("Demanda hídrica: ETo de Hargreaves (FAO-56, ec. 52) con temperaturas NASA POWER × Kc genéricos de FAO-56 (tablas 11 y 12). Es la demanda de un cultivo sano en condiciones estándar, no una necesidad de riego validada. Grados-día: método promedio (McMaster y Wilhelm, 1997).", "Water demand: Hargreaves ET0 (FAO-56 eq. 52) from NASA POWER temperatures × generic FAO-56 Kc (tables 11–12). It is the demand of a healthy crop under standard conditions, not a validated irrigation requirement. Degree-days: averaging method (McMaster & Wilhelm, 1997).")}</p>
           <div className="accordion">{report.strategies.map(s => <details key={s.id} className="strategy-details"><summary>{s.id} · {t("Restricciones y explicación", "Constraints and explanation")} · {s.checks.filter(c => c.status === "incumple").length} {t("incumplidas", "failed")}</summary>{lang === "en" && <p className="small muted">Rule details are written in Spanish.</p>}<ul className="check-list">{s.checks.map(c => <li key={c.rule} className={`check-${c.status}`}>{c.status === "cumple" ? <Check size={18} aria-hidden="true" /> : <AlertCircle size={18} aria-hidden="true" />}<div><strong>{c.rule} · {c.status}</strong><p>{c.detail}</p><small>{t("Fuente", "Source")}: {c.source.startsWith("https://") ? <a href={c.source} target="_blank" rel="noreferrer">{t("Referencia metodológica", "Method reference")}</a> : c.source}</small></div></li>)}</ul></details>)}</div>

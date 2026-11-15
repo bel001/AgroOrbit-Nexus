@@ -47,6 +47,14 @@ export type Climate = {
   /** Present only when a stored NASA POWER response replaced an unavailable live request. */
   snapshot?: { retrievedAt: string; reason: string };
 };
+/** NASA POWER daily data arrive with a few days of latency (checked 2026-11-15: last valid day = today − 3). */
+export const POWER_LATENCY_DAYS = 3;
+/** The most recent period of `days` days that NASA POWER is expected to have complete. */
+export function latestPeriod(days = 365, today: Date = new Date()) {
+  const todayIso = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate())).toISOString().slice(0, 10);
+  const end = addDays(todayIso, -POWER_LATENCY_DAYS);
+  return { start: addDays(end, -(days - 1)), horizonDays: days, end };
+}
 export function newGlobalFarm(): Farm {
   return { name: "Mi terreno", lat: NaN, lon: NaN, areaHa: null, soil: "desconocido", ph: null, soilOrigin: "desconocido", irrigation: "desconocido", waterMm: null, waterOrigin: "desconocido", priority: "diversidad", excluded: [], illustrative: false, start: "2024-01-01", horizonDays: 366, analysisMode: "climate", regionProfileId: null, history: [], current: [], alternatives: [] };
 }
