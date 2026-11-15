@@ -1,7 +1,7 @@
 {
   "schemaVersion": "2.2",
   "methodologyVersion": "fao56-water-2026-11-14",
-  "createdAt": "2026-11-15T21:01:10.751Z",
+  "createdAt": "2026-11-15T22:33:02.898Z",
   "input": {
     "name": "Mi terreno",
     "lat": -34.5,
@@ -2666,7 +2666,7 @@
     },
     "source": "NASA POWER Daily · comunidad AG",
     "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CT2M_MIN%2CT2M_MAX%2CPRECTOTCORR&community=AG&longitude=146.5&latitude=-34.5&start=20251113&end=20261112&format=JSON&time-standard=LST",
-    "retrievedAt": "2026-11-15T21:00:20.684Z",
+    "retrievedAt": "2026-11-15T22:31:44.984Z",
     "version": "v2.10.3",
     "sources": [
       "MERRA2",

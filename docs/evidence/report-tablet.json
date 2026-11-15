@@ -1,7 +1,7 @@
 {
   "schemaVersion": "2.2",
   "methodologyVersion": "fao56-water-2026-11-14",
-  "createdAt": "2026-11-15T21:02:26.090Z",
+  "createdAt": "2026-11-15T22:35:05.828Z",
   "input": {
     "name": "Parcela ilustrativa · Virú",
     "lat": -8.42,
@@ -4001,7 +4001,7 @@
     },
     "source": "NASA POWER Daily · comunidad AG",
     "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CT2M_MIN%2CT2M_MAX%2CPRECTOTCORR&community=AG&longitude=-78.75&latitude=-8.42&start=20240101&end=20250623&format=JSON&time-standard=LST",
-    "retrievedAt": "2026-11-15T21:00:11.267Z",
+    "retrievedAt": "2026-11-15T22:31:24.582Z",
     "version": "v2.10.3",
     "sources": [
       "MERRA2",
@@ -4666,7 +4666,8 @@
     "General FAO ranges; not regional calendars or crop recommendations.",
     "Days without a recorded crop do not imply bare soil.",
     "ETc is an FAO-56 estimate (Hargreaves and generic Kc), not a measurement or a validated irrigation requirement. No savings, yield, fixed nitrogen or profitability are computed.",
-    "Farm history is not inferred from satellites. HLS/NDVI series are not implemented."
+    "Farm history is not inferred from satellites. HLS/NDVI series are not implemented.",
+    "FAO-56 water demand uses only the NASA POWER climate from 2024-01-01 to 2025-06-23; a single year can differ from normal climate."
   ],
   "priority": {
     "selected": "diversidad",
@@ -4677,7 +4678,8 @@
     "Rangos FAO generales; no son calendarios regionales ni recomendaciones de cultivos.",
     "Días sin cultivo registrado no implican suelo desnudo.",
     "La ETc es una estimación FAO-56 (Hargreaves y Kc genéricos), no una medición ni una necesidad de riego validada. No se calcula ahorro, rendimiento, nitrógeno fijado ni rentabilidad.",
-    "La historia agrícola no se infiere por satélite. Series HLS/NDVI no implementadas."
+    "La historia agrícola no se infiere por satélite. Series HLS/NDVI no implementadas.",
+    "La demanda de agua FAO-56 usa solo el clima NASA POWER de 2024-01-01 a 2025-06-23; un solo año puede diferir del clima normal."
   ],
   "priorityRanking": {
     "weights": {
