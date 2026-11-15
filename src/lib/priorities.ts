@@ -72,6 +72,8 @@ export type Ranking = {
 };
 
 const fmt = (n: number) => Math.round(n).toLocaleString("en-US");
+/** Water volumes are shown to the nearest 10 m³/ha, like the water card and the bottom line. */
+const m3 = (mm: number) => fmt(Math.round(mm) * 10);
 
 export function rankStrategies(all: Strategy[], weights: Weights): Ranking {
   const excluded = all.filter(s => s.status === "Incompatible").map(strategy => ({ strategy, reason: "Incompatible: fechas o exclusiones no válidas; no se ordena." }));
@@ -101,7 +103,7 @@ export function rankStrategies(all: Strategy[], weights: Weights): Ranking {
     const rank = sorted.findIndex(x => Math.abs(x.score - r.score) < 1e-9) + 1;
     const i = ind[r.k], d = demand[r.k];
     const facts: string[] = [];
-    if (d !== null && minDemand !== null) facts.push(d === minDemand ? `lowest water demand (${fmt(d * 10)} m³/ha)` : `${fmt((d - minDemand) * 10)} m³/ha more water than the lowest (${fmt(d * 10)} m³/ha)`);
+    if (d !== null && minDemand !== null) facts.push(d === minDemand ? `lowest water demand (${m3(d)} m³/ha)` : `${fmt(Math.round((d - minDemand) * 10 / 10) * 10)} m³/ha more water than the lowest (${m3(d)} m³/ha)`);
     facts.push(`${i.families} crop ${i.families === 1 ? "family" : "families"}`);
     facts.push(i.maxRepeat > 1 ? `same crop ${i.maxRepeat}× in a row` : "no crop repeated back-to-back");
     facts.push(i.hasLegume ? "includes a legume" : "no legume");
