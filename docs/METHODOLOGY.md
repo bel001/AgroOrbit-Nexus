@@ -179,3 +179,11 @@ Por estrategia: identificador; horizonte; fuente y fecha de datos; comprobacione
 - [NASA HLS](https://hls.gsfc.nasa.gov/)
 - [Dynamic World dataset](https://developers.google.com/earth-engine/datasets/catalog/GOOGLE_DYNAMICWORLD_V1)
 - [FAO-56](https://www.fao.org/4/X0490E/X0490E00.htm)
+
+## Entrega 2026-11-15: prioridades, salud del suelo, El Niño y celda NASA
+
+- **Prioridades del agricultor** (`src/lib/priorities.ts`): tres criterios normalizados min–max entre las opciones mostradas (1 = mejor del grupo): agua = menor ETc FAO-56; salud del suelo = media con igual peso de leguminosa (0/1), familias, repeticiones seguidas (menos es mejor) y días sin cultivo (menos es mejor); diversidad = media de familias y repeticiones. `score = Σ wᵢ·sᵢ / Σ wᵢ`. Opciones incompatibles no se ordenan; sin ETc completa, el criterio agua se descarta con aviso. Puntuación relativa, no calidad absoluta.
+- **Salud del suelo** (`src/lib/soil.ts`): indicadores leídos del plan, no del suelo medido. Fuentes: FAO species diversification (fijación de N, plagas específicas, exploración del perfil) y FAO soil organic cover (protección del suelo sin cultivo).
+- **Bottom line** (`src/lib/bottom-line.ts`): opción de menor ETc frente a A; diferencia en m³/ha redondeada a 10 (1 mm = 10 m³/ha).
+- **El Niño** (`src/lib/elnino.ts`): el calendario de cada opción se repite con temperaturas NASA POWER diarias desde el 1 de enero de 1997, 2016 y 2023; línea base = 27 temporadas con inicio 1991–2019, excluidos 1997 y 2016. Anomalía solo si la ETc queda fuera del mínimo–máximo de la línea base. Resultado en Virú: 1997–98 por encima de todas las temporadas; 2016–17 y 2023 dentro del rango. Hargreaves tiende a sobrestimar ET0 con humedad alta (FAO-56). Días de calor no calculados: no se verificó un umbral por cultivo con fuente.
+- **Celda NASA POWER** (`src/lib/grid.ts`): grilla MERRA-2 0,5° × 0,625°, límites verificados contra la API en Virú (`docs/evidence/power-grid-check.json`).

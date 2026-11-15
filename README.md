@@ -1,67 +1,89 @@
 # AgroOrbit Nexus — From Space to Soil
 
-Plataforma agrícola de alcance mundial: clima histórico NASA POWER para coordenadas globales y análisis agrícola condicionado a la evidencia regional. Virú, Perú, es solo la demostración inicial. Sin login ni base de datos.
+**Compare crop rotations by water, soil and risk, before you plant.**
 
-**Estado al 14 de noviembre de 2026: solo localhost, por decisión del usuario.** Abrir http://127.0.0.1:3000; [demo inglesa local](http://127.0.0.1:3000/submission/index.html) y [PDF local](http://127.0.0.1:3000/submission/agroorbit-nexus-demo.pdf). Se retiró el acceso público al alojamiento anterior y sus referencias de los archivos vigentes. Clima NASA real; Virú ilustrativo con fichas INIA/MIDAGRI/FAO, sin validación agronómica de parcela o rotaciones. HLS/NDVI pendiente. Sin envío NASA comprobado.
+> In Virú, water arrives by canal and costs money. AgroOrbit shows how much water each rotation needs, what it does for the soil, and how it would have handled El Niño, before you plant.
 
-## Ejecutar
+**Built for agricultural extension agents who review rotation options with farmers.** That is why the app compares and explains instead of recommending: every result carries the label *“Exploration, not a recommendation · No regional agronomist validation yet”*.
 
-Requisitos: Node.js 24, npm y acceso a NASA POWER/teselas OSM.
+NASA Space Apps Challenge 2026 · **Field Shift: Adapting Farms with NASA Data**.
+
+- Working app (local): http://127.0.0.1:3000 · English UI: http://127.0.0.1:3000/?lang=en
+- Seven-slide deck (English): http://127.0.0.1:3000/submission/index.html · [PDF](public/submission/agroorbit-nexus-demo.pdf)
+- Public link: *pending — not deployed yet.*
+
+## What it shows (Virú demo, real NASA POWER data)
+
+| | A · maize → maize → maize | B · maize → bean → maize | C · maize → sorghum → bean |
+|---|---|---|---|
+| Water needed (FAO-56 ETc) | **13,120 m³/ha** | **12,720 m³/ha** | **11,730 m³/ha** |
+| Legume / crop families | No / 1 | Yes / 2 | Yes / 2 |
+| Same crop in a row | 3× maize | Never | Never |
+| Uncropped days | 90 | 105 | 130 |
+| El Niño 1997–98 (extra water vs 1991–2020) | +411 m³/ha, above every baseline season | +396 m³/ha, above every baseline season | +359 m³/ha, above every baseline season |
+
+**Bottom line (generated from the data):** *C needs ~1,390 m³/ha less water than A (139 mm), uses 2 crop families and breaks the maize cycle.*
+For 2016–17 and 2023 the replay shows **no anomaly in these data**, and the app says so.
+
+## How it works
+
+1. **Field** — search a place, use your location or click the map (opens on Peru). The map draws the real **NASA POWER cell** (0.5° × 0.625°, ~56 × 69 km at Virú, bounds verified against the API): *“NASA data represents this whole area, not just your field.”*
+2. **Crops** — past campaigns, the sequence you plan (A) and up to two options of your own.
+3. **Conditions** — daily NASA POWER climate (T2M, T2M_MIN, T2M_MAX, PRECTOTCORR; AG community, local solar time).
+4. **Options** — a data-generated *bottom line*; **farmer priorities** (three 0–100 sliders: water, soil health, diversity / pest-cycle break) that re-order the options live with the formula on screen (`score = Σ wᵢ·sᵢ / Σ wᵢ`, criteria normalised 0–1 across the options shown) and a numeric *“Why it ranks here”*; water in **m³/ha** (1 mm = 10 m³/ha) with an optional user tariff (S/ per m³, never a default); a **soil-health card** per option with FAO sources; and the **El Niño stress test**.
+5. **Evidence** — JSON export with inputs, daily data, rules, weights and limitations; printable report.
+
+In Virú, irrigation comes from the **Chavimochic** system, which supplies the Chao, Virú and Moche valleys with water from the **Santa river** ([gob.pe · Chavimochic](https://www.gob.pe/institucion/chavimochic/institucional), [gob.pe · Santa river reserve](https://www.gob.pe/institucion/chavimochic/noticias/1444272-chavimochic-proyecta-su-futuro-hidrico-solicita-ampliar-la-reserva-del-rio-santa)). Model rainfall is shown with less weight and a coastal-desert warning, and is never used to rank options.
+
+## Methods
+
+- **Water demand:** ETc = Kc × ET0. ET0 by Hargreaves (FAO-56 eq. 52) from NASA POWER Tmin/Tmax and extraterrestrial radiation (eq. 21); generic Kc curves (FAO-56 tables 11–12). Demand of a healthy crop, not a validated irrigation requirement.
+- **El Niño stress test:** each calendar is replayed with real daily NASA POWER temperatures starting in 1997, 2016 and 2023 and compared with 27 baseline seasons (starts 1991–2019, event years excluded). An anomaly is reported only when the season falls outside the baseline min–max. Heat days are **not computed**: no sourced crop-specific threshold was verified.
+- **Soil health:** legume present, crop families, back-to-back repeats, uncropped days — read from the plan, with [FAO species diversification](https://www.fao.org/conservation-agriculture/in-practice/species-diversification/en/) and [FAO soil organic cover](https://www.fao.org/conservation-agriculture/in-practice/soil-organic-cover/en/).
+- **Offline demo:** the exact NASA POWER responses for the Virú demo (2024-01-01 → 2025-06-23) and the 1991–2023 history are stored unmodified in `src/data/` (refresh with `scripts/snapshot-viru-*.mjs`). The live API is tried first; the stored response is labelled when used.
+
+Details: [METHODOLOGY](docs/METHODOLOGY.md) · [STATUS](docs/STATUS.md) · [evidence](docs/evidence/).
+
+## Limits (stated in the app)
+
+Illustrative crop history for the pilot; generic FAO-56 Kc; Hargreaves ET0 (tends to overestimate under high humidity); no field measurements, yields, profits or savings; no regional agronomist validation yet. Climate works worldwide; agronomic comparisons only where a regional profile exists.
+
+## Run
+
+Requirements: Node.js 24 and npm. No keys.
 
 ```powershell
 npm ci
-npm run dev
+npm run build
+npm start
 ```
 
-Abrir http://127.0.0.1:3000. Para producción local: `npm run build` y `npm start`. No se requieren claves. `.env.example` documenta esa ausencia; no guardar secretos en Git.
+Open http://127.0.0.1:3000 (add `?lang=en` for English). Development: `npm run dev`.
 
-## Recorrido comprobable
-
-1. Buscar una localidad/código postal, elegir un resultado y ajustar el punto en el mapa. También hay «Usar mi ubicación» con permiso del navegador y entrada manual de coordenadas. Al iniciar no hay coordenadas ni campañas precargadas. [Cómo encontrar el terreno](docs/LOCATION_SEARCH.md).
-2. Consultar clima global o registrar una secuencia propia para diagnóstico parcial. No se generan alternativas sin un perfil regional aplicable. Para reproducir el piloto, pulsar «Cargar caso ilustrativo».
-3. Elegir un periodo histórico de 30 a 731 días; solo la demo de Virú usa 540 días. Se descargan temperatura media/mínima/máxima y precipitación corregida de NASA POWER (comunidad AG, LST).
-4. Examinar gráfica, tabla mensual, unidades, días ausentes, fuente y fecha. La grilla no es una medición de la parcela.
-5. En la demo explícita de Virú, comparar A con maíz–frijol–maíz (B) y maíz–sorgo–frijol (C). Estas plantillas no se reutilizan en otros países. No existe todavía ninguna región con análisis agronómico validado ni recomendaciones habilitadas.
-6. Abrir restricciones y fuentes; descargar JSON con entradas, clima diario, metadatos, reglas y límites. Imprimir el informe desde el navegador.
-
-Si NASA falla, aparece un error y un informe parcial; no hay clima simulado de respaldo. Al editar datos, se señala que el informe anterior requiere recalcularse. El fixture NASA de pruebas no se usa en producción.
-
-## Verificar
+## Verify
 
 ```powershell
-npm run verify:skills
 npm run typecheck
 npm run lint
 npm test
-npm run build
-npm run verify:nasa
-npm run verify:global
-node scripts/verify-worldcover.mjs
 npx playwright install chromium
+npm run test:e2e
 ```
 
-Con `npm start` en otra terminal, ejecutar `npm run test:e2e`. Las pruebas de navegador requieren red; las unitarias usan un fixture NASA real y alteraciones controladas. Resultados y capturas: [VALIDATION](docs/VALIDATION.md), [STATUS](docs/STATUS.md), [evidencias](docs/evidence/).
+`npm run test:e2e` needs `npm start` running. Current results: 118 unit/API tests and 31 browser tests (desktop, Pixel 7, tablet; 2 skipped by design) with axe accessibility checks.
 
-## Alcance científico
+## Tech
 
-- Catálogo general FAO separado de fichas INIA 619/404 y contexto MIDAGRI. Variedades candidatas documentadas, sin identificar la realmente sembrada ni validar calendario local. Frijol de demo: supuesto de 135 días hasta cosecha, no 98 de madurez fisiológica. Fuentes/páginas/límites visibles y exportados.
-- Horizonte común configurable; la demo mantiene 540 días. Intervalos [siembra,cosecha), conteos de repetición/familias e intervalos sin cultivo registrado.
-- No se calcula ETo/ETc, ahorro de riego, nitrógeno fijado, rentabilidad, rendimiento ni daño del suelo. Un presupuesto positivo de agua no demuestra suficiencia.
-- La prioridad guía la revisión; no existe puntuación ni ranking validado. En el catálogo actual ninguna alternativa se certifica viable.
-- Capa opcional de cobertura terrestre ESA WorldCover 2021, con fuente/licencia y sin uso para recomendar cultivos. Sin procesamiento HLS/NDVI, clasificación propia ni modelo predictivo entrenado.
+Next.js 16, React 19, TypeScript, Tailwind 4, MapLibre 6, Recharts 3, Zod 4, Vitest, Playwright, axe. Design system: [DESIGN.md](DESIGN.md).
 
-Catálogo ampliable, perfiles regionales versionados, nombres localizados y contratos de fuentes/reglas: [alcance global y pruebas internacionales](docs/GLOBAL_SCOPE.md). La interfaz completa actual está en español; el registro admite contenido de nuevos idiomas. Las pruebas verifican seis consultas NASA internacionales; no acreditan aptitud agronómica ni carga masiva.
+## Use of AI
 
-## Tecnología y diseño
+AI coding assistants helped with research, programming, testing and documentation; the team reviewed the results. The application uses explicit, documented rules: no trained model and no AI service at runtime. See [AI_USAGE](docs/AI_USAGE.md).
 
-Next.js 16, React 19, TypeScript estricto, Tailwind 4, MapLibre 6, Recharts 3, Zod 4, Vitest 5, Playwright y axe. Versiones exactas en package-lock.json. Formularios nativos accesibles; no se añadió shadcn/ui para duplicarlos. Impeccable instalado en `.agents/skills/impeccable`; tres skills originales científicas/de verificación en el mismo directorio. [Fuentes, versiones y uso](docs/SKILLS.md), [contexto](PRODUCT.md), [diseño](DESIGN.md).
+## License and credits
 
-## Entrega y licencias
+Original code under MIT. Climate data: NASA POWER. Map: © OpenStreetMap contributors. Optional land cover: ESA WorldCover 2021 (CC BY 4.0). Independent prototype, not affiliated with or endorsed by NASA. [Third-party notices](docs/THIRD_PARTY_NOTICES.md).
 
-Código original MIT, elegido por el usuario. [Atribuciones y condiciones de terceros](docs/THIRD_PARTY_NOTICES.md). NASA POWER es fuente de datos; no hay afiliación ni aval NASA.
+---
 
-[Cumplimiento 2026 y puntos sin verificar](docs/NASA_COMPLIANCE.md), [uso real de IA](docs/AI_USAGE.md), [guion ES/EN y envío](docs/DEMO.md), [despliegue](docs/DEPLOYMENT.md). El push a GitHub no publica la aplicación ni envía el proyecto al concurso.
-
-Repositorio esperado: https://github.com/bel001/AgroOrbit-Nexus.git. Documentación inicial conservada en el primer commit; metodología actual en [METHODOLOGY](docs/METHODOLOGY.md).
-
-> AgroOrbit Nexus is an explainable crop-rotation scenario tool. It combines real NASA POWER historical climate with farmer-provided context and transparent evidence gaps. It does not certify local agronomic suitability or predict yields.
+**Resumen en español.** AgroOrbit Nexus compara rotaciones de cultivos por agua (m³/ha, FAO-56), salud del suelo y riesgo (El Niño) con datos diarios de NASA POWER. Hecho para extensionistas agrarios que revisan opciones con los agricultores: compara y explica, no recomienda. La interfaz está en español e inglés (botón ES/EN o `?lang=en`). Virú es el primer piloto, con historial ilustrativo y sin validación agronómica regional todavía.

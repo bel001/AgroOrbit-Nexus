@@ -13,6 +13,17 @@
 - Fichas INIA 619/404, MIDAGRI y FAO con edición/página, alcance y faltantes en UI/JSON. Frijol de demo: supuesto de 135 días a cosecha, sin confundir madurez fisiológica. Investigación: `research/VIRU_SOURCE_NOTES.md`.
 - JSON 2.1 trazable e impresión. Deck inglés de siete diapositivas y PDF verificado de siete páginas. Capa ESA WorldCover 2021 opcional; estado de teselas corregido y probado sin depender del mapa base.
 
+## Actualización 2026-11-15: entrega Field Shift
+
+- Prioridades del agricultor (agua, salud del suelo, diversidad) con ranking ponderado, fórmula visible, «Why it ranks here» y reordenación en vivo.
+- Bottom line generado con datos; tarjetas de salud del suelo con fuentes FAO; agua en m³/ha con tarifa opcional del usuario; contexto Chavimochic/río Santa (gob.pe); lluvia del modelo con menos peso y advertencia.
+- Prueba de estrés El Niño (1997–98, 2016–17, 2023) contra 27 temporadas 1991–2020 con datos NASA guardados: 1997–98 por encima de todo el rango; 2016–17 y 2023 sin anomalía. Días de calor no calculados (sin umbral con fuente).
+- Mapa centrado en Perú con la celda NASA POWER verificada (docs/evidence/power-grid-check.json) y su leyenda.
+- Interfaz ES/EN (?lang=en). Snapshots NASA en src/data/, solo en servidor; demo funciona sin internet (comprobado con todo el tráfico bloqueado; sin mapa base).
+- Diapositivas, PDF, guion de video (docs/VIDEO_SCRIPT.md), página del proyecto (docs/PROJECT_PAGE.md) y README en inglés.
+- Pruebas: 118 unitarias/API y 31 e2e aprobadas (2 omitidas deliberadamente), axe sin violaciones también en inglés.
+- Pendiente: despliegue público (a la espera de autorización), envío en el portal NASA y confirmación de que NASA POWER figura en los recursos de Field Shift.
+
 ## Actualización 2026-11-14 (noche): usabilidad del flujo con terreno propio
 
 Revisión manual del recorrido como usuario nuevo (escritorio y móvil) y correcciones:

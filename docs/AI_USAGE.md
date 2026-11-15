@@ -10,7 +10,11 @@ Entradas de IA: instrucciones del equipo, documentos del repositorio, documentac
 
 Producto implementado: reglas deterministas e indicadores descriptivos; no usa API de IA en ejecución ni genera recomendaciones con un LLM. Tests automatizados y revisión del propio asistente no equivalen a revisión científica humana. El usuario eligió MIT; faltan validación agronómica local y revisión final del equipo.
 
-Declaración breve para adaptar al portal: «Utilizamos Codex para asistir en programación, pruebas y documentación. El producto consulta NASA POWER y aplica reglas deterministas trazables, sin modelo predictivo entrenado. El historial del caso piloto es ilustrativo. Conservamos incertidumbres y limitaciones; no validamos mejoras de rendimiento o ahorro hídrico».
+Actualización 2026-11-15: además de Codex, se usaron otros asistentes de IA para programación, pruebas y documentación (prioridades, salud del suelo, prueba de El Niño, idioma inglés y entrega). No se generaron imágenes, video ni audio.
+
+Declaración breve para el portal (versión vigente, en inglés): «AI coding assistants helped with research, programming, testing and documentation; the team reviewed the results. No AI-generated images, video or audio are used. The application uses explicit, documented rules and FAO-56 formulas: no trained model and no AI service at runtime.»
+
+Declaración anterior (2026-11-14): «Utilizamos Codex para asistir en programación, pruebas y documentación. El producto consulta NASA POWER y aplica reglas deterministas trazables, sin modelo predictivo entrenado. El historial del caso piloto es ilustrativo. Conservamos incertidumbres y limitaciones; no validamos mejoras de rendimiento o ahorro hídrico».
 
 Las tablas originales siguientes describen la propuesta inicial; AgroMonitor, clustering y generación automática de explicaciones siguen sin implementarse.
 
