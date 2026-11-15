@@ -1,5 +1,5 @@
 import { farmSchema, climateQuerySchema, addDays } from "@/lib/model";
-import { fetchClimate } from "@/lib/power";
+import { fetchClimateWithSnapshot } from "@/lib/power";
 import { buildReport } from "@/lib/rotations";
 export const runtime = "nodejs";
 export async function POST(request: Request) {
@@ -26,7 +26,7 @@ export async function POST(request: Request) {
   if (!query.success) return Response.json({ error: "Elige un horizonte histórico válido (finalizado hace al menos dos días)", issues: query.error.issues.map(i => i.message) }, { status: 400 });
   let climate = null;
   let climateError: string | null = null;
-  try { climate = await fetchClimate(query.data); }
+  try { climate = await fetchClimateWithSnapshot(query.data); }
   catch (e) { climateError = e instanceof Error && !/Zod|JSON|fetch failed/.test(e.message) ? e.message : "No se pudo verificar la respuesta de NASA POWER. Reintenta la consulta."; }
   return Response.json({ report: buildReport(farm, climate), climateError }, { headers: { "Cache-Control": "no-store" } });
 }

@@ -10,3 +10,15 @@ describe("API de análisis", () => {
   it("devuelve informe parcial sin extrapolar plantilla ante caída NASA fuera del piloto", async () => { vi.stubGlobal("fetch", vi.fn().mockResolvedValue(new Response("", { status: 503 }))); const r = await POST(req({ ...exampleFarm, lat: -9 })); const body = await r.json(); expect(body.report.climate).toBeNull(); expect(body.climateError).toContain("503"); expect(body.report.strategies).toHaveLength(1); expect(body.report.coverage.recommendationsAllowed).toBe(false); });
   it("el recorrido servidor integra datos NASA normalizados", async () => { vi.stubGlobal("fetch", vi.fn().mockResolvedValue(Response.json(raw))); const r = await POST(req({ ...exampleFarm, lat: -10 })); const body = await r.json(); expect(body.report.climate.days).toHaveLength(540); expect(body.report.climate.missing.T2M).toBe(174); expect(body.climateError).toBeNull(); });
 });
+
+describe("Snapshot de la demo de Virú", () => {
+  it("usa la respuesta NASA guardada solo para la consulta exacta de la demo y lo declara", async () => {
+    const { fetchClimateWithSnapshot, demoSnapshot } = await import("@/lib/power");
+    const down = (async () => { throw new TypeError("fetch failed"); }) as unknown as typeof fetch;
+    const climate = await fetchClimateWithSnapshot(demoSnapshot.query, down);
+    expect(climate.snapshot?.retrievedAt).toBe(demoSnapshot.retrievedAt);
+    expect(climate.days).toHaveLength(540);
+    expect(climate.warnings[0]).toContain("guardados localmente");
+    await expect(fetchClimateWithSnapshot({ ...demoSnapshot.query, lat: 10 }, down)).rejects.toThrow();
+  });
+});

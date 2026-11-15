@@ -1,4 +1,5 @@
 import { z } from "zod";
+import snapshotFile from "../data/power-viru-demo.json";
 import { addDays, climateQuerySchema, daysBetween, variables, type Climate, type ClimateQuery, type ClimateDay } from "./model";
 
 const powerSchema = z.object({
@@ -42,7 +43,7 @@ export function normalizePower(raw: unknown, input: ClimateQuery, retrievedAt = 
 // Caché acotada para consultas idénticas; no se redondean coordenadas hacia una grilla supuesta.
 const cache = new Map<string, { expires: number; value: Climate }>();
 const inFlight = new Map<string, Promise<Climate>>();
-export async function fetchClimate(q: ClimateQuery, fetcher: typeof fetch = fetch): Promise<Climate> {
+export async function fetchClimate(q: ClimateQuery, fetcher: typeof fetch = fetch, timeoutMs = 25_000): Promise<Climate> {
   const url = powerUrl(q);
   const cached = cache.get(url);
   if (cached && cached.expires > Date.now()) return cached.value;
@@ -50,7 +51,7 @@ export async function fetchClimate(q: ClimateQuery, fetcher: typeof fetch = fetc
   if (pending) return pending;
   if (inFlight.size >= 4) throw new Error("Hay varias consultas NASA en curso. Reintenta en unos segundos.");
   const task = (async () => {
-    const response = await fetcher(url, { signal: AbortSignal.timeout(25_000), headers: { Accept: "application/json" } });
+    const response = await fetcher(url, { signal: AbortSignal.timeout(timeoutMs), headers: { Accept: "application/json" } });
     if (!response.ok) throw new Error(`NASA POWER no disponible (HTTP ${response.status}). Reintenta más tarde.`);
     const value = normalizePower(await response.json(), q);
     if (cache.size >= 64) cache.delete(cache.keys().next().value!);
@@ -59,6 +60,24 @@ export async function fetchClimate(q: ClimateQuery, fetcher: typeof fetch = fetc
   })();
   inFlight.set(url, task);
   try { return await task; } finally { inFlight.delete(url); }
+}
+// Stored, unmodified NASA POWER response for the Virú demo query (scripts/snapshot-viru-demo.mjs).
+export const demoSnapshot = snapshotFile as { query: ClimateQuery; url: string; retrievedAt: string; raw: unknown };
+const sameQuery = (a: ClimateQuery, b: ClimateQuery) => a.lat === b.lat && a.lon === b.lon && a.start === b.start && a.end === b.end;
+/**
+ * Live NASA POWER first. Only for the exact demo query, an unavailable or slow API falls back to the
+ * stored response, which is labelled as such; any other query keeps failing honestly.
+ */
+export async function fetchClimateWithSnapshot(q: ClimateQuery, fetcher: typeof fetch = fetch): Promise<Climate> {
+  const covered = sameQuery(q, demoSnapshot.query);
+  try { return await fetchClimate(q, fetcher, covered ? 8_000 : 25_000); }
+  catch (e) {
+    if (!covered) throw e;
+    const climate = normalizePower(demoSnapshot.raw, q, demoSnapshot.retrievedAt);
+    const reason = e instanceof Error ? e.message : "NASA POWER no respondió";
+    return { ...climate, snapshot: { retrievedAt: demoSnapshot.retrievedAt, reason },
+      warnings: [`Datos NASA POWER guardados localmente el ${demoSnapshot.retrievedAt.slice(0, 10)} para la demo; la consulta en vivo no estuvo disponible.`, ...climate.warnings] };
+  }
 }
 export function monthlyClimate(c: Climate) {
   const months = new Map<string, ClimateDay[]>();

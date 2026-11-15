@@ -358,6 +358,7 @@ export default function Workspace() {
           {climateError && <div className="notice error" role="alert"><AlertCircle size={20} aria-hidden="true" /><p>{climateError} Puedes revisar restricciones locales; no hay datos climáticos sustitutos. Usa «Consultar clima y comparar» para reintentar.</p></div>}
           {report.climate ? <div className="card climate-card">
             <div className="climate-header"><h3>Clima histórico · NASA POWER</h3><span>{report.climate.query.start} → {report.climate.query.end} · {report.climate.days.length} días</span></div>
+            {report.climate.snapshot && <p className="notice" role="status">Datos NASA POWER guardados localmente el {report.climate.snapshot.retrievedAt.slice(0, 10)} (misma respuesta de la API, sin modificar). La consulta en vivo no estuvo disponible: {report.climate.snapshot.reason}</p>}
             <ClimateKpis report={report} />
             <ClimateChart climate={report.climate} />
             <p className="small muted">{report.climate.spatialSupport}</p>

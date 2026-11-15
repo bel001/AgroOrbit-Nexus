@@ -44,6 +44,8 @@ export type Climate = {
   days: ClimateDay[]; units: Record<Variable, string>; source: string; url: string;
   retrievedAt: string; version: string; sources: string[]; timeStandard: string; fillValue: number;
   query: ClimateQuery; missing: Record<Variable, number>; warnings: string[]; spatialSupport: string;
+  /** Present only when a stored NASA POWER response replaced an unavailable live request. */
+  snapshot?: { retrievedAt: string; reason: string };
 };
 export function newGlobalFarm(): Farm {
   return { name: "Mi terreno", lat: NaN, lon: NaN, areaHa: null, soil: "desconocido", ph: null, soilOrigin: "desconocido", irrigation: "desconocido", waterMm: null, waterOrigin: "desconocido", priority: "diversidad", excluded: [], illustrative: false, start: "2024-01-01", horizonDays: 366, analysisMode: "climate", regionProfileId: null, history: [], current: [], alternatives: [] };
