@@ -12,6 +12,8 @@ import { monthlyClimate } from "@/lib/power";
 import LocationSearch from "./location-search";
 import HistoryEvidence from "./history-evidence";
 import RegionalEvidence from "./regional-evidence";
+import PriorityRanking from "./priority-ranking";
+import { DEFAULT_WEIGHTS, rankStrategies, type Weights } from "@/lib/priorities";
 import { CountUp, OrbitArt } from "./motion";
 import { resolveCoverage } from "@/lib/regions";
 import type { EvidenceReport } from "@/lib/rotations";
@@ -65,8 +67,11 @@ function humanizeIssue(issue: { path: PropertyKey[]; message: string; code: stri
   return `${where}: ${what}`;
 }
 
-function download(report: EvidenceReport) {
-  const url = URL.createObjectURL(new Blob([JSON.stringify(report, null, 2)], { type: "application/json" }));
+function download(report: EvidenceReport, weights: Weights) {
+  // The exported report carries the priority weights and the resulting order shown on screen.
+  const ranking = report.strategies.length ? rankStrategies(report.strategies, weights) : null;
+  const exported = { ...report, priorityRanking: ranking && { weights, formula: ranking.formula, usedCriteria: ranking.usedCriteria, note: ranking.note, order: ranking.ranked.map(r => ({ id: r.strategy.id, rank: r.rank, score: r.score, parts: r.parts, why: r.why })), label: "Exploration, not a recommendation · No regional agronomic validation" } };
+  const url = URL.createObjectURL(new Blob([JSON.stringify(exported, null, 2)], { type: "application/json" }));
   const a = document.createElement("a"); a.href = url; a.download = "agroorbit-evidencia.json"; a.click(); URL.revokeObjectURL(url);
 }
 
@@ -152,6 +157,7 @@ export default function Workspace() {
   const [climateError, setClimateError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [dirty, setDirty] = useState(false);
+  const [weights, setWeights] = useState<Weights>(DEFAULT_WEIGHTS);
   const active = useActiveStep();
   const coverage = resolveCoverage(farm);
   const hasPoint = Number.isFinite(farm.lat) && Number.isFinite(farm.lon);
@@ -376,6 +382,7 @@ export default function Workspace() {
         <SectionHeading step={4} title="Compara alternativas" text="Compatibilidad, diversidad, agua y datos faltantes. No hay un óptimo universal." />
         {!report ? <p className="empty">{loading ? "Calculando alternativas…" : "Consulta una ubicación para conocer el alcance disponible."}</p> : report.strategies.length === 0 ? <p className="notice neutral">Informe climático global. No se generan rotaciones ni recomendaciones: faltan datos agronómicos regionales suficientes.</p> : <div className="results">
           <p className="notice neutral">Horizonte común: {report.strategies[0].horizon.start} a {report.strategies[0].horizon.end} · intervalos de cultivo [siembra, cosecha). Prioridad: {report.input.priority}. No se aplica una puntuación sin validar.</p>
+          <PriorityRanking strategies={report.strategies} weights={weights} onWeights={setWeights} />
           <WaterBars report={report} />
           <p className="small muted scroll-hint">En pantallas pequeñas, desliza la tabla para ver B y C.</p>
           <div className="table-scroll card flush" tabIndex={0} role="region" aria-label={`Comparación desplazable de ${report.strategies.length} estrategias`}><table className="comparison"><caption>Comparación descriptiva de estrategias. {report.coverage.demoAllowed ? "B y C son propuestas ilustrativas de la demo; requieren validar variedades y ventanas locales. " : ""}{report.strategies.some(s => s.userProposed) ? "Las alternativas propias son escenarios tuyos, no recomendaciones." : report.strategies.length === 1 ? "Solo hay una secuencia: añade alternativas en el paso 2 para compararlas." : ""}</caption><thead><tr><th>Criterio</th>{report.strategies.map(s => <th key={s.id}><span className="strategy-id">{s.id}</span> {s.name}</th>)}</tr></thead><tbody>
@@ -398,7 +405,7 @@ export default function Workspace() {
 
       <section id="evidencias" className="section evidence">
         <SectionHeading step={5} title="Una decisión que puedes revisar" text="Las entradas, las reglas y las ausencias viajan con el informe.">
-          {report && <div className="report-actions"><button className="button light" onClick={() => download(report)}><Download size={17} aria-hidden="true" />Descargar JSON</button><button className="button light" onClick={() => window.print()}><Printer size={17} aria-hidden="true" />Imprimir informe</button></div>}
+          {report && <div className="report-actions"><button className="button light" onClick={() => download(report, weights)}><Download size={17} aria-hidden="true" />Descargar JSON</button><button className="button light" onClick={() => window.print()}><Printer size={17} aria-hidden="true" />Imprimir informe</button></div>}
         </SectionHeading>
         {report ? <div className="results">
           <p>Metodología {report.methodologyVersion} · informe generado {report.createdAt}. {report.climate ? `NASA consultado ${report.climate.retrievedAt}. Fuentes: ${report.climate.sources.join(", ")}.` : "Sin serie NASA verificada en este informe."}</p>
