@@ -1,21 +1,23 @@
 import { catalog } from "@/lib/catalog";
 import type { EvidenceReport } from "@/lib/rotations";
+import { useT } from "./i18n";
 
 export default function HistoryEvidence({ report }: { report: EvidenceReport }) {
+  const t = useT();
   const d = report.historyDiagnostics;
-  return <div className="history-evidence"><h3>¿Qué dice el historial sobre la repetición de cultivos?</h3>
-    <p>{report.input.illustrative ? "Escenario ilustrativo: estos indicadores no son observaciones de una finca real." : "Indicadores calculados únicamente con los registros aportados."}</p>
-    {!d.interpretable ? <p className="notice">{d.recordCount === 0 ? "Aún no hay campañas registradas. Añade el historial para examinar repetición y diversidad." : "No se interpretan los indicadores: revisa fechas solapadas/inválidas o procedencias desconocidas."}</p> : <>
-    <div className="table-scroll" role="region" tabIndex={0} aria-label="Indicadores de repetición de cultivos"><table><caption>Descripciones del historial, sin puntuación de salud del suelo ni diagnóstico de plagas.</caption><thead><tr><th>Indicador</th><th>Resultado</th><th>Qué permite interpretar</th></tr></thead><tbody>
-      <tr><th>Campañas documentadas</th><td>{d.recordCount}</td><td>No acredita que el historial esté completo.</td></tr>
-      <tr><th>Especies / familias</th><td>{d.species} / {d.families}</td><td>Diversidad taxonómica registrada; no diversidad medida del suelo.</td></tr>
-      <tr><th>Mayor racha de una especie</th><td>{d.maxRun} campañas</td><td>Repetición entre registros consecutivos conocidos.</td></tr>
-      <tr><th>Especie dominante</th><td>{d.dominant ? `${catalog[d.dominant.crop].name}: ${d.dominant.count}/${d.recordCount} (${(d.dominant.shareOfRecords * 100).toFixed(0)} %)` : "No calculable"}</td><td>Porcentaje de registros; no de hectáreas ni años observados.</td></tr>
-      <tr><th>Transiciones de igual especie / familia</th><td>{d.sameCropTransitions} / {d.sameFamilyTransitions} de {d.transitions} pares</td><td>Cambiar maíz por sorgo cambia especie, pero conserva Poaceae.</td></tr>
-      <tr><th>Intervalos entre campañas</th><td>{d.daysBetweenCampaigns === null ? "No calculable" : `${d.daysBetweenCampaigns} días`}</td><td>Ausencia de cultivo registrado; puede haber residuos u otras campañas no documentadas.</td></tr>
+  return <div className="history-evidence"><h3>{t("¿Qué dice el historial sobre la repetición de cultivos?", "What does the history say about crop repetition?")}</h3>
+    <p>{report.input.illustrative ? t("Escenario ilustrativo: estos indicadores no son observaciones de una finca real.", "Illustrative scenario: these indicators are not observations of a real farm.") : t("Indicadores calculados únicamente con los registros aportados.", "Indicators computed only from the records provided.")}</p>
+    {!d.interpretable ? <p className="notice">{d.recordCount === 0 ? t("Aún no hay campañas registradas. Añade el historial para examinar repetición y diversidad.", "No campaigns recorded yet. Add the history to examine repetition and diversity.") : t("No se interpretan los indicadores: revisa fechas solapadas/inválidas o procedencias desconocidas.", "Indicators are not interpreted: check overlapping/invalid dates or unknown sources.")}</p> : <>
+    <div className="table-scroll" role="region" tabIndex={0} aria-label={t("Indicadores de repetición de cultivos", "Crop repetition indicators")}><table><caption>{t("Descripciones del historial, sin puntuación de salud del suelo ni diagnóstico de plagas.", "Descriptions of the history, without a soil-health score or pest diagnosis.")}</caption><thead><tr><th>{t("Indicador", "Indicator")}</th><th>{t("Resultado", "Result")}</th><th>{t("Qué permite interpretar", "What it allows to interpret")}</th></tr></thead><tbody>
+      <tr><th>{t("Campañas documentadas", "Documented campaigns")}</th><td>{d.recordCount}</td><td>{t("No acredita que el historial esté completo.", "Does not prove the history is complete.")}</td></tr>
+      <tr><th>{t("Especies / familias", "Species / families")}</th><td>{d.species} / {d.families}</td><td>{t("Diversidad taxonómica registrada; no diversidad medida del suelo.", "Recorded taxonomic diversity; not measured soil diversity.")}</td></tr>
+      <tr><th>{t("Mayor racha de una especie", "Longest run of one species")}</th><td>{d.maxRun} {t("campañas", "campaigns")}</td><td>{t("Repetición entre registros consecutivos conocidos.", "Repetition across consecutive known records.")}</td></tr>
+      <tr><th>{t("Especie dominante", "Dominant species")}</th><td>{d.dominant ? `${t(catalog[d.dominant.crop].names.es, catalog[d.dominant.crop].names.en)}: ${d.dominant.count}/${d.recordCount} (${(d.dominant.shareOfRecords * 100).toFixed(0)} %)` : t("No calculable", "Not computable")}</td><td>{t("Porcentaje de registros; no de hectáreas ni años observados.", "Share of records; not of hectares or observed years.")}</td></tr>
+      <tr><th>{t("Transiciones de igual especie / familia", "Same species / family transitions")}</th><td>{d.sameCropTransitions} / {d.sameFamilyTransitions} {t("de", "of")} {d.transitions} {t("pares", "pairs")}</td><td>{t("Cambiar maíz por sorgo cambia especie, pero conserva Poaceae.", "Switching maize for sorghum changes species but keeps Poaceae.")}</td></tr>
+      <tr><th>{t("Intervalos entre campañas", "Gaps between campaigns")}</th><td>{d.daysBetweenCampaigns === null ? t("No calculable", "Not computable") : `${d.daysBetweenCampaigns} ${t("días", "days")}`}</td><td>{t("Ausencia de cultivo registrado; puede haber residuos u otras campañas no documentadas.", "No recorded crop; there may be residues or undocumented campaigns.")}</td></tr>
     </tbody></table></div></>}
-    <p><strong>Riesgo potencial a investigar:</strong> {d.riskContext}</p>
-    <p><strong>Daño comprobado en este informe:</strong> ninguno. No hay análisis de fertilidad, diagnóstico fitosanitario ni mediciones de pérdidas.</p>
-    <p className="small muted">{d.interpretation} <a href={d.source} target="_blank" rel="noreferrer">FAO: fundamento general de diversificación</a>.</p>
+    <p><strong>{t("Riesgo potencial a investigar:", "Potential risk to investigate:")}</strong> {t(d.riskContext, d.riskContext.startsWith("La continuidad") ? "Keeping one crop family motivates reviewing host pests and nutrient management with an agronomist. No pest or soil depletion has been observed on this plot." : "There is not enough evidence to diagnose damage. Recorded diversity does not prove soil recovery either.")}</p>
+    <p><strong>{t("Daño comprobado en este informe:", "Damage proven in this report:")}</strong> {t("ninguno. No hay análisis de fertilidad, diagnóstico fitosanitario ni mediciones de pérdidas.", "none. There is no fertility analysis, plant-health diagnosis or loss measurement.")}</p>
+    <p className="small muted">{t(d.interpretation, "Describes the records provided, not planted area, actual cover or measured damage. Undocumented campaigns may change the interpretation.")} <a href={d.source} target="_blank" rel="noreferrer">{t("FAO: fundamento general de diversificación", "FAO: general basis for diversification")}</a>.</p>
   </div>;
 }
