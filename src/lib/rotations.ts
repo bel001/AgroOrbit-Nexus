@@ -53,16 +53,26 @@ export function compareStrategies(input: Farm, climate: Climate | null) {
   }
   return result;
 }
+/** One line, from the data: water demand comes from the queried period only, which may not be a normal year. */
+export function climatePeriodLimitation(climate: Climate | null, compared: boolean) {
+  if (!climate || !compared) return null;
+  const { start, end } = climate.query;
+  return {
+    es: `La demanda de agua FAO-56 usa solo el clima NASA POWER de ${start} a ${end}; un solo año puede diferir del clima normal.`,
+    en: `FAO-56 water demand uses only the NASA POWER climate from ${start} to ${end}; a single year can differ from normal climate.`,
+  };
+}
 /** `history`: stored daily NASA series for the El Niño stress test (only provided for the Virú demo point). */
 export function buildReport(farm: Farm, climate: Climate | null, history: ClimateDay[] | null = null) {
   const strategies = compareStrategies(farm, climate);
   const coverage = resolveCoverage(farm);
   const invalidHistory = farm.history.some((c, i, a) => c.start >= c.end || a.some((d, j) => i !== j && c.start < d.end && d.start < c.end));
   const knownHistory = farm.history.filter(c => c.origin !== "desconocido");
+  const periodLine = climatePeriodLimitation(climate, strategies.length > 0);
   return { schemaVersion: "2.2", methodologyVersion: "fao56-water-2026-11-14", createdAt: new Date().toISOString(), input: farm, coverage: resolveCoverage(farm), historyDiagnostics: diagnoseHistory(farm.history), regionalEvidence: regionalEvidenceFor(resolveCoverage(farm).profile?.id), contextualSources: [{ ...worldCover, usedInAgronomicEvaluation: false, access: "Capa visual opcional; su activación en el mapa no implica uso en cálculos" }], history: { count: farm.history.length, knownCount: knownHistory.length, maxRepeat: invalidHistory || knownHistory.length !== farm.history.length ? null : maxRepeat(knownHistory), overlappingOrInvalid: invalidHistory }, climate, strategies, catalog,
     stressTest: history && coverage.demoAllowed ? stressTest(strategies, history, farm.lat) : null,
-    limitationsEn: ["No local agronomic validation or field trials; no region has a validated agronomic analysis yet.", "General FAO ranges; not regional calendars or crop recommendations.", "Days without a recorded crop do not imply bare soil.", "ETc is an FAO-56 estimate (Hargreaves and generic Kc), not a measurement or a validated irrigation requirement. No savings, yield, fixed nitrogen or profitability are computed.", "Farm history is not inferred from satellites. HLS/NDVI series are not implemented."],
+    limitationsEn: ["No local agronomic validation or field trials; no region has a validated agronomic analysis yet.", "General FAO ranges; not regional calendars or crop recommendations.", "Days without a recorded crop do not imply bare soil.", "ETc is an FAO-56 estimate (Hargreaves and generic Kc), not a measurement or a validated irrigation requirement. No savings, yield, fixed nitrogen or profitability are computed.", "Farm history is not inferred from satellites. HLS/NDVI series are not implemented.", ...(periodLine ? [periodLine.en] : [])],
     priority: { selected: farm.priority, effect: "No altera observaciones ni emite un ranking; orienta qué dimensión revisar." },
-    limitations: ["Sin validación agronómica local ni ensayos de campo; ninguna región tiene análisis agronómico validado actualmente.", "Rangos FAO generales; no son calendarios regionales ni recomendaciones de cultivos.", "Días sin cultivo registrado no implican suelo desnudo.", "La ETc es una estimación FAO-56 (Hargreaves y Kc genéricos), no una medición ni una necesidad de riego validada. No se calcula ahorro, rendimiento, nitrógeno fijado ni rentabilidad.", "La historia agrícola no se infiere por satélite. Series HLS/NDVI no implementadas."] };
+    limitations: ["Sin validación agronómica local ni ensayos de campo; ninguna región tiene análisis agronómico validado actualmente.", "Rangos FAO generales; no son calendarios regionales ni recomendaciones de cultivos.", "Días sin cultivo registrado no implican suelo desnudo.", "La ETc es una estimación FAO-56 (Hargreaves y Kc genéricos), no una medición ni una necesidad de riego validada. No se calcula ahorro, rendimiento, nitrógeno fijado ni rentabilidad.", "La historia agrícola no se infiere por satélite. Series HLS/NDVI no implementadas.", ...(periodLine ? [periodLine.es] : [])] };
 }
 export type EvidenceReport = ReturnType<typeof buildReport>;

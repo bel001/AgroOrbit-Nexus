@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import hist from "../src/data/power-viru-1991-2023.json";
 import demo from "../src/data/power-viru-demo.json";
 import { normalizeStoredSeries } from "@/lib/power";
-import { buildReport, compareStrategies } from "@/lib/rotations";
+import { buildReport, climatePeriodLimitation, compareStrategies } from "@/lib/rotations";
 import { exampleFarm } from "@/lib/examples/viru";
 import { newGlobalFarm } from "@/lib/model";
 import { soilCard, FAO_DIVERSIFICATION, FAO_SOIL_COVER } from "@/lib/soil";
@@ -99,5 +99,19 @@ describe("El Niño stress test (historical replay)", () => {
     expect(buildReport(exampleFarm, demoClimate, series).stressTest?.strategies).toHaveLength(3);
     const elsewhere = { ...newGlobalFarm(), lat: 10, lon: 10, analysisMode: "regional" as const, current: exampleFarm.current };
     expect(buildReport(elsewhere, null, series).stressTest).toBeNull();
+  });
+});
+
+describe("climate-period limitation", () => {
+  it("states the exact period used for the Virú demo water demand, in both languages", () => {
+    const r = buildReport(exampleFarm, demoClimate);
+    const line = `${demoClimate.query.start} to ${demoClimate.query.end}`;
+    expect(r.limitationsEn.at(-1)).toBe(`FAO-56 water demand uses only the NASA POWER climate from ${line}; a single year can differ from normal climate.`);
+    expect(r.limitations.at(-1)).toContain(`de ${demoClimate.query.start} a ${demoClimate.query.end}`);
+  });
+  it("adds nothing without climate or without compared options", () => {
+    expect(climatePeriodLimitation(null, true)).toBeNull();
+    expect(climatePeriodLimitation(demoClimate, false)).toBeNull();
+    expect(buildReport(exampleFarm, null).limitationsEn.some(l => l.includes("single year"))).toBe(false);
   });
 });
