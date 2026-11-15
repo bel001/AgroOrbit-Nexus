@@ -24,7 +24,8 @@
 - Clima global: un análisis nuevo parte de los últimos 12 meses publicados por NASA POWER (latencia de unos 3 días; comprobado el 2026-11-15: último día válido 2026-11-12) y el botón «Últimos 12 meses» vuelve a ese periodo. La fecha se calcula en el navegador. La demo de Virú conserva 2024-01-01 → 2025-06-23.
 - Nueva limitación en el informe y la app: la demanda de agua FAO-56 usa solo el clima del periodo consultado; un solo año puede diferir del clima normal.
 - Pruebas: 122 unitarias/API y 31 e2e aprobadas (2 omitidas deliberadamente), axe sin violaciones también en inglés.
-- Pendiente: despliegue público (a la espera de autorización), envío en el portal NASA y confirmación de que NASA POWER figura en los recursos de Field Shift.
+- Publicado el 2026-11-15 en https://agroorbit-nexus.vercel.app (Vercel), por instrucción del usuario.
+- Pendiente: envío en el portal NASA y confirmación de que NASA POWER figura en los recursos de Field Shift.
 
 ## Actualización 2026-11-14 (noche): usabilidad del flujo con terreno propio
 
@@ -55,7 +56,7 @@ La primera pasada completa tuvo 21 aprobadas, 1 fallo y 2 omitidas: estado ESA a
 
 ## Publicación y sincronización
 
-**Solo localhost por instrucción del usuario.** Servidor en http://127.0.0.1:3000. Se restringió el alojamiento anterior y se comprobó HTTP 401 sin sesión; no existe un enlace público aprobado para esta entrega. Las pruebas públicas históricas de la versión anterior tuvieron seis comprobaciones de contenido/API y 22 e2e aprobadas, dos omitidas y cero fallos. Se conservan sus resultados con la dirección retirada y estado actual explícito. La corrección posterior de impresión se probó en Next local. No se confunden esos antecedentes con disponibilidad pública actual. Sin reescribir commits anteriores ni prometer borrado del historial. Sincronización/CI: DELIVERY.
+**2026-11-15: publicado en https://agroorbit-nexus.vercel.app** (Vercel) por instrucción del usuario. Lo que sigue describe la etapa anterior, solo localhost (http://127.0.0.1:3000). Se restringió el alojamiento anterior y se comprobó HTTP 401 sin sesión; no existe un enlace público aprobado para esta entrega. Las pruebas públicas históricas de la versión anterior tuvieron seis comprobaciones de contenido/API y 22 e2e aprobadas, dos omitidas y cero fallos. Se conservan sus resultados con la dirección retirada y estado actual explícito. La corrección posterior de impresión se probó en Next local. No se confunden esos antecedentes con disponibilidad pública actual. Sin reescribir commits anteriores ni prometer borrado del historial. Sincronización/CI: DELIVERY.
 
 ## Límites científicos y operativos
 

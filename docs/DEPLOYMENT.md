@@ -1,6 +1,8 @@
 # Despliegue y operación
 
-2026-11-14. **Modalidad vigente: solo localhost.** El usuario retiró la autorización de acceso público al alojamiento anterior. Se conservan dos destinos técnicos con los mismos componentes, validaciones, motor y adaptador NASA; ninguno se debe publicar sin una instrucción posterior. No requieren claves ni base de datos.
+**2026-11-15: producción en Vercel** (https://agroorbit-nexus.vercel.app), proyecto Next.js estándar (`next build`), desplegado con la CLI de Vercel por instrucción del usuario; sin variables de entorno ni claves. Los snapshots NASA de `src/data/` viajan en el build del servidor y sostienen la demo si la API falla. Verificación: suite e2e completa con `PLAYWRIGHT_BASE_URL` apuntando a esa URL.
+
+2026-11-14. **Modalidad anterior: solo localhost.** El usuario retiró la autorización de acceso público al alojamiento anterior. Se conservan dos destinos técnicos con los mismos componentes, validaciones, motor y adaptador NASA; ninguno se debe publicar sin una instrucción posterior. No requieren claves ni base de datos.
 
 ## Localhost con Next.js
 

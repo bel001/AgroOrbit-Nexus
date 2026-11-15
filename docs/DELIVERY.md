@@ -1,6 +1,8 @@
 # Entrega verificable — 2026-11-14
 
-**Entrega actual: solo localhost**, por instrucción expresa del usuario. Aplicación en http://127.0.0.1:3000 mientras el proceso esté activo; demo y PDF bajo `/submission/`. Alojamiento anterior restringido: HTTP 401 sin sesión comprobado. Se retiraron las referencias a su dirección de los archivos vigentes; no se volverá a publicar sin nueva instrucción. No hay envío NASA comprobado.
+**Actualización 2026-11-15:** publicada en Vercel por instrucción del usuario: https://agroorbit-nexus.vercel.app (demo y PDF bajo `/submission/`). El resto de este documento describe la entrega del 2026-11-14.
+
+**Entrega 2026-11-14: solo localhost**, por instrucción expresa del usuario. Aplicación en http://127.0.0.1:3000 mientras el proceso esté activo; demo y PDF bajo `/submission/`. Alojamiento anterior restringido: HTTP 401 sin sesión comprobado. Se retiraron las referencias a su dirección de los archivos vigentes; no se volverá a publicar sin nueva instrucción. No hay envío NASA comprobado.
 
 ## Resultado funcional y científico
 
