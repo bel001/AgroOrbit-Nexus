@@ -1,6 +1,6 @@
 # 30-second demo video — script (English)
 
-Recorded from the local app in English: http://127.0.0.1:3000/?lang=en. Every figure below is the app's own output for the Virú demo (NASA POWER data, FAO-56); re-check on screen before recording. No AI-generated images or voices; if any are used, they must carry the visible AI mark required by the 2026 rules.
+Recorded from the app in English: https://agroorbit-nexus.vercel.app/?lang=en (or locally at http://127.0.0.1:3000/?lang=en). Every figure below is the app's own output for the Virú demo (NASA POWER data, FAO-56); re-check on screen before recording. No AI-generated images or voices; if any are used, they must carry the visible AI mark required by the 2026 rules.
 
 | Time | On screen | Voice-over |
 |---|---|---|

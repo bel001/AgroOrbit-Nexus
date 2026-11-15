@@ -8,9 +8,9 @@
 
 NASA Space Apps Challenge 2026 · **Field Shift: Adapting Farms with NASA Data**.
 
-- Working app (local): http://127.0.0.1:3000 · English UI: http://127.0.0.1:3000/?lang=en
-- Seven-slide deck (English): http://127.0.0.1:3000/submission/index.html · [PDF](public/submission/agroorbit-nexus-demo.pdf)
-- Public link: *pending — not deployed yet.*
+- Working app: https://agroorbit-nexus.vercel.app/?lang=en (Spanish: https://agroorbit-nexus.vercel.app)
+- Seven-slide deck (English): https://agroorbit-nexus.vercel.app/submission/index.html · [PDF](https://agroorbit-nexus.vercel.app/submission/agroorbit-nexus-demo.pdf)
+- Local: http://127.0.0.1:3000 (see Run below)
 
 ## What it shows (Virú demo, real NASA POWER data)
 

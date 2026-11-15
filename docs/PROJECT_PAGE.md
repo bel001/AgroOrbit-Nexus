@@ -1,6 +1,6 @@
 # Project page text (NASA Space Apps 2026) — draft in English
 
-Paste into the Space Apps project page. Replace the two pending links after deployment. Confirm the exact field names in the portal.
+Paste into the Space Apps project page. Confirm the exact field names in the portal.
 
 ## Project name
 AgroOrbit Nexus — From Space to Soil
@@ -12,8 +12,8 @@ Field Shift: Adapting Farms with NASA Data
 In Virú, Peru, water arrives by canal and costs money. AgroOrbit Nexus shows how much water each crop rotation needs, what it does for the soil, and how it would have handled El Niño, before you plant. It is built for agricultural extension agents who review rotation options with farmers: it turns NASA POWER daily climate into FAO-56 crop water demand in m³/ha, scores each option's soil health with FAO-sourced indicators, re-orders options live by the farmer's own priorities, and replays every rotation on past El Niño seasons. It compares and explains; it does not recommend.
 
 ## Links
-- Project demo (slides / video): *pending public link*
-- Final project (working app): *pending public link* — local: http://127.0.0.1:3000/?lang=en
+- Project demo (slides): https://agroorbit-nexus.vercel.app/submission/index.html · PDF: https://agroorbit-nexus.vercel.app/submission/agroorbit-nexus-demo.pdf · video: *add the 30-second video link after recording*
+- Final project (working app): https://agroorbit-nexus.vercel.app/?lang=en
 - Source code (MIT): https://github.com/bel001/AgroOrbit-Nexus
 
 ## Detailed description
