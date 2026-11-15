@@ -1,5 +1,5 @@
 import { farmSchema, climateQuerySchema, addDays } from "@/lib/model";
-import { fetchClimateWithSnapshot } from "@/lib/power";
+import { fetchClimateWithSnapshot } from "@/lib/snapshots";
 import { buildReport } from "@/lib/rotations";
 export const runtime = "nodejs";
 export async function POST(request: Request) {

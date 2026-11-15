@@ -13,12 +13,24 @@ describe("API de análisis", () => {
 
 describe("Snapshot de la demo de Virú", () => {
   it("usa la respuesta NASA guardada solo para la consulta exacta de la demo y lo declara", async () => {
-    const { fetchClimateWithSnapshot, demoSnapshot } = await import("@/lib/power");
+    const { fetchClimateWithSnapshot, demoSnapshot } = await import("@/lib/snapshots");
     const down = (async () => { throw new TypeError("fetch failed"); }) as unknown as typeof fetch;
     const climate = await fetchClimateWithSnapshot(demoSnapshot.query, down);
     expect(climate.snapshot?.retrievedAt).toBe(demoSnapshot.retrievedAt);
     expect(climate.days).toHaveLength(540);
     expect(climate.warnings[0]).toContain("guardados localmente");
     await expect(fetchClimateWithSnapshot({ ...demoSnapshot.query, lat: 10 }, down)).rejects.toThrow();
+  });
+});
+
+describe("Snapshot histórico 1991–2023 (El Niño)", () => {
+  it("contiene la serie diaria completa para la línea base y los años de El Niño", async () => {
+    const { historyClimate } = await import("@/lib/snapshots");
+    const c = historyClimate();
+    expect(c.days).toHaveLength(12053);
+    expect(c.days[0].date).toBe("1991-01-01");
+    expect(c.days.at(-1)!.date).toBe("2023-12-31");
+    for (const d of ["1997-12-01", "2016-02-01", "2023-03-01"]) expect(c.days.find(x => x.date === d)?.T2M_MAX).not.toBeNull();
+    expect(c.missing.T2M_MAX + c.missing.T2M_MIN).toBe(0);
   });
 });

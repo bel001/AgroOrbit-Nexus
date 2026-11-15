@@ -1,5 +1,4 @@
 import { z } from "zod";
-import snapshotFile from "../data/power-viru-demo.json";
 import { addDays, climateQuerySchema, daysBetween, variables, type Climate, type ClimateQuery, type ClimateDay } from "./model";
 
 const powerSchema = z.object({
@@ -8,13 +7,25 @@ const powerSchema = z.object({
   properties: z.object({ parameter: z.record(z.string(), z.record(z.string(), z.number().nullable())) }),
 });
 export function powerUrl(input: ClimateQuery) {
-  const q = climateQuerySchema.parse(input);
+  return buildPowerUrl(climateQuerySchema.parse(input));
+}
+function buildPowerUrl(q: ClimateQuery) {
   const url = new URL("https://power.larc.nasa.gov/api/temporal/daily/point");
   url.search = new URLSearchParams({ parameters: variables.join(","), community: "AG", longitude: String(q.lon), latitude: String(q.lat), start: q.start.replaceAll("-", ""), end: q.end.replaceAll("-", ""), format: "JSON", "time-standard": "LST" }).toString();
   return url.toString();
 }
 export function normalizePower(raw: unknown, input: ClimateQuery, retrievedAt = new Date().toISOString()): Climate {
-  const query = climateQuerySchema.parse(input);
+  return normalizeSeries(raw, climateQuerySchema.parse(input), retrievedAt);
+}
+/**
+ * Same NASA contract checks without the 731-day limit of user queries.
+ * Only for stored long series (e.g. the 1991–2023 baseline); never for user input.
+ */
+export function normalizeStoredSeries(raw: unknown, query: ClimateQuery, retrievedAt: string): Climate {
+  if (!(query.start < query.end) || query.start < "1981-01-01") throw new Error("Serie almacenada con fechas inválidas");
+  return normalizeSeries(raw, query, retrievedAt);
+}
+function normalizeSeries(raw: unknown, query: ClimateQuery, retrievedAt: string): Climate {
   const data = powerSchema.parse(raw);
   if (data.header.time_standard !== "LST") throw new Error("NASA devolvió una escala temporal inesperada");
   for (const v of variables) {
@@ -35,7 +46,7 @@ export function normalizePower(raw: unknown, input: ClimateQuery, retrievedAt = 
     days.push(row);
   }
   if (variables.every(v => missing[v] === days.length)) throw new Error("NASA no entregó observaciones válidas para este periodo");
-  return { days, missing, query, units: Object.fromEntries(variables.map(v => [v, data.parameters[v].units])) as Climate["units"], source: "NASA POWER Daily · comunidad AG", url: powerUrl(query), retrievedAt, version: data.header.api.version, sources: data.header.sources, timeStandard: data.header.time_standard, fillValue: data.header.fill_value,
+  return { days, missing, query, units: Object.fromEntries(variables.map(v => [v, data.parameters[v].units])) as Climate["units"], source: "NASA POWER Daily · comunidad AG", url: buildPowerUrl(query), retrievedAt, version: data.header.api.version, sources: data.header.sources, timeStandard: data.header.time_standard, fillValue: data.header.fill_value,
     spatialSupport: "Meteorología MERRA-2 de grilla regional; soporte nativo dependiente del producto. No representa mediciones de la parcela.",
     warnings: ["Clima histórico; no es un pronóstico ni una medición del predio.", "La precipitación no equivale al agua utilizable ni al riego.", ...(variables.some(v => missing[v] > 0) ? ["Hay fechas o valores ausentes. Totales parciales identificados."] : [])] };
 }
@@ -60,24 +71,6 @@ export async function fetchClimate(q: ClimateQuery, fetcher: typeof fetch = fetc
   })();
   inFlight.set(url, task);
   try { return await task; } finally { inFlight.delete(url); }
-}
-// Stored, unmodified NASA POWER response for the Virú demo query (scripts/snapshot-viru-demo.mjs).
-export const demoSnapshot = snapshotFile as { query: ClimateQuery; url: string; retrievedAt: string; raw: unknown };
-const sameQuery = (a: ClimateQuery, b: ClimateQuery) => a.lat === b.lat && a.lon === b.lon && a.start === b.start && a.end === b.end;
-/**
- * Live NASA POWER first. Only for the exact demo query, an unavailable or slow API falls back to the
- * stored response, which is labelled as such; any other query keeps failing honestly.
- */
-export async function fetchClimateWithSnapshot(q: ClimateQuery, fetcher: typeof fetch = fetch): Promise<Climate> {
-  const covered = sameQuery(q, demoSnapshot.query);
-  try { return await fetchClimate(q, fetcher, covered ? 8_000 : 25_000); }
-  catch (e) {
-    if (!covered) throw e;
-    const climate = normalizePower(demoSnapshot.raw, q, demoSnapshot.retrievedAt);
-    const reason = e instanceof Error ? e.message : "NASA POWER no respondió";
-    return { ...climate, snapshot: { retrievedAt: demoSnapshot.retrievedAt, reason },
-      warnings: [`Datos NASA POWER guardados localmente el ${demoSnapshot.retrievedAt.slice(0, 10)} para la demo; la consulta en vivo no estuvo disponible.`, ...climate.warnings] };
-  }
 }
 export function monthlyClimate(c: Climate) {
   const months = new Map<string, ClimateDay[]>();
