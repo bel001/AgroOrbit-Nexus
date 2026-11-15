@@ -1,7 +1,7 @@
 {
   "schemaVersion": "2.2",
   "methodologyVersion": "fao56-water-2026-11-14",
-  "createdAt": "2026-11-15T19:52:37.339Z",
+  "createdAt": "2026-11-15T20:26:15.037Z",
   "input": {
     "name": "Parcela ilustrativa · Virú",
     "lat": -8.42,
@@ -4001,7 +4001,7 @@
     },
     "source": "NASA POWER Daily · comunidad AG",
     "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CT2M_MIN%2CT2M_MAX%2CPRECTOTCORR&community=AG&longitude=-78.75&latitude=-8.42&start=20240101&end=20250623&format=JSON&time-standard=LST",
-    "retrievedAt": "2026-11-15T19:52:16.654Z",
+    "retrievedAt": "2026-11-15T20:24:54.339Z",
     "version": "v2.10.3",
     "sources": [
       "MERRA2",
@@ -4532,6 +4532,142 @@
       "gddSource": "https://doi.org/10.1016/S0168-1923(97)00027-0"
     }
   },
+  "stressTest": {
+    "method": "Same calendar replayed with NASA POWER daily temperatures; ETc = Kc × Hargreaves ET0 (FAO-56). Change vs. the mean of 27 baseline seasons starting 1991–2019, excluding the 1997 and 2016 event seasons.",
+    "anomalyRule": "Anomalous only if outside the min–max of the 27 baseline seasons.",
+    "heatDays": "Not computed: no sourced crop-specific heat threshold verified.",
+    "source": "NASA POWER Daily API v2.10.3, AG community, stored series 1991-01-01…2025-06-23",
+    "period": "baseline 1991–2020",
+    "strategies": [
+      {
+        "id": "A",
+        "name": "Secuencia aportada por el usuario",
+        "baseline": {
+          "meanMm": 1345.7537452234183,
+          "minMm": 1287.1164943360404,
+          "maxMm": 1384.178683083871,
+          "seasons": 27
+        },
+        "events": [
+          {
+            "event": "1997-98",
+            "label": "1997–98",
+            "etcMm": 1386.843732225082,
+            "deltaM3PerHa": 410.8998700166376,
+            "deltaPct": 3.05330653156326,
+            "anomaly": "above"
+          },
+          {
+            "event": "2016-17",
+            "label": "2016–17",
+            "etcMm": 1375.115669040627,
+            "deltaM3PerHa": 293.6192381720866,
+            "deltaPct": 2.1818199593666376,
+            "anomaly": "none"
+          },
+          {
+            "event": "2023",
+            "label": "2023",
+            "etcMm": 1333.3547195310803,
+            "deltaM3PerHa": -123.99025692338,
+            "deltaPct": -0.9213443199654336,
+            "anomaly": "none"
+          }
+        ],
+        "sentence": {
+          "es": "A: 1997–98: +411 m³/ha, por encima de todas las temporadas 1991–2020; 2016–17: +294 m³/ha, dentro del rango 1991–2020 (sin anomalía en estos datos); 2023: −124 m³/ha, dentro del rango 1991–2020 (sin anomalía en estos datos).",
+          "en": "A: 1997–98: +411 m³/ha, above every 1991–2020 season; 2016–17: +294 m³/ha, within the 1991–2020 range (no anomaly in these data); 2023: −124 m³/ha, within the 1991–2020 range (no anomaly in these data)."
+        }
+      },
+      {
+        "id": "B",
+        "name": "Alternancia con leguminosa",
+        "baseline": {
+          "meanMm": 1303.2846524054137,
+          "minMm": 1245.6255909890554,
+          "maxMm": 1340.5836770844649,
+          "seasons": 27
+        },
+        "events": [
+          {
+            "event": "1997-98",
+            "label": "1997–98",
+            "etcMm": 1342.8703176475683,
+            "deltaM3PerHa": 395.8566524215462,
+            "deltaPct": 3.0373767671623586,
+            "anomaly": "above"
+          },
+          {
+            "event": "2016-17",
+            "label": "2016–17",
+            "etcMm": 1329.3380742723114,
+            "deltaM3PerHa": 260.5342186689768,
+            "deltaPct": 1.999058441976742,
+            "anomaly": "none"
+          },
+          {
+            "event": "2023",
+            "label": "2023",
+            "etcMm": 1289.9977480457924,
+            "deltaM3PerHa": -132.86904359621303,
+            "deltaPct": -1.019493656669579,
+            "anomaly": "none"
+          }
+        ],
+        "sentence": {
+          "es": "B: 1997–98: +396 m³/ha, por encima de todas las temporadas 1991–2020; 2016–17: +261 m³/ha, dentro del rango 1991–2020 (sin anomalía en estos datos); 2023: −133 m³/ha, dentro del rango 1991–2020 (sin anomalía en estos datos).",
+          "en": "B: 1997–98: +396 m³/ha, above every 1991–2020 season; 2016–17: +261 m³/ha, within the 1991–2020 range (no anomaly in these data); 2023: −133 m³/ha, within the 1991–2020 range (no anomaly in these data)."
+        }
+      },
+      {
+        "id": "C",
+        "name": "Tres especies candidatas",
+        "baseline": {
+          "meanMm": 1204.4672185807378,
+          "minMm": 1151.9333887412527,
+          "maxMm": 1238.741345619554,
+          "seasons": 27
+        },
+        "events": [
+          {
+            "event": "1997-98",
+            "label": "1997–98",
+            "etcMm": 1240.4061639919978,
+            "deltaM3PerHa": 359.38945411259965,
+            "deltaPct": 2.983804362364295,
+            "anomaly": "above"
+          },
+          {
+            "event": "2016-17",
+            "label": "2016–17",
+            "etcMm": 1228.8131765740961,
+            "deltaM3PerHa": 243.45957993358297,
+            "deltaPct": 2.0213051561541073,
+            "anomaly": "none"
+          },
+          {
+            "event": "2023",
+            "label": "2023",
+            "etcMm": 1192.9489784017496,
+            "deltaM3PerHa": -115.18240178988208,
+            "deltaPct": -0.9562933719823863,
+            "anomaly": "none"
+          }
+        ],
+        "sentence": {
+          "es": "C: 1997–98: +359 m³/ha, por encima de todas las temporadas 1991–2020; 2016–17: +243 m³/ha, dentro del rango 1991–2020 (sin anomalía en estos datos); 2023: −115 m³/ha, dentro del rango 1991–2020 (sin anomalía en estos datos).",
+          "en": "C: 1997–98: +359 m³/ha, above every 1991–2020 season; 2016–17: +243 m³/ha, within the 1991–2020 range (no anomaly in these data); 2023: −115 m³/ha, within the 1991–2020 range (no anomaly in these data)."
+        }
+      }
+    ]
+  },
+  "limitationsEn": [
+    "No local agronomic validation or field trials; no region has a validated agronomic analysis yet.",
+    "General FAO ranges; not regional calendars or crop recommendations.",
+    "Days without a recorded crop do not imply bare soil.",
+    "ETc is an FAO-56 estimate (Hargreaves and generic Kc), not a measurement or a validated irrigation requirement. No savings, yield, fixed nitrogen or profitability are computed.",
+    "Farm history is not inferred from satellites. HLS/NDVI series are not implemented."
+  ],
   "priority": {
     "selected": "diversidad",
     "effect": "No altera observaciones ni emite un ranking; orienta qué dimensión revisar."
@@ -4566,18 +4702,18 @@
           "soil": 0.75,
           "diversity": 1
         },
-        "why": "#1 · score 0.92 · strongest on water: lowest uncovered water (977 mm), 2 crop families, no crop repeated back-to-back, includes a legume, 130 uncropped days."
+        "why": "#1 · score 0.92 · strongest on water: lowest water demand (11,730 m³/ha), 2 crop families, no crop repeated back-to-back, includes a legume, 130 uncropped days."
       },
       {
         "id": "B",
         "rank": 2,
-        "score": 0.7201925769794265,
+        "score": 0.7309366673593846,
         "parts": {
-          "water": 0.2543277309382796,
+          "water": 0.2865600020781537,
           "soil": 0.90625,
           "diversity": 1
         },
-        "why": "#2 · score 0.72 · strongest on diversity: 89 mm more uncovered water than the lowest (1,066 mm), 2 crop families, no crop repeated back-to-back, includes a legume, 105 uncropped days."
+        "why": "#2 · score 0.73 · strongest on diversity: 990 m³/ha more water than the lowest (12,720 m³/ha), 2 crop families, no crop repeated back-to-back, includes a legume, 105 uncropped days."
       },
       {
         "id": "A",
@@ -4588,7 +4724,7 @@
           "soil": 0.25,
           "diversity": 0
         },
-        "why": "#3 · score 0.08 · strongest on soil: 120 mm more uncovered water than the lowest (1,097 mm), 1 crop family, same crop 3× in a row, no legume, 90 uncropped days."
+        "why": "#3 · score 0.08 · strongest on soil: 1,390 m³/ha more water than the lowest (13,120 m³/ha), 1 crop family, same crop 3× in a row, no legume, 90 uncropped days."
       }
     ],
     "label": "Exploration, not a recommendation · No regional agronomist validation yet"

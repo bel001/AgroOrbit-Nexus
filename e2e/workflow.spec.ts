@@ -13,7 +13,8 @@ test("terreno → NASA real → comparación → descarga", async ({ page }, inf
   await expect(page.getByText("Informe disponible", { exact: true })).toBeAttached({ timeout: 60_000 });
   await expect(page.getByRole("heading", { name: "Clima histórico · NASA POWER" })).toBeVisible();
   await expect(page.getByRole("link", { name: "Abrir consulta de origen NASA" })).toHaveAttribute("href", /power.larc.nasa.gov/);
-  await expect(page.getByText("Evaluación incompleta", { exact: true })).toHaveCount(3);
+  await expect(page.locator(".comparison .status-secondary")).toHaveCount(3);
+  await expect(page.locator(".bottom-line")).toContainText("menos agua que A");
   await expect(page.getByRole("heading", { name: "¿Qué dice el historial sobre la repetición de cultivos?" })).toBeVisible();
   await expect(page.getByText("Daño comprobado en este informe:", { exact: false })).toBeVisible();
   await expect(page.getByRole("heading", { name: "Virú: qué respaldan las fuentes y qué falta" })).toBeAttached();
@@ -25,7 +26,7 @@ test("terreno → NASA real → comparación → descarga", async ({ page }, inf
   await page.getByText("Ver tabla mensual y días válidos", { exact: true }).click();
   await expect(page.getByRole("region", { name: "Tabla climática desplazable" })).toBeVisible();
   await page.getByText("Ver tabla mensual y días válidos", { exact: true }).click();
-  await page.getByRole("heading", { name: "Tu siguiente cultivo", exact: false }).scrollIntoViewIfNeeded();
+  await page.getByRole("heading", { level: 1 }).scrollIntoViewIfNeeded();
   await page.screenshot({ path: `docs/evidence/${info.project.name}.png`, fullPage: true });
   expect(errors).toEqual([]);
   expect(consoleErrors).toEqual([]);

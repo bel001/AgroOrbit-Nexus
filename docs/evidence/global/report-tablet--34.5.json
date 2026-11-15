@@ -1,7 +1,7 @@
 {
   "schemaVersion": "2.2",
   "methodologyVersion": "fao56-water-2026-11-14",
-  "createdAt": "2026-11-15T19:54:35.918Z",
+  "createdAt": "2026-11-15T20:28:09.624Z",
   "input": {
     "name": "Mi terreno",
     "lat": -34.5,
@@ -2673,7 +2673,7 @@
     },
     "source": "NASA POWER Daily · comunidad AG",
     "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CT2M_MIN%2CT2M_MAX%2CPRECTOTCORR&community=AG&longitude=146.5&latitude=-34.5&start=20240101&end=20241231&format=JSON&time-standard=LST",
-    "retrievedAt": "2026-11-15T19:51:52.631Z",
+    "retrievedAt": "2026-11-15T20:25:10.276Z",
     "version": "v2.10.3",
     "sources": [
       "MERRA2",
@@ -2786,6 +2786,14 @@
       "gddSource": "https://doi.org/10.1016/S0168-1923(97)00027-0"
     }
   },
+  "stressTest": null,
+  "limitationsEn": [
+    "No local agronomic validation or field trials; no region has a validated agronomic analysis yet.",
+    "General FAO ranges; not regional calendars or crop recommendations.",
+    "Days without a recorded crop do not imply bare soil.",
+    "ETc is an FAO-56 estimate (Hargreaves and generic Kc), not a measurement or a validated irrigation requirement. No savings, yield, fixed nitrogen or profitability are computed.",
+    "Farm history is not inferred from satellites. HLS/NDVI series are not implemented."
+  ],
   "priority": {
     "selected": "diversidad",
     "effect": "No altera observaciones ni emite un ranking; orienta qué dimensión revisar."
