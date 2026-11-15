@@ -1,0 +1,12 @@
+{
+  "checkedAt": "2026-11-15",
+  "method": "Queried NASA POWER daily point API (T2M_MAX, T2M_MIN, 2024-01-01..05) on both sides of each predicted MERRA-2 cell edge and compared the returned values with the Virú demo point (-8.42, -78.75).",
+  "results": {
+    "lat -8.26 / -8.24": "same / different",
+    "lat -8.74 / -8.76": "same / different",
+    "lon -78.44 / -78.43": "same / different",
+    "lon -79.06 / -79.07": "same / different"
+  },
+  "cell": { "south": -8.75, "north": -8.25, "west": -79.0625, "east": -78.4375 },
+  "conclusion": "Consistent with the MERRA-2 grid of 0.5 deg latitude x 0.625 deg longitude (cell centred at -8.5, -78.75), verified to 0.01 deg at this location."
+}

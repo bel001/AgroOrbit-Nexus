@@ -1,5 +1,6 @@
 import { farmSchema, climateQuerySchema, addDays } from "@/lib/model";
-import { fetchClimateWithSnapshot } from "@/lib/snapshots";
+import { fetchClimateWithSnapshot, viruDailySeries } from "@/lib/snapshots";
+import { resolveCoverage } from "@/lib/regions";
 import { buildReport } from "@/lib/rotations";
 export const runtime = "nodejs";
 export async function POST(request: Request) {
@@ -28,5 +29,6 @@ export async function POST(request: Request) {
   let climateError: string | null = null;
   try { climate = await fetchClimateWithSnapshot(query.data); }
   catch (e) { climateError = e instanceof Error && !/Zod|JSON|fetch failed/.test(e.message) ? e.message : "No se pudo verificar la respuesta de NASA POWER. Reintenta la consulta."; }
-  return Response.json({ report: buildReport(farm, climate), climateError }, { headers: { "Cache-Control": "no-store" } });
+  const history = resolveCoverage(farm).demoAllowed ? viruDailySeries() : null;
+  return Response.json({ report: buildReport(farm, climate, history), climateError }, { headers: { "Cache-Control": "no-store" } });
 }

@@ -34,3 +34,9 @@ export async function fetchClimateWithSnapshot(q: ClimateQuery, fetcher: typeof 
       warnings: [`Datos NASA POWER guardados localmente el ${demoSnapshot.retrievedAt.slice(0, 10)} para la demo; la consulta en vivo no estuvo disponible.`, ...climate.warnings] };
   }
 }
+
+/** Stored daily series 1991-01-01 → 2025-06-23 (history + demo) for the El Niño replay; Virú demo only. */
+export function viruDailySeries() {
+  const demo = normalizeStoredSeries(demoSnapshot.raw, demoSnapshot.query, demoSnapshot.retrievedAt);
+  return [...historyClimate().days, ...demo.days];
+}

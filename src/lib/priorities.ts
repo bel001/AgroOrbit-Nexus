@@ -5,7 +5,7 @@ import type { Strategy } from "./rotations";
  * Farmer-priority ordering of the compared sequences.
  *
  * This is an exploration aid, not a recommendation: it only re-orders options by how they compare
- * with each other on numbers already computed elsewhere (FAO-56 water balance, crop families,
+ * with each other on numbers already computed elsewhere (FAO-56 crop water demand ETc, crop families,
  * repetitions, uncropped days). Every criterion is min-max normalised across the options shown
  * (1 = best of this set, 0 = worst of this set), so scores are relative, never absolute quality.
  *
@@ -40,8 +40,9 @@ export type Criterion = { id: CriterionId; available: boolean; scores: number[];
 /** The three criteria, each a 0–1 score per option. */
 export function criteria(strategies: Strategy[]): Criterion[] {
   const ind = strategies.map(soilIndicators);
-  const deficits = strategies.map(s => s.water?.grossDeficitMm ?? null);
-  const waterOk = deficits.every((d): d is number => d !== null);
+  // Water = crop water demand (FAO-56 ETc). Irrigated coastal valleys depend on canal water, not on rain.
+  const demand = strategies.map(s => s.water?.etcMm ?? null);
+  const waterOk = demand.every((d): d is number => d !== null);
   const idle = ind.map(i => i.uncroppedDays);
   const idleOk = idle.every((d): d is number => d !== null);
 
@@ -54,8 +55,8 @@ export function criteria(strategies: Strategy[]): Criterion[] {
   const diversity = strategies.map((_, k) => mean([families[k], repeats[k]]));
 
   return [
-    { id: "water", available: waterOk, scores: waterOk ? normalise(deficits as number[], false) : strategies.map(() => 0),
-      reason: waterOk ? undefined : "Sin balance hídrico completo para todas las opciones (falta la serie NASA del horizonte)." },
+    { id: "water", available: waterOk, scores: waterOk ? normalise(demand as number[], false) : strategies.map(() => 0),
+      reason: waterOk ? undefined : "Sin demanda de agua completa para todas las opciones (falta la serie NASA del horizonte)." },
     { id: "soil", available: true, scores: soil },
     { id: "diversity", available: true, scores: diversity },
   ];
@@ -86,8 +87,8 @@ export function rankStrategies(all: Strategy[], weights: Weights): Ranking {
     : unavailable.length ? `No se usa «${unavailable.map(c => c.id).join(", ")}»: ${unavailable[0].reason}` : null;
 
   const ind = options.map(soilIndicators);
-  const deficits = options.map(s => s.water?.grossDeficitMm ?? null);
-  const minDeficit = deficits.every(d => d !== null) ? Math.min(...(deficits as number[])) : null;
+  const demand = options.map(s => s.water?.etcMm ?? null);
+  const minDemand = demand.every(d => d !== null) ? Math.min(...(demand as number[])) : null;
 
   const rows = options.map((strategy, k) => {
     const parts = Object.fromEntries(crit.map(c => [c.id, c.available ? c.scores[k] : null])) as Record<CriterionId, number | null>;
@@ -98,9 +99,9 @@ export function rankStrategies(all: Strategy[], weights: Weights): Ranking {
   const ranked: Ranked[] = sorted.map(r => {
     // Ties share the rank of the first option with the same score.
     const rank = sorted.findIndex(x => Math.abs(x.score - r.score) < 1e-9) + 1;
-    const i = ind[r.k], d = deficits[r.k];
+    const i = ind[r.k], d = demand[r.k];
     const facts: string[] = [];
-    if (d !== null && minDeficit !== null) facts.push(d === minDeficit ? `lowest uncovered water (${fmt(d)} mm)` : `${fmt(d - minDeficit)} mm more uncovered water than the lowest (${fmt(d)} mm)`);
+    if (d !== null && minDemand !== null) facts.push(d === minDemand ? `lowest water demand (${fmt(d * 10)} m³/ha)` : `${fmt((d - minDemand) * 10)} m³/ha more water than the lowest (${fmt(d * 10)} m³/ha)`);
     facts.push(`${i.families} crop ${i.families === 1 ? "family" : "families"}`);
     facts.push(i.maxRepeat > 1 ? `same crop ${i.maxRepeat}× in a row` : "no crop repeated back-to-back");
     facts.push(i.hasLegume ? "includes a legume" : "no legume");

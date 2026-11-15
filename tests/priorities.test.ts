@@ -26,10 +26,10 @@ describe("Farmer priorities on the Virú demo (real NASA snapshot)", () => {
     expect(b).toMatchObject({ hasLegume: true, families: 2, maxRepeat: 1 });
     expect(c).toMatchObject({ hasLegume: true, families: 2, maxRepeat: 1 });
   });
-  it("water-only priority orders by uncovered water (lowest deficit first)", () => {
+  it("water-only priority orders by FAO-56 crop water demand (lowest first)", () => {
     const s = demo();
-    const byDeficit = [...s].sort((x, y) => x.water!.grossDeficitMm! - y.water!.grossDeficitMm!).map(x => x.id);
-    expect(order({ water: 100, soil: 0, diversity: 0 })).toEqual(byDeficit);
+    const byDemand = [...s].sort((x, y) => x.water!.etcMm! - y.water!.etcMm!).map(x => x.id);
+    expect(order({ water: 100, soil: 0, diversity: 0 })).toEqual(byDemand);
   });
   it("monoculture A is last whenever diversity matters", () => {
     expect(order({ water: 0, soil: 0, diversity: 100 }).at(-1)).toBe("A");
