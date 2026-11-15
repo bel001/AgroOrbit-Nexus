@@ -29,7 +29,7 @@ For 2016–17 and 2023 the replay shows **no anomaly in these data**, and the ap
 
 1. **Field** — search a place, use your location or click the map (opens on Peru). The map draws the real **NASA POWER cell** (0.5° × 0.625°, ~56 × 69 km at Virú, bounds verified against the API): *“NASA data represents this whole area, not just your field.”*
 2. **Crops** — past campaigns, the sequence you plan (A) and up to two options of your own.
-3. **Conditions** — daily NASA POWER climate (T2M, T2M_MIN, T2M_MAX, PRECTOTCORR; AG community, local solar time).
+3. **Conditions** — daily NASA POWER climate (T2M, T2M_MIN, T2M_MAX, PRECTOTCORR; AG community, local solar time). A new global analysis starts with the latest 12 months NASA POWER has published (about 3 days of latency).
 4. **Options** — a data-generated *bottom line*; **farmer priorities** (three 0–100 sliders: water, soil health, diversity / pest-cycle break) that re-order the options live with the formula on screen (`score = Σ wᵢ·sᵢ / Σ wᵢ`, criteria normalised 0–1 across the options shown) and a numeric *“Why it ranks here”*; water in **m³/ha** (1 mm = 10 m³/ha) with an optional user tariff (S/ per m³, never a default); a **soil-health card** per option with FAO sources; and the **El Niño stress test**.
 5. **Evidence** — JSON export with inputs, daily data, rules, weights and limitations; printable report.
 
@@ -46,7 +46,7 @@ Details: [METHODOLOGY](docs/METHODOLOGY.md) · [STATUS](docs/STATUS.md) · [evid
 
 ## Limits (stated in the app)
 
-Illustrative crop history for the pilot; generic FAO-56 Kc; Hargreaves ET0 (tends to overestimate under high humidity); no field measurements, yields, profits or savings; no regional agronomist validation yet. Climate works worldwide; agronomic comparisons only where a regional profile exists.
+Illustrative crop history for the pilot; generic FAO-56 Kc; Hargreaves ET0 (tends to overestimate under high humidity); no field measurements, yields, profits or savings; no regional agronomist validation yet. The Virú demo computes FAO-56 water demand with the 2024–25 NASA POWER climate only (2024-01-01 → 2025-06-23); a single year can differ from normal climate. Climate works worldwide; agronomic comparisons only where a regional profile exists.
 
 ## Run
 
@@ -70,7 +70,7 @@ npx playwright install chromium
 npm run test:e2e
 ```
 
-`npm run test:e2e` needs `npm start` running. Current results: 118 unit/API tests and 31 browser tests (desktop, Pixel 7, tablet; 2 skipped by design) with axe accessibility checks.
+`npm run test:e2e` needs `npm start` running. Current results: 122 unit/API tests and 31 browser tests (desktop, Pixel 7, tablet; 2 skipped by design) with axe accessibility checks.
 
 ## Tech
 

@@ -34,9 +34,9 @@ In Virú, Peru, water arrives by canal and costs money. AgroOrbit Nexus shows ho
 
 **Global.** Climate works for any point on Earth; agronomic comparisons are enabled only where a regional profile exists. English and Spanish interface.
 
-**Limits.** Illustrative crop history in the pilot; generic FAO-56 crop coefficients; Hargreaves ET0; no field measurements, yields, profits or savings; no regional agronomist validation yet. Label shown in the app: *Exploration, not a recommendation · No regional agronomist validation yet.*
+**Limits.** Illustrative crop history in the pilot; generic FAO-56 crop coefficients; Hargreaves ET0; no field measurements, yields, profits or savings; no regional agronomist validation yet. The Virú demo uses the 2024–25 NASA POWER climate only; a single year can differ from normal climate. Label shown in the app: *Exploration, not a recommendation · No regional agronomist validation yet.*
 
-**Tools.** Next.js, React, TypeScript, MapLibre, Recharts, Zod, Vitest, Playwright, axe. 118 unit/API tests and 31 browser tests (desktop, mobile, tablet) with accessibility checks.
+**Tools.** Next.js, React, TypeScript, MapLibre, Recharts, Zod, Vitest, Playwright, axe. 122 unit/API tests and 31 browser tests (desktop, mobile, tablet) with accessibility checks.
 
 ## Use of NASA data
 NASA POWER Daily API (point; AG community; local solar time): T2M, T2M_MIN, T2M_MAX (°C) and PRECTOTCORR (mm/day), for the user's point and, for the Virú demo, 1991-01-01 → 2025-06-23. Used for FAO-56 ET0/ETc water demand, degree-days, the 1991–2020 baseline and the El Niño replay. The MERRA-2 cell size (0.5° × 0.625°) was verified against the API and is drawn on the map. Source: https://power.larc.nasa.gov/ · Not affiliated with or endorsed by NASA. **Before submitting, confirm that NASA POWER is listed in the Field Shift resources.**

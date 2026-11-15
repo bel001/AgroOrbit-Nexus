@@ -21,7 +21,9 @@
 - Mapa centrado en Perú con la celda NASA POWER verificada (docs/evidence/power-grid-check.json) y su leyenda.
 - Interfaz ES/EN (?lang=en). Snapshots NASA en src/data/, solo en servidor; demo funciona sin internet (comprobado con todo el tráfico bloqueado; sin mapa base).
 - Diapositivas, PDF, guion de video (docs/VIDEO_SCRIPT.md), página del proyecto (docs/PROJECT_PAGE.md) y README en inglés.
-- Pruebas: 118 unitarias/API y 31 e2e aprobadas (2 omitidas deliberadamente), axe sin violaciones también en inglés.
+- Clima global: un análisis nuevo parte de los últimos 12 meses publicados por NASA POWER (latencia de unos 3 días; comprobado el 2026-11-15: último día válido 2026-11-12) y el botón «Últimos 12 meses» vuelve a ese periodo. La fecha se calcula en el navegador. La demo de Virú conserva 2024-01-01 → 2025-06-23.
+- Nueva limitación en el informe y la app: la demanda de agua FAO-56 usa solo el clima del periodo consultado; un solo año puede diferir del clima normal.
+- Pruebas: 122 unitarias/API y 31 e2e aprobadas (2 omitidas deliberadamente), axe sin violaciones también en inglés.
 - Pendiente: despliegue público (a la espera de autorización), envío en el portal NASA y confirmación de que NASA POWER figura en los recursos de Field Shift.
 
 ## Actualización 2026-11-14 (noche): usabilidad del flujo con terreno propio
@@ -57,7 +59,7 @@ La primera pasada completa tuvo 21 aprobadas, 1 fallo y 2 omitidas: estado ESA a
 
 ## Límites científicos y operativos
 
-No hay historia ni análisis de campo validados. Las fichas varietales no certifican parcela o rotación; sorgo carece de evidencia local suficiente. Faltan calendario revisado, identidad varietal, suelo/salinidad/drenaje, ETo/Kc y suministro de agua por periodo. No se calcula ETc, ahorro, rendimiento, salud de suelo, fijación de nitrógeno, rentabilidad ni ranking. Prioridad solo orienta revisión.
+No hay historia ni análisis de campo validados. Las fichas varietales no certifican parcela o rotación; sorgo carece de evidencia local suficiente. Faltan calendario revisado, identidad varietal, suelo/salinidad/drenaje, ETo/Kc y suministro de agua por periodo. Se calcula ETc FAO-56 (Hargreaves y Kc genéricos), indicadores de salud del suelo leídos del plan y un ranking ponderado por prioridades del usuario; no se calcula ahorro, rendimiento, fijación de nitrógeno medida ni rentabilidad.
 
 Clima mundial probado con seis consultas internacionales previas y nuevos recorridos en ambos hemisferios; no equivale a carga masiva ni aptitud de esos países. Caché y límites son por instancia, sin protección global distribuida; servicios públicos de mapas/geocoding sujetos a sus condiciones. Sin cuentas/base de datos; recargar pierde el formulario y no hay importador JSON. Interfaz española, sin traducción completa. Pruebas Chromium emuladas, sin hardware GPS, Safari/iOS, lector de pantalla ni evaluación de agricultores. HLS/NDVI y funciones avanzadas siguen pendientes.
 
