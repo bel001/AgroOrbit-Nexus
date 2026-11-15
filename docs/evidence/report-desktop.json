@@ -1,7 +1,7 @@
 {
   "schemaVersion": "2.2",
   "methodologyVersion": "fao56-water-2026-11-14",
-  "createdAt": "2026-11-15T19:40:20.205Z",
+  "createdAt": "2026-11-15T19:52:37.339Z",
   "input": {
     "name": "Parcela ilustrativa · Virú",
     "lat": -8.42,
@@ -4001,7 +4001,7 @@
     },
     "source": "NASA POWER Daily · comunidad AG",
     "url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=T2M%2CT2M_MIN%2CT2M_MAX%2CPRECTOTCORR&community=AG&longitude=-78.75&latitude=-8.42&start=20240101&end=20250623&format=JSON&time-standard=LST",
-    "retrievedAt": "2026-11-15T19:39:55.819Z",
+    "retrievedAt": "2026-11-15T19:52:16.654Z",
     "version": "v2.10.3",
     "sources": [
       "MERRA2",
@@ -4591,6 +4591,6 @@
         "why": "#3 · score 0.08 · strongest on soil: 120 mm more uncovered water than the lowest (1,097 mm), 1 crop family, same crop 3× in a row, no legume, 90 uncropped days."
       }
     ],
-    "label": "Exploration, not a recommendation · No regional agronomic validation"
+    "label": "Exploration, not a recommendation · No regional agronomist validation yet"
   }
 }

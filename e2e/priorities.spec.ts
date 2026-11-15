@@ -7,7 +7,7 @@ test("priority sliders re-order the options live and keep every change", async (
   await page.getByRole("button", { name: "Probar demo de Virú" }).click();
   const card = page.locator(".priority-card");
   await expect(card).toBeVisible({ timeout: 60_000 });
-  await expect(card).toContainText("Exploración, no recomendación · Sin validación agronómica regional");
+  await expect(card).toContainText("Exploration, not a recommendation · No regional agronomist validation yet");
   await expect(card.locator(".formula")).toContainText("score = Σ wᵢ·sᵢ / Σ wᵢ");
 
   const sliders = card.locator(".slider input");

@@ -28,7 +28,7 @@ export default function PriorityRanking({ strategies, weights, onWeights }: { st
   return <div className="priority-card">
     <div className="priority-head">
       <h3><Scale size={20} aria-hidden="true" /> Prioridades del agricultor <span lang="en">· Farmer priorities</span></h3>
-      <span className="explore-tag">Exploración, no recomendación · Sin validación agronómica regional <span lang="en">(Exploration, not a recommendation)</span></span>
+      <span className="explore-tag" lang="en">Exploration, not a recommendation · No regional agronomist validation yet</span>
     </div>
     <div className="sliders">
       {SLIDERS.map(s => <label key={s.id} className="slider">

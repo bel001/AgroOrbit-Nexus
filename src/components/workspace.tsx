@@ -70,7 +70,7 @@ function humanizeIssue(issue: { path: PropertyKey[]; message: string; code: stri
 function download(report: EvidenceReport, weights: Weights) {
   // The exported report carries the priority weights and the resulting order shown on screen.
   const ranking = report.strategies.length ? rankStrategies(report.strategies, weights) : null;
-  const exported = { ...report, priorityRanking: ranking && { weights, formula: ranking.formula, usedCriteria: ranking.usedCriteria, note: ranking.note, order: ranking.ranked.map(r => ({ id: r.strategy.id, rank: r.rank, score: r.score, parts: r.parts, why: r.why })), label: "Exploration, not a recommendation · No regional agronomic validation" } };
+  const exported = { ...report, priorityRanking: ranking && { weights, formula: ranking.formula, usedCriteria: ranking.usedCriteria, note: ranking.note, order: ranking.ranked.map(r => ({ id: r.strategy.id, rank: r.rank, score: r.score, parts: r.parts, why: r.why })), label: "Exploration, not a recommendation · No regional agronomist validation yet" } };
   const url = URL.createObjectURL(new Blob([JSON.stringify(exported, null, 2)], { type: "application/json" }));
   const a = document.createElement("a"); a.href = url; a.download = "agroorbit-evidencia.json"; a.click(); URL.revokeObjectURL(url);
 }
