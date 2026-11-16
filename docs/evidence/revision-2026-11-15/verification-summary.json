@@ -1,0 +1,70 @@
+{
+  "recordedAt": "2026-11-16T00:27:35.654533+00:00",
+  "localDate": "2026-11-15 America/Lima",
+  "unitApiTests": {
+    "passed": 154,
+    "files": 12
+  },
+  "initialNextRegression": {
+    "passed": 45,
+    "projects": [
+      "desktop",
+      "mobile",
+      "tablet",
+      "firefox",
+      "webkit"
+    ]
+  },
+  "rounds": {
+    "fullBeforeMapFix": {
+      "stats": {
+        "startTime": "2026-11-16T00:10:09.149Z",
+        "duration": 865610.525,
+        "expected": 75,
+        "skipped": 2,
+        "unexpected": 1,
+        "flaky": 0
+      },
+      "baseURL": null,
+      "artifact": "test-results/full-suite.json"
+    },
+    "mapRegression": {
+      "stats": {
+        "startTime": "2026-11-16T00:16:35.518Z",
+        "duration": 52501.922,
+        "expected": 5,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "baseURL": null,
+      "artifact": "test-results/map-fix/results.json"
+    },
+    "esaLiveRetest": {
+      "stats": {
+        "startTime": "2026-11-16T00:18:43.272Z",
+        "duration": 6831.959999999999,
+        "expected": 1,
+        "skipped": 0,
+        "unexpected": 0,
+        "flaky": 0
+      },
+      "baseURL": null,
+      "artifact": "test-results/esa-recheck/results.json"
+    }
+  },
+  "checks": {
+    "typecheck": "passed",
+    "lint": "passed",
+    "nextBuild": "passed",
+    "workerBuild": "passed",
+    "impeccableDetector": []
+  },
+  "notes": [
+    "Full 78-test round had an ESA timeout; do not report it as a clean run. The affected real-service test passed after the map fix; five new controlled map regressions also passed.",
+    "Two skips avoid duplicate WorldCover live requests on mobile/tablet.",
+    "An intermediate Next build collided with a parallel next dev; the final build passed.",
+    "An initial live MODIS UI request returned 502; retry succeeded with 3/3 observations. Upstream availability is not guaranteed.",
+    "No new deployment, remote CI run, agronomic field validation or NASA submission is claimed."
+  ]
+}

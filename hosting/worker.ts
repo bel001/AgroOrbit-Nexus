@@ -1,12 +1,14 @@
 import assets from "virtual:hosting-assets";
 import { POST } from "../src/app/api/analyze/route";
 import { GET } from "../src/app/api/locations/route";
+import { GET as vegetationGET } from "../src/app/api/vegetation/route";
 
 const worker = {
   async fetch(request: Request): Promise<Response> {
     const { pathname } = new URL(request.url);
     if (pathname === "/api/analyze") return request.method === "POST" ? POST(request) : Response.json({ error: "Usa POST" }, { status: 405, headers: { Allow: "POST" } });
     if (pathname === "/api/locations") return request.method === "GET" ? GET(request) : Response.json({ error: "Usa GET" }, { status: 405, headers: { Allow: "GET" } });
+    if (pathname === "/api/vegetation") return request.method === "GET" ? vegetationGET(request) : Response.json({ error: "Usa GET" }, { status: 405, headers: { Allow: "GET" } });
     if (!["GET", "HEAD"].includes(request.method)) return new Response("Método no permitido", { status: 405 });
     const asset = assets[pathname === "/" ? "/index.html" : pathname === "/submission/" ? "/submission/index.html" : pathname];
     if (!asset) return new Response("No encontrado", { status: 404 });

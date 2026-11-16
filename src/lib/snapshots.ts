@@ -24,7 +24,7 @@ const sameQuery = (a: ClimateQuery, b: ClimateQuery) => a.lat === b.lat && a.lon
  * stored response, which is labelled as such; any other query keeps failing honestly.
  */
 export async function fetchClimateWithSnapshot(q: ClimateQuery, fetcher: typeof fetch = fetch): Promise<Climate> {
-  const covered = sameQuery(q, demoSnapshot.query);
+  const covered = !q.extended && sameQuery(q, demoSnapshot.query);
   try { return await fetchClimate(q, fetcher, covered ? 8_000 : 25_000); }
   catch (e) {
     if (!covered) throw e;
@@ -39,4 +39,8 @@ export async function fetchClimateWithSnapshot(q: ClimateQuery, fetcher: typeof 
 export function viruDailySeries() {
   const demo = normalizeStoredSeries(demoSnapshot.raw, demoSnapshot.query, demoSnapshot.retrievedAt);
   return [...historyClimate().days, ...demo.days];
+}
+
+export function viruHistoryProvenance() {
+  return [historyFile, demoFile].map(file => ({ query: file.query, url: file.url, retrievedAt: file.retrievedAt, apiVersion: file.raw.header.api.version, sources: file.raw.header.sources }));
 }

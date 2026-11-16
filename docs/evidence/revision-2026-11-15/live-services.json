@@ -1,0 +1,35 @@
+{
+  "verifiedAt": "2026-11-15T23:45:40.722Z",
+  "results": [
+    {
+      "passed": true,
+      "service": "NASA POWER extended",
+      "location": "viru",
+      "days": 31,
+      "missing": {
+        "ALLSKY_SFC_SW_DWN": 0,
+        "T2MDEW": 0,
+        "WS2M": 0,
+        "PS": 0
+      }
+    },
+    {
+      "passed": true,
+      "service": "NASA POWER extended",
+      "location": "cusco",
+      "days": 31,
+      "missing": {
+        "ALLSKY_SFC_SW_DWN": 0,
+        "T2MDEW": 0,
+        "WS2M": 0,
+        "PS": 0
+      }
+    },
+    {
+      "passed": true,
+      "service": "NASA MODIS / ORNL DAAC",
+      "total": 3,
+      "accepted": 3
+    }
+  ]
+}

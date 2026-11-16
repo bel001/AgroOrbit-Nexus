@@ -1,5 +1,6 @@
 import { catalog, FAO56 } from "./catalog";
-import { addDays, daysBetween, type Campaign, type Climate, type ClimateDay, type CropId } from "./model";
+import { addDays, daysBetween, type Campaign, type Climate, type ClimateDay, type CropId, type Farm } from "./model";
+import { dailyPenmanMonteith } from "./penman-monteith";
 
 /**
  * Estimaciones hídricas y térmicas a partir de la serie NASA POWER ya consultada.
@@ -70,7 +71,7 @@ export function campaignClimate(c: Campaign, climate: Climate): CampaignClimate 
   for (let t = 0; t < length; t++) {
     const day = byDate.get(addDays(c.start, t));
     if (!day) continue;
-    const e = hargreavesEto(day, climate.query.lat);
+    const e = climate.query.extended ? dailyPenmanMonteith({ minC: day.T2M_MIN, maxC: day.T2M_MAX, dewC: day.T2MDEW, wind2m: day.WS2M, solarMj: day.ALLSKY_SFC_SW_DWN, pressureKpa: day.PS, elevationM: climate.elevationM, raMj: extraterrestrialRadiation(climate.query.lat, dayOfYear(day.date)) }) : hargreavesEto(day, climate.query.lat);
     const kc = kcOnDay(c.crop, t, length);
     if (e !== null) { eto += e; daysWithEto++; if (kc !== null) etc += kc * e; }
     if (day.PRECTOTCORR !== null) { rain += day.PRECTOTCORR; daysWithRain++; }
@@ -94,21 +95,32 @@ export type WaterBalance = {
   campaigns: CampaignClimate[];
   etcMm: number | null; rainMm: number | null; grossDeficitMm: number | null;
   method: string; assumptions: string[]; source: string;
+  scenario: { effectiveRainMm: number | null; netIrrigationMm: number | null; grossIrrigationMm: number | null; inputs: Farm["waterScenario"]; method: string } | null;
 };
 
-export function waterBalance(campaigns: Campaign[], climate: Climate): WaterBalance {
+export function waterBalance(campaigns: Campaign[], climate: Climate, scenario?: Farm["waterScenario"]): WaterBalance {
   const rows = campaigns.map(c => campaignClimate(c, climate));
   const sum = (k: "etcMm" | "rainMm" | "grossDeficitMm") =>
     rows.every(r => r[k] !== null) ? rows.reduce((a, r) => a + (r[k] as number), 0) : null;
+  const validScenario = scenario && scenario.origin !== "desconocido" && scenario.reference && scenario.effectiveRainPct !== null;
+  const scenarioRows = validScenario ? rows.map(r => {
+    const effective = r.rainMm === null ? null : r.rainMm * scenario.effectiveRainPct! / 100;
+    return { effective, net: effective === null || r.etcMm === null ? null : Math.max(0, r.etcMm - effective) };
+  }) : null;
+  const effectiveRainMm = scenarioRows?.every(r => r.effective !== null) ? scenarioRows.reduce((a, r) => a + r.effective!, 0) : null;
+  const netIrrigationMm = scenarioRows?.every(r => r.net !== null) ? scenarioRows.reduce((a, r) => a + r.net!, 0) : null;
+  const grossIrrigationMm = netIrrigationMm !== null && scenario?.efficiencyPct != null && scenario.efficiencyPct > 0 ? netIrrigationMm / (scenario.efficiencyPct / 100) : null;
   return {
     campaigns: rows, etcMm: sum("etcMm"), rainMm: sum("rainMm"), grossDeficitMm: sum("grossDeficitMm"),
-    method: "ETo Hargreaves (FAO-56 ec. 52) × Kc por etapas (FAO-56 fig. 25, tablas 11-12); déficit bruto = máx(0, ETc − precipitación de grilla) por campaña.",
+    method: `ETo ${climate.query.extended ? "Penman-Monteith (FAO-56 ec. 6; radiación, punto de rocío, viento 2 m y presión NASA)" : "Hargreaves (FAO-56 ec. 52)"} × Kc por etapas (FAO-56 fig. 25, tablas 11-12); déficit bruto = máx(0, ETc − precipitación de grilla) por campaña.`,
+    scenario: scenario ? { effectiveRainMm, netIrrigationMm, grossIrrigationMm, inputs: scenario, method: "Escenario del usuario: Pe = lluvia de grilla × porcentaje declarado; neto = Σ máx(0, ETc − Pe) por campaña; bruto = neto / eficiencia. No modela suelo, almacenamiento, escorrentía ni lavado de sales; no es programación de riego validada." } : null,
     assumptions: [
       "Kc genéricos de FAO-56 para clima subhúmedo, sin ajuste climático (ec. 62) ni por frecuencia de humedecimiento.",
       "Etapas escaladas a la duración de cada campaña; no son etapas fenológicas observadas.",
       "Hargreaves puede sobrestimar ETo en zonas húmedas o costeras con nubosidad; Penman-Monteith con datos locales es preferible.",
       "La precipitación total no es lluvia efectiva: el déficit bruto subestima la necesidad de riego y no incluye eficiencia de aplicación ni lavado de sales.",
       "Demanda de un cultivo sano sin estrés; no es una necesidad de riego validada para la parcela.",
+      ...(climate.query.extended ? ["Penman-Monteith usa elevación de la grilla NASA, albedo 0,23, G diario = 0 y presión de vapor derivada del punto de rocío. Sin un insumo válido no hay ETo ni sustitución por Hargreaves. No se calcula en noche polar sin un tratamiento radiativo validado."] : []),
     ],
     source: FAO56,
   };

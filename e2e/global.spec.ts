@@ -1,3 +1,4 @@
+import { evidencePath } from "./evidence";
 import { expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
@@ -16,12 +17,12 @@ test("análisis global en ambos hemisferios sin alternativas peruanas", async ({
     await expect(page.getByText("Informe climático global.", { exact: false })).toBeVisible();
     await expect(page.getByRole("table", { name: "Comparación descriptiva de estrategias.", exact: false })).toHaveCount(0);
     const download = page.waitForEvent("download"); await page.getByRole("button", { name: "Descargar JSON" }).click();
-    await (await download).saveAs(`docs/evidence/global/report-${info.project.name}-${point.lat}.json`);
+    await (await download).saveAs(evidencePath(`global/report-${info.project.name}-${point.lat}.json`));
   }
   const a11y = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"]).analyze();
   expect(a11y.violations.map(v => v.id)).toEqual([]);
   await page.getByRole("heading", { level: 1 }).scrollIntoViewIfNeeded();
-  await page.screenshot({ path: `docs/evidence/global/${info.project.name}.png`, fullPage: true });
+  await page.screenshot({ path: evidencePath(`global/${info.project.name}.png`), fullPage: true });
 });
 
 test("capa WorldCover real, opcional, con año y atribución", async ({ page }, info) => {
@@ -33,6 +34,6 @@ test("capa WorldCover real, opcional, con año y atribución", async ({ page }, 
   await expect(page.getByText("Capa ESA: datos recibidos; pueden quedar teselas pendientes.", { exact: true })).toBeVisible({ timeout: 60_000 });
   await expect(page.getByText("ESA WorldCover v200", { exact: false })).toBeVisible();
   await page.getByRole("region", { name: "Mapa mundial.", exact: false }).scrollIntoViewIfNeeded();
-  await page.screenshot({ path: "docs/evidence/global/worldcover-map.png" });
+  await page.screenshot({ path: evidencePath("global/worldcover-map.png") });
   await page.getByLabel("Mostrar cobertura terrestre ESA · 2021").uncheck();
 });

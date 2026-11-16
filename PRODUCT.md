@@ -14,7 +14,7 @@ Agricultores y técnicos de cualquier región del mundo. Virú/Chao, La Libertad
 Ubicación → historial declarado → clima NASA POWER → tres estrategias → evidencia reproducible. Ayuda a decidir qué verificar con un agrónomo.
 
 ## Operating Context
-Sin login; navegador móvil o escritorio. Datos del formulario en memoria de sesión. Coordenadas de referencia, sin límites legales.
+Sin login; navegador móvil o escritorio. Borrador del formulario en localStorage versionado, con borrado e importación/exportación JSON; resultados recalculados. Coordenadas y polígonos opcionales con área aproximada, sin límites legales certificados.
 
 ## Capabilities and Constraints
 Inicio global sin coordenadas/campañas precargadas; NASA POWER mundial, perfiles regionales versionados y catálogo extensible. Análisis climático global o revisión parcial de registros; no recomendar sin datos locales suficientes. La demo de Virú es una activación explícita, acotada y no validada. Capa visual histórica WorldCover opcional y separada de reglas. Idiomas/fuentes por registros extensibles; interfaz completa actual en español.

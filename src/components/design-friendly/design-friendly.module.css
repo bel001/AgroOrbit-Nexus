@@ -1,0 +1,184 @@
+/* Design Friendly — Campo Amable. Warm, rounded, approachable. */
+.df {
+  --df-bg: #f7f3ec;
+  --df-surface: #ffffff;
+  --df-surface2: #fdf8f1;
+  --df-ink: #2d3a35;
+  --df-ink2: #6b7a74;
+  --df-line: #e8e0d4;
+  --df-brand: #1f6b4f;
+  --df-brand2: #2e8b66;
+  --df-warm: #e09f3e;
+  --df-sky: #5fa8d3;
+  --df-rose: #e8a598;
+  min-height: 100vh;
+  background: var(--df-bg);
+  color: var(--df-ink);
+  font-family: var(--font);
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+/* Header: soft, rounded, floating */
+.dfHeader { position: sticky; top: 12px; z-index: 50; margin: 0 16px; }
+.dfHeaderInner { max-width: 1200px; margin: 0 auto; padding: 12px 20px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; background: rgba(255,255,255,.92); backdrop-filter: blur(12px); border-radius: 20px; box-shadow: 0 8px 24px -12px rgba(31,107,79,.25), 0 2px 8px rgba(0,0,0,.04); border: 1px solid var(--df-line); }
+.dfBrand { display: flex; align-items: center; gap: 10px; color: var(--df-brand); font-size: 19px; font-weight: 700; text-decoration: none; }
+.dfBrandMark { width: 36px; height: 36px; border-radius: 12px; background: linear-gradient(135deg, #2e8b66, var(--df-brand)); color: #fff; display: grid; place-items: center; box-shadow: 0 4px 12px -4px rgba(31,107,79,.5); }
+.dfBrand small { display: block; font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--df-ink2); font-weight: 600; margin-top: 1px; }
+.dfNav { display: flex; gap: 4px; margin-left: auto; flex-wrap: wrap; }
+.dfNav a { padding: 8px 14px; border-radius: 12px; color: var(--df-ink2); font-size: 14px; font-weight: 600; text-decoration: none; transition: background 150ms, color 150ms, transform 150ms; }
+.dfNav a:hover { background: var(--df-surface2); color: var(--df-brand); transform: translateY(-1px); }
+.dfNav a.isActive { background: var(--df-brand); color: #fff; }
+.dfLang { display: inline-flex; padding: 3px; gap: 2px; border-radius: 12px; background: var(--df-surface2); }
+.dfLang button { padding: 6px 10px; border: 0; border-radius: 10px; background: transparent; color: var(--df-ink2); font-weight: 700; font-size: 12px; cursor: pointer; transition: background 150ms, color 150ms; }
+.dfLang button[aria-pressed="true"] { background: var(--df-brand); color: #fff; }
+.dfProgress { height: 6px; background: var(--df-line); border-radius: 999px; margin-top: 8px; max-width: 1200px; margin-left: auto; margin-right: auto; overflow: hidden; }
+.dfProgress span { display: block; height: 100%; background: linear-gradient(90deg, var(--df-brand), var(--df-warm)); border-radius: 999px; }
+
+.dfMain { max-width: 1200px; margin: 0 auto; padding: 24px 24px 64px; }
+
+/* Hero: warm, rounded, image with soft corners */
+.dfHero { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: center; padding: 32px 0 48px; }
+.dfHeroCopy h1 { font-size: clamp(32px, 4.5vw, 52px); line-height: 1.1; font-weight: 700; letter-spacing: -.02em; margin: 0 0 16px; color: var(--df-ink); }
+.dfHeroCopy h1 em { font-style: normal; color: var(--df-brand); }
+.dfHeroCopy p { font-size: 18px; color: var(--df-ink2); max-width: 48ch; margin: 0 0 20px; }
+.dfHeroActions { display: flex; gap: 12px; flex-wrap: wrap; margin: 20px 0 16px; }
+.dfBtn { display: inline-flex; align-items: center; gap: 8px; padding: 14px 24px; border-radius: 16px; border: 0; background: var(--df-brand); color: #fff; font-weight: 700; font-size: 15px; text-decoration: none; cursor: pointer; box-shadow: 0 6px 16px -6px rgba(31,107,79,.4); transition: transform 150ms, box-shadow 150ms, background 150ms; }
+.dfBtn:hover { background: var(--df-brand2); transform: translateY(-2px); box-shadow: 0 10px 20px -6px rgba(31,107,79,.4); }
+.dfBtn.secondary { background: var(--df-surface); color: var(--df-brand); border: 2px solid var(--df-line); box-shadow: none; }
+.dfBtn.secondary:hover { background: var(--df-surface2); border-color: var(--df-brand); }
+.dfHeroFacts { list-style: none; padding: 0; margin: 16px 0 0; display: flex; flex-wrap: wrap; gap: 10px 18px; color: var(--df-ink2); font-size: 14px; }
+.dfHeroFacts li { display: flex; align-items: center; gap: 6px; background: var(--df-surface2); padding: 6px 12px; border-radius: 999px; }
+.dfHeroFacts svg { color: var(--df-brand); }
+.dfHeroVisual { position: relative; border-radius: 24px; overflow: hidden; box-shadow: 0 12px 32px -12px rgba(31,107,79,.3); }
+.dfHeroVisual img { width: 100%; height: 100%; object-fit: cover; display: block; min-height: 320px; }
+.dfHeroBadge { position: absolute; bottom: 16px; left: 16px; background: rgba(255,255,255,.92); backdrop-filter: blur(8px); padding: 8px 14px; border-radius: 12px; font-size: 13px; font-weight: 700; color: var(--df-brand); box-shadow: 0 4px 12px rgba(0,0,0,.08); }
+
+/* Section */
+.dfSection { padding: 48px 0; }
+.dfSectionHead { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; margin-bottom: 24px; flex-wrap: wrap; }
+.dfSectionHead h2 { font-size: clamp(22px, 3vw, 30px); font-weight: 700; margin: 0; color: var(--df-ink); display: flex; align-items: center; gap: 12px; }
+.dfStepNum { display: inline-grid; place-items: center; width: 36px; height: 36px; border-radius: 12px; background: var(--df-brand); color: #fff; font-size: 16px; font-weight: 700; flex-shrink: 0; box-shadow: 0 4px 10px -4px rgba(31,107,79,.4); }
+.dfSectionHead p { color: var(--df-ink2); margin: 0; max-width: 56ch; font-size: 15px; }
+
+/* Card: very rounded, soft shadow */
+.dfCard { background: var(--df-surface); border: 1px solid var(--df-line); border-radius: 24px; padding: 28px; box-shadow: 0 8px 24px -12px rgba(0,0,0,.08); }
+
+/* Terreno */
+.dfFieldGrid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 24px; align-items: start; }
+.dfFieldInfo { display: flex; flex-direction: column; gap: 4px; }
+.dfFieldRow { display: flex; justify-content: space-between; gap: 12px; padding: 12px 16px; background: var(--df-surface2); border-radius: 12px; font-size: 15px; margin-bottom: 8px; }
+.dfFieldRow span { color: var(--df-ink2); }
+.dfFieldRow strong { color: var(--df-ink); font-weight: 700; text-align: right; }
+.dfMapFrame { border-radius: 24px; overflow: hidden; box-shadow: 0 8px 24px -12px rgba(0,0,0,.1); border: 1px solid var(--df-line); background: #eaf2f7; }
+.dfMapSvg { width: 100%; height: 340px; display: block; }
+.dfMapCaption { padding: 12px 16px; font-size: 13px; color: var(--df-ink2); background: var(--df-surface); }
+.dfNotice { background: #fff8e7; color: #7a5a1f; padding: 14px 18px; border-radius: 16px; font-size: 14px; margin-bottom: 16px; border: 1px solid #f0e0b8; }
+.dfNotice.neutral { background: #eef6f0; color: var(--df-brand); border-color: var(--df-line); }
+.dfNotice strong { font-weight: 700; }
+
+/* Cultivos timeline */
+.dfTimeline { display: grid; gap: 12px; }
+.dfTimelineRow { display: grid; grid-template-columns: 110px 1fr; gap: 16px; align-items: center; padding: 14px 16px; background: var(--df-surface); border-radius: 16px; box-shadow: 0 4px 12px -8px rgba(0,0,0,.06); }
+.dfTimelineLabel { font-weight: 700; font-size: 13px; color: var(--df-brand); }
+.dfTimelineTrack { position: relative; height: 32px; background: var(--df-surface2); border-radius: 12px; overflow: hidden; }
+.dfTimelineBar { position: absolute; top: 4px; height: 24px; border-radius: 8px; display: flex; align-items: center; padding: 0 10px; color: #fff; font-size: 12px; font-weight: 700; }
+.dfTimelineBar.maize { background: linear-gradient(90deg, #d4a84a, #c99a2e); }
+.dfTimelineBar.bean { background: linear-gradient(90deg, #6fa85a, #4f8a3a); }
+.dfTimelineBar.sorghum { background: linear-gradient(90deg, #b87a5a, #a2694b); }
+.dfLegend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 12px; font-size: 13px; color: var(--df-ink2); }
+.dfLegend span { display: flex; align-items: center; gap: 6px; }
+.dfLegend i { width: 12px; height: 12px; border-radius: 4px; display: inline-block; }
+.dfBotanical { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 24px; }
+.dfBotanicalCard { border-radius: 20px; overflow: hidden; background: var(--df-surface); box-shadow: 0 8px 20px -12px rgba(0,0,0,.1); transition: transform 200ms; }
+.dfBotanicalCard:hover { transform: translateY(-4px); }
+.dfBotanicalCard img { width: 100%; height: 170px; object-fit: cover; display: block; }
+.dfBotanicalCard figcaption { padding: 12px 16px; font-size: 13px; color: var(--df-ink2); }
+.dfBotanicalCard figcaption b { color: var(--df-ink); display: block; font-weight: 700; }
+
+/* Condiciones */
+.dfCondGrid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 24px; align-items: start; }
+.dfChart { height: 260px; background: var(--df-surface); border-radius: 20px; padding: 16px; box-shadow: 0 8px 20px -12px rgba(0,0,0,.08); }
+.dfKpiGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.dfKpi { padding: 16px; border-radius: 16px; background: var(--df-surface); box-shadow: 0 4px 12px -8px rgba(0,0,0,.06); }
+.dfKpi span { font-size: 12px; color: var(--df-ink2); display: block; margin-bottom: 4px; }
+.dfKpi strong { font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--df-ink); }
+.dfKpi small { font-size: 11px; color: var(--df-ink2); }
+.dfKpi.muted strong { color: var(--df-ink2); font-size: 20px; }
+.dfBadge { display: inline-block; font-size: 11px; font-weight: 700; color: #7a5a1f; background: #fff3d6; padding: 4px 10px; border-radius: 999px; }
+
+/* Alternativas */
+.dfTabs { display: inline-flex; padding: 4px; gap: 4px; background: var(--df-surface2); border-radius: 16px; margin-bottom: 24px; }
+.dfTab { padding: 10px 20px; border-radius: 12px; border: 0; background: transparent; color: var(--df-ink2); font-weight: 700; font-size: 14px; cursor: pointer; transition: background 150ms, color 150ms; }
+.dfTab.isActive { background: var(--df-surface); color: var(--df-brand); box-shadow: 0 2px 8px rgba(0,0,0,.06); }
+.dfAltGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.dfAltCard { background: var(--df-surface); border-radius: 20px; padding: 22px; box-shadow: 0 8px 20px -12px rgba(0,0,0,.08); transition: transform 200ms; }
+.dfAltCard:hover { transform: translateY(-4px); }
+.dfAltCard.highlight { background: linear-gradient(160deg, #eef6f0, #f7f3ec); }
+.dfAltHead { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.dfAltLetter { width: 40px; height: 40px; border-radius: 14px; background: var(--df-brand); color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 16px; box-shadow: 0 4px 10px -4px rgba(31,107,79,.4); }
+.dfAltName { font-weight: 700; color: var(--df-ink); font-size: 15px; }
+.dfAltSeq { font-size: 13px; color: var(--df-ink2); margin-bottom: 14px; }
+.dfWaterBar { display: grid; grid-template-columns: 1fr 2fr auto; gap: 10px; align-items: center; font-size: 13px; margin-bottom: 6px; }
+.dfWaterTrack { height: 12px; border-radius: 999px; background: var(--df-surface2); overflow: hidden; }
+.dfWaterFill { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, #7fc8e8, var(--df-sky)); transform-origin: left; animation: dfGrow 1s var(--ease, cubic-bezier(.2,.8,.2,1)) both; }
+.dfWaterVal { font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.dfSoilList { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; font-size: 13px; }
+.dfSoilList li { display: flex; gap: 8px; align-items: flex-start; }
+.dfSoilList svg { color: var(--df-brand); flex-shrink: 0; margin-top: 2px; }
+.dfSoilList.weak svg { color: var(--df-warm); }
+.dfElNinoTable { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13px; }
+.dfElNinoTable th, .dfElNinoTable td { padding: 12px 14px; text-align: left; }
+.dfElNinoTable thead th { background: var(--df-brand); color: #fff; font-weight: 700; }
+.dfElNinoTable thead th:first-child { border-radius: 12px 0 0 0; }
+.dfElNinoTable thead th:last-child { border-radius: 0 12px 0 0; }
+.dfElNinoTable tbody td { border-bottom: 1px solid var(--df-line); }
+.dfElNinoTable tbody tr:last-child td { border-bottom: 0; }
+.dfElNinoTable tbody tr { background: var(--df-surface); }
+.dfElNinoTable td.anom { background: #fff3d6; color: #7a5a1f; font-weight: 700; }
+
+/* Evidencias */
+.dfEvidence { background: linear-gradient(160deg, #eef6f0, #fdf8f1); border-radius: 24px; padding: 32px; box-shadow: 0 8px 24px -12px rgba(0,0,0,.08); }
+.dfEvidenceGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
+.dfEvidenceBlock h3 { font-size: 15px; margin-bottom: 8px; color: var(--df-brand); font-weight: 700; }
+.dfEvidenceBlock ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; font-size: 14px; }
+.dfEvidenceBlock li { padding-left: 18px; position: relative; }
+.dfEvidenceBlock li::before { content: ""; position: absolute; left: 4px; top: 9px; width: 8px; height: 8px; border-radius: 50%; background: var(--df-warm); }
+.dfWarn { background: #fff3d6; color: #7a5a1f; padding: 14px 18px; border-radius: 16px; font-weight: 600; margin: 20px 0; border: 1px solid #f0e0b8; }
+
+/* Footer */
+.dfFooter { padding: 48px 0 32px; color: var(--df-ink2); font-size: 14px; margin-top: 32px; }
+.dfFooterBrand { display: flex; gap: 8px; align-items: center; color: var(--df-brand); font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+
+/* Responsive */
+@media (max-width: 1000px) {
+  .dfHero { grid-template-columns: 1fr; gap: 24px; }
+  .dfHeroVisual img { min-height: 240px; }
+  .dfFieldGrid { grid-template-columns: 1fr; }
+  .dfCondGrid { grid-template-columns: 1fr; }
+  .dfAltGrid { grid-template-columns: 1fr; }
+  .dfEvidenceGrid { grid-template-columns: 1fr; }
+  .dfBotanical { grid-template-columns: 1fr; }
+  .dfWaterBar { grid-template-columns: 1fr; gap: 4px; }
+  .dfWaterVal { text-align: left; }
+}
+@media (max-width: 760px) {
+  .dfMain { padding: 16px 16px 48px; }
+  .dfHeader { margin: 0 8px; top: 8px; }
+  .dfHeaderInner { padding: 10px 14px; }
+  .dfHero { padding: 24px 0 32px; }
+  .dfSection { padding: 36px 0; }
+  .dfSectionHead h2 { font-size: 20px; }
+  .dfCard, .dfEvidence { padding: 20px 16px; border-radius: 20px; }
+  .dfAltCard { padding: 18px 16px; }
+  .dfNav a { padding: 6px 10px; font-size: 12px; }
+  .dfHeroFacts li { font-size: 12px; }
+  .dfKpiGrid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 420px) {
+  .dfKpiGrid { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dfBtn, .dfBotanicalCard, .dfAltCard, .dfWaterFill { animation: none !important; transition: none !important; }
+}
+@keyframes dfGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }

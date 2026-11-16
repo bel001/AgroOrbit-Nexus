@@ -1,3 +1,4 @@
+import { evidencePath } from "./evidence";
 import { expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
@@ -16,7 +17,7 @@ test("buscar una localidad real y ajustar el terreno sin consultar clima", async
   await expect(page.getByText(/seleccionada\. Acerca el mapa/)).toBeVisible();
   expect(analysisRequests).toBe(0);
   await page.getByRole("group", { name: "Encontrar el terreno" }).scrollIntoViewIfNeeded();
-  await page.screenshot({ path: `docs/evidence/search/${info.project.name}.png` });
+  await page.screenshot({ path: evidencePath(`search/${info.project.name}.png`) });
   const a11y = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"]).analyze();
   expect(a11y.violations.map(v => v.id)).toEqual([]); expect(errors).toEqual([]);
 });

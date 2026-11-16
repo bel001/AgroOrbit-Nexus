@@ -1,5 +1,7 @@
 # Despliegue y operación
 
+**Revisión local 2026-11-15:** las correcciones de IMPLEMENTATION_MATRIX no se han desplegado. La evidencia de la publicación anterior no prueba esta revisión. No se ha vuelto a publicar.
+
 **2026-11-15: producción en Vercel** (https://agroorbit-nexus.vercel.app), proyecto Next.js estándar (`next build`), desplegado con la CLI de Vercel por instrucción del usuario; sin variables de entorno ni claves. Los snapshots NASA de `src/data/` viajan en el build del servidor y sostienen la demo si la API falla. Verificación: suite e2e completa con `PLAYWRIGHT_BASE_URL` apuntando a esa URL.
 
 2026-11-14. **Modalidad anterior: solo localhost.** El usuario retiró la autorización de acceso público al alojamiento anterior. Se conservan dos destinos técnicos con los mismos componentes, validaciones, motor y adaptador NASA; ninguno se debe publicar sin una instrucción posterior. No requieren claves ni base de datos.
@@ -16,9 +18,9 @@ Para comprobar el artefacto: `node scripts/preview-hosting.mjs`, abrir http://12
 
 El plugin oficial Sites registra identidad en `.openai/hosting.json`, sincroniza fuente con su helper oficial y empaqueta el build. Credenciales temporales solo en memoria/stdin del helper. `origin` de GitHub se conserva; no se guarda token ni se fuerza historial. Fuente exacta y archive deben corresponder al commit publicado. CI comprueba ambos builds; no despliega automáticamente.
 
-## Resultado de publicación
+## Antecedente del alojamiento retirado (no corresponde a Vercel)
 
-**Acceso público retirado y verificado:** política restringida a la cuenta propietaria y HTTP 401 sin sesión. No hay URL pública aprobada. Se eliminaron de los archivos vigentes las referencias a la dirección anterior. Los antecedentes de pruebas conservan resultados sin esa dirección; no prueban disponibilidad actual. No se borraron commits anteriores ni el registro privado del proveedor: las herramientas disponibles no permiten eliminar el sitio, y no se fuerza el historial Git.
+**Acceso público retirado y verificado:** política restringida a la cuenta propietaria y HTTP 401 sin sesión. En esa etapa no había URL pública aprobada; Vercel se publicó posteriormente, como se identifica al inicio. Se eliminaron de los archivos vigentes las referencias a la dirección anterior. Los antecedentes de pruebas conservan resultados sin esa dirección; no prueban disponibilidad actual. No se borraron commits anteriores ni el registro privado del proveedor: las herramientas disponibles no permiten eliminar el sitio, y no se fuerza el historial Git.
 
 La versión 1 devolvía assets con doble gzip: Cloudflare recomprimía bytes ya comprimidos. Corregido con `encodeBody: manual`, según [Response de Cloudflare](https://developers.cloudflare.com/workers/runtime-apis/response/). Se verificó contenido descomprimido HTML/JS y firma PDF, no solo HTTP 200. Worker corregido: 1 673 431 bytes.
 

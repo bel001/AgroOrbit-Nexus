@@ -14,3 +14,7 @@ public/vendor/
 dist/
 outputs/
 .openai/
+
+# Configuración local de Claude; no publicar en GitHub.
+.claude/
+claude/

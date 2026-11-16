@@ -536,6 +536,19 @@ footer p { margin: 0 0 6px; }
   .kpi strong { font-size: 24px; }
 }
 
+.session-controls, .parcel-controls, .review-checklist, .vegetation-results { margin-block: var(--s4); }
+.session-controls .report-actions, .parcel-controls .report-actions { flex-wrap: wrap; gap: var(--s2); }
+.parcel-controls textarea { width: 100%; min-height: 120px; resize: vertical; font: inherit; padding: var(--s3); color: var(--ink); background: var(--surface); border: 1px solid var(--line-strong); border-radius: var(--r-sm); }
+.campaign-row, .campaign-row.current, .campaign-row.alt-row { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.campaign-row .icon-button { justify-self: start; }
+.vegetation-results td { overflow-wrap: anywhere; }
+@media (max-width: 760px) {
+  .campaign-row, .campaign-row.current, .campaign-row.alt-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 420px) {
+  .campaign-row, .campaign-row.current, .campaign-row.alt-row { grid-template-columns: 1fr; }
+}
+
 /* ---------- Impresión ---------- */
 @media print {
   body { background: white; font-size: 12px; }

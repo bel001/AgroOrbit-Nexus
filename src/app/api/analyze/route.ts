@@ -1,7 +1,8 @@
 import { farmSchema, climateQuerySchema, addDays } from "@/lib/model";
-import { fetchClimateWithSnapshot, viruDailySeries } from "@/lib/snapshots";
+import { fetchClimateWithSnapshot, viruDailySeries, viruHistoryProvenance } from "@/lib/snapshots";
 import { resolveCoverage } from "@/lib/regions";
 import { buildReport } from "@/lib/rotations";
+import { matchesHistoricalContext } from "@/lib/historical-context";
 export const runtime = "nodejs";
 export async function POST(request: Request) {
   if (Number(request.headers.get("content-length") ?? 0) > 32_768) return Response.json({ error: "Formulario demasiado grande" }, { status: 413 });
@@ -23,12 +24,12 @@ export async function POST(request: Request) {
   const parsed = farmSchema.safeParse(body);
   if (!parsed.success) return Response.json({ error: "Revisa el perfil agrícola", issues: parsed.error.issues.map(i => `${i.path.join(".")}: ${i.message}`) }, { status: 400 });
   const farm = parsed.data;
-  const query = climateQuerySchema.safeParse({ lat: farm.lat, lon: farm.lon, start: farm.start, end: addDays(farm.start, farm.horizonDays - 1) });
+  const query = climateQuerySchema.safeParse({ lat: farm.lat, lon: farm.lon, start: farm.start, end: addDays(farm.start, farm.horizonDays - 1), ...(farm.etoMethod === "penman-monteith" ? { extended: true } : {}) });
   if (!query.success) return Response.json({ error: "Elige un horizonte histórico válido (finalizado hace al menos dos días)", issues: query.error.issues.map(i => i.message) }, { status: 400 });
   let climate = null;
   let climateError: string | null = null;
   try { climate = await fetchClimateWithSnapshot(query.data); }
   catch (e) { climateError = e instanceof Error && !/Zod|JSON|fetch failed/.test(e.message) ? e.message : "No se pudo verificar la respuesta de NASA POWER. Reintenta la consulta."; }
-  const history = resolveCoverage(farm).demoAllowed ? viruDailySeries() : null;
-  return Response.json({ report: buildReport(farm, climate, history), climateError }, { headers: { "Cache-Control": "no-store" } });
+  const history = resolveCoverage(farm).demoAllowed && matchesHistoricalContext(farm) ? viruDailySeries() : null;
+  return Response.json({ report: buildReport(farm, climate, history, history ? viruHistoryProvenance() : []), climateError }, { headers: { "Cache-Control": "no-store" } });
 }

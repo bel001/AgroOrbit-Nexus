@@ -1,0 +1,20 @@
+{
+  "verifiedAt": "2026-11-16T00:24:23.789Z",
+  "baseUrl": "http://127.0.0.1:8878",
+  "http": 200,
+  "accepted": 3,
+  "total": 3,
+  "query": {
+    "lat": -8.42,
+    "lon": -78.75,
+    "start": "2024-01-01",
+    "end": "2024-02-02"
+  },
+  "source": "NASA MODIS Terra · ORNL DAAC TESViS",
+  "urls": {
+    "subset": "https://modis.ornl.gov/rst/api/v1/MOD13Q1/subset?latitude=-8.42&longitude=-78.75&startDate=A2024001&endDate=A2024033&kmAboveBelow=0&kmLeftRight=0",
+    "dates": "https://modis.ornl.gov/rst/api/v1/MOD13Q1/dates?latitude=-8.42&longitude=-78.75",
+    "bands": "https://modis.ornl.gov/rst/api/v1/MOD13Q1/bands"
+  },
+  "pageErrors": []
+}

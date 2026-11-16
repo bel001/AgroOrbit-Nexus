@@ -1,0 +1,207 @@
+/* Design Preview — Atlas de Campo. Scoped styles. */
+.dp {
+  /* Evolución de paleta: conserva el verde de marca, pero el conjunto cromático
+     se desplaza hacia piedra/cobre para evitar el aspecto genérico verde+azul+crema. */
+  --bg: #f1ece2;
+  --surface: #fbf8f2;
+  --surface-2: #ebe4d6;
+  --ink: #1a1612;
+  --ink-2: #5a5046;
+  --line: #d8cfbf;
+  --line-strong: #b5a892;
+  --sky: #2c5f6f;
+  --sky-soft: #dde7ea;
+  --sun: #9a6b2f;
+  --warn-bg: #f6ead7;
+  --warn-ink: #6b4a1f;
+  --warn-line: #e6d0a8;
+  --error-bg: #f5e2dc;
+  --error-ink: #7a2e1a;
+  --brand-soft: #cfe0d4;
+  --brand-tint: #e6efe7;
+  --dp-sand: #e4dcc8;
+  --dp-veg: #5f7a3a;
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font);
+}
+
+/* Header */
+.dpHeader {
+  position: sticky; top: 0; z-index: 50;
+  background: rgb(245 247 242 / .88);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.dpHeaderInner {
+  max-width: 1240px; margin: 0 auto;
+  padding: 12px 32px;
+  display: flex; align-items: center; gap: 24px;
+}
+.dpBrand { display: flex; align-items: center; gap: 11px; color: var(--brand-strong); font-size: 20px; font-weight: 700; text-decoration: none; }
+.dpBrandMark { width: 38px; height: 38px; border-radius: 11px; background: linear-gradient(140deg, #2f8a62, var(--brand-strong)); color: #fff; display: grid; place-items: center; box-shadow: 0 6px 14px -6px rgb(19 70 52 / .7); }
+.dpBrand small { display: block; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2); font-weight: 600; margin-top: 2px; }
+.dpNav { display: flex; gap: 4px; margin: 0 auto; padding: 4px; background: var(--surface-2); border: 1px solid var(--line); border-radius: 999px; overflow-x: auto; scrollbar-width: none; }
+.dpNav a { display: flex; align-items: center; gap: 8px; padding: 7px 14px 7px 8px; border-radius: 999px; color: var(--ink-2); font-size: 14px; font-weight: 600; text-decoration: none; white-space: nowrap; transition: background-color var(--t-med), color var(--t-med); }
+.dpNav a:hover { color: var(--brand-strong); background: rgb(255 255 255 / .7); }
+.dpNav a.isActive { background: var(--surface); color: var(--brand-strong); box-shadow: var(--shadow-sm); }
+.dpNavDot { width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-weight: 700; background: var(--surface); border: 1px solid var(--line-strong); color: var(--ink-2); }
+.dpNav a.isActive .dpNavDot { border-color: var(--brand); color: var(--brand); }
+.dpNav a.isDone .dpNavDot { background: var(--brand); border-color: var(--brand); color: #fff; }
+.dpLang { display: inline-flex; padding: 3px; gap: 2px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--line); }
+.dpLang button { min-height: 30px; min-width: 36px; padding: 4px 8px; border: 0; border-radius: 999px; background: transparent; color: var(--ink-2); font-weight: 700; font-size: 12px; cursor: pointer; }
+.dpLang button[aria-pressed="true"] { background: var(--brand-strong); color: #fff; }
+.dpProgress { height: 3px; background: transparent; }
+.dpProgress span { display: block; height: 100%; background: linear-gradient(90deg, var(--brand), var(--sky)); transition: width 600ms var(--ease); }
+
+/* Main container */
+.dpMain { max-width: 1240px; margin: 0 auto; padding: 0 32px; }
+
+/* Hero */
+.dpHero { display: grid; grid-template-columns: 1.15fr 1fr; gap: 48px; align-items: center; padding: 72px 0 48px; }
+.dpHeroCopy h1 { font-size: clamp(36px, 5vw, 58px); line-height: 1.05; font-weight: 700; letter-spacing: -.04em; margin-bottom: 20px; text-wrap: balance; }
+.dpHeroCopy h1 em { font-style: normal; color: var(--brand); }
+.dpHeroCopy p { font-size: 19px; color: var(--ink-2); max-width: 52ch; margin-bottom: 24px; }
+.dpHeroActions { display: flex; gap: 12px; flex-wrap: wrap; margin: 24px 0 20px; }
+.dpHeroFacts { list-style: none; padding: 0; margin: 16px 0 0; display: flex; flex-wrap: wrap; gap: 8px 20px; color: var(--ink-2); font-size: 14px; }
+.dpHeroFacts li { display: flex; align-items: center; gap: 8px; }
+.dpHeroFacts svg { color: var(--brand); }
+.dpHeroVisual { position: relative; min-height: 360px; border-radius: var(--r-md); overflow: hidden; box-shadow: var(--shadow-md); }
+.dpHeroVisual img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.dpHeroOverlay { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 40%, rgb(19 38 31 / .55) 100%); }
+.dpHeroBadge { position: absolute; bottom: 20px; left: 20px; color: #fff; font-size: 13px; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+.dpHeroCard { position: absolute; top: 20px; right: 20px; background: rgb(255 255 255 / .92); backdrop-filter: blur(8px); border-radius: 14px; padding: 12px 16px; box-shadow: var(--shadow-md); font-size: 13px; color: var(--ink-2); }
+.dpHeroCard b { color: var(--ink); display: block; font-size: 18px; margin-top: 2px; }
+
+/* Section */
+.dpSection { padding: 64px 0; }
+.dpSectionTitle { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; margin-bottom: 32px; flex-wrap: wrap; }
+.dpSectionTitle h2 { display: flex; align-items: center; gap: 14px; font-size: clamp(24px, 3vw, 32px); }
+.dpStepNum { display: inline-grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--brand); color: #fff; font-size: 16px; font-weight: 700; flex-shrink: 0; }
+.dpSectionTitle p { color: var(--ink-2); margin: 0; max-width: 60ch; }
+
+/* Card */
+.dpCard { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); padding: var(--s6); }
+.dpCardFlush { padding: 0; overflow: hidden; }
+
+/* Terreno */
+.dpFieldGrid { display: grid; grid-template-columns: 1fr 1.1fr; gap: 32px; align-items: start; }
+.dpFieldInfo { display: flex; flex-direction: column; gap: 14px; }
+.dpFieldRow { display: flex; justify-content: space-between; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--line); font-size: 15px; }
+.dpFieldRow:last-child { border-bottom: 0; }
+.dpFieldRow span { color: var(--ink-2); }
+.dpFieldRow strong { color: var(--ink); font-weight: 600; text-align: right; }
+.dpMapFrame { position: relative; border-radius: var(--r-lg); overflow: hidden; border: 1px solid var(--line); box-shadow: var(--shadow-md); background: #dfe8d8; }
+.dpMapSvg { width: 100%; height: 360px; display: block; }
+.dpMapLegend { display: flex; gap: 10px; align-items: flex-start; padding: 12px 16px; border-top: 1px solid var(--line); background: var(--sky-soft); font-size: 13px; color: var(--ink); }
+.dpMapLegend b { display: block; }
+.dpMapSwatch { width: 18px; height: 14px; margin-top: 3px; flex-shrink: 0; border: 2px dashed #1d5a80; background: rgb(63 135 181 / .15); border-radius: 2px; }
+.dpNotice { background: var(--warn-bg); color: var(--warn-ink); padding: 14px 18px; border: 1px solid var(--warn-line); border-radius: var(--r-md); font-size: 14px; margin-bottom: 16px; }
+.dpNotice.neutral { color: var(--brand-strong); background: var(--brand-tint); border-color: var(--brand-soft); }
+.dpNotice strong { font-weight: 700; }
+
+/* Cultivos timeline */
+.dpTimeline { display: grid; gap: 16px; }
+.dpTimelineRow { display: grid; grid-template-columns: 120px 1fr; gap: 20px; align-items: center; padding: 16px; border-radius: var(--r-lg); background: var(--surface); border: 1px solid var(--line); }
+.dpTimelineLabel { font-weight: 700; font-size: 14px; color: var(--brand-strong); }
+.dpTimelineTrack { position: relative; height: 40px; background: var(--surface-2); border-radius: 8px; overflow: hidden; }
+.dpTimelineBar { position: absolute; top: 6px; height: 28px; border-radius: 6px; display: flex; align-items: center; padding: 0 10px; color: #fff; font-size: 13px; font-weight: 600; }
+.dpTimelineBar.maize { background: #c99a2e; }
+.dpTimelineBar.bean { background: #4f8a3a; }
+.dpTimelineBar.sorghum { background: #a2694b; }
+.dpBotanical { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 16px; margin-top: 24px; }
+.dpBotanicalCard { border-radius: var(--r-md); overflow: hidden; border: 1px solid var(--line); background: var(--surface); }
+.dpBotanicalCard img { width: 100%; height: 160px; object-fit: cover; display: block; }
+.dpBotanicalCard figcaption { padding: 10px 14px; font-size: 13px; color: var(--ink-2); }
+.dpBotanicalCard figcaption b { color: var(--ink); display: block; }
+
+/* Condiciones */
+.dpClimateGrid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 24px; align-items: start; }
+.dpChart { height: 280px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 16px; }
+.dpKpiGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.dpKpi { padding: 14px; border-radius: var(--r-lg); background: var(--surface); border: 1px solid var(--line); }
+.dpKpi span { font-size: 12px; color: var(--ink-2); display: block; margin-bottom: 4px; }
+.dpKpi strong { font-size: 24px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--ink); }
+.dpKpi small { font-size: 11px; color: var(--ink-2); }
+.dpKpi.muted strong { color: var(--ink-2); font-size: 20px; }
+
+/* Alternativas */
+.dpTabs { display: inline-flex; padding: 4px; gap: 4px; background: var(--surface-2); border: 1px solid var(--line); border-radius: 999px; margin-bottom: 24px; }
+.dpTab { padding: 8px 18px; border-radius: 999px; border: 0; background: transparent; color: var(--ink-2); font-weight: 600; font-size: 14px; cursor: pointer; transition: background-color var(--t-fast), color var(--t-fast); }
+.dpTab.isActive { background: var(--surface); color: var(--brand-strong); box-shadow: var(--shadow-sm); }
+.dpAltGrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.dpAltCard { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); padding: 20px; }
+.dpAltCard:first-child { background: var(--brand-tint); }
+.dpAltHead { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.dpAltLetter { width: 36px; height: 36px; border-radius: 10px; background: var(--brand-strong); color: #fff; display: grid; place-items: center; font-weight: 700; flex-shrink: 0; }
+.dpAltName { font-weight: 700; color: var(--ink); }
+.dpAltSeq { font-size: 13px; color: var(--ink-2); margin-bottom: 16px; }
+.dpWaterBars { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+.dpWaterBar { display: grid; grid-template-columns: 1fr 2fr auto; gap: 10px; align-items: center; font-size: 13px; }
+.dpWaterTrack { height: 14px; border-radius: 999px; background: var(--surface-2); overflow: hidden; }
+.dpWaterFill { display: block; height: 100%; border-radius: inherit; background: var(--sky); transform-origin: left; animation: dpGrow 1s var(--ease) both; }
+.dpWaterVal { font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.dpSoilList { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; font-size: 13px; }
+.dpSoilList li { display: flex; gap: 8px; align-items: flex-start; }
+.dpSoilList svg { color: var(--brand); flex-shrink: 0; margin-top: 2px; }
+.dpSoilList.weak svg { color: var(--warn-ink); }
+.dpElNino { margin-top: 8px; }
+.dpElNinoTable { width: 100%; border-collapse: collapse; font-size: 13px; }
+.dpElNinoTable th, .dpElNinoTable td { padding: 10px 12px; border-bottom: 1px solid var(--line); text-align: left; }
+.dpElNinoTable thead th { background: var(--brand-strong); color: #fff; font-weight: 700; }
+.dpElNinoTable td.anom { background: var(--warn-bg); color: var(--warn-ink); font-weight: 700; }
+
+/* Evidencias */
+.dpEvidence { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); padding: 32px; }
+.dpEvidenceGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 20px; }
+.dpEvidenceBlock h3 { font-size: 16px; margin-bottom: 8px; color: var(--brand-strong); }
+.dpEvidenceBlock ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 6px; font-size: 14px; }
+.dpEvidenceBlock li { padding-left: 18px; position: relative; }
+.dpEvidenceBlock li::before { content: ""; position: absolute; left: 4px; top: 8px; width: 8px; height: 8px; border-radius: 50%; background: var(--sun); }
+.dpWarn { background: var(--warn-bg); color: var(--warn-ink); padding: 14px 18px; border: 1px solid var(--warn-line); border-radius: var(--r-md); font-weight: 600; margin: 20px 0; }
+
+/* Footer */
+.dpFooter { padding: 48px 0 32px; color: var(--ink-2); font-size: 14px; border-top: 1px solid var(--line); margin-top: 48px; }
+.dpFooterBrand { display: flex; gap: 8px; align-items: center; color: var(--brand-strong); font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+.dpFooter p { margin: 0 0 6px; max-width: 72ch; }
+.dpFooter a { color: var(--brand); }
+
+/* Animations */
+@keyframes dpRise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@keyframes dpGrow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+.dpReveal { animation: dpRise 600ms var(--ease) both; }
+.dpReveal2 { animation: dpRise 600ms var(--ease) 120ms both; }
+.dpReveal3 { animation: dpRise 600ms var(--ease) 240ms both; }
+
+/* Responsive */
+@media (max-width: 1000px) {
+  .dpHero { grid-template-columns: 1fr; gap: 32px; padding-top: 48px; }
+  .dpHeroVisual { min-height: 260px; order: -1; }
+  .dpFieldGrid { grid-template-columns: 1fr; }
+  .dpClimateGrid { grid-template-columns: 1fr; }
+  .dpAltGrid { grid-template-columns: 1fr; }
+  .dpEvidenceGrid { grid-template-columns: 1fr; }
+  .dpBotanical { grid-template-columns: 1fr; }
+}
+@media (max-width: 760px) {
+  .dpMain { padding: 0 16px; }
+  .dpHeaderInner { padding: 10px 16px; flex-wrap: wrap; row-gap: 8px; }
+  .dpNav { order: 3; width: 100%; margin: 0; }
+  .dpLang { margin-left: auto; }
+  .dpHero { padding: 32px 0 24px; }
+  .dpHeroCopy h1 { font-size: clamp(30px, 8vw, 40px); }
+  .dpSection { padding: 40px 0; }
+  .dpSectionTitle h2 { font-size: 22px; }
+  .dpCard, .dpEvidence, .dpAltCard { padding: 20px 16px; }
+  .dpWaterBar { grid-template-columns: 1fr; gap: 4px; }
+  .dpWaterVal { text-align: left; }
+  .dpKpiGrid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 420px) {
+  .dpKpiGrid { grid-template-columns: 1fr; }
+  .dpTimelineRow { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dpReveal, .dpReveal2, .dpReveal3, .dpWaterFill { animation: none !important; }
+}

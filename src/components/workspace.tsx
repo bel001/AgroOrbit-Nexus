@@ -8,7 +8,7 @@ import {
 import { addDays, farmSchema, latestPeriod, newGlobalFarm, POWER_LATENCY_DAYS, type Farm, type CropId, type Campaign, type Alternative } from "@/lib/model";
 import { exampleFarm } from "@/lib/examples/viru";
 import { catalog } from "@/lib/catalog";
-import { monthlyClimate } from "@/lib/power";
+import { monthlyClimate, rainfallSummary } from "@/lib/power";
 import LocationSearch from "./location-search";
 import HistoryEvidence from "./history-evidence";
 import RegionalEvidence from "./regional-evidence";
@@ -18,10 +18,16 @@ import { DEFAULT_WEIGHTS, rankStrategies, type Weights } from "@/lib/priorities"
 import { CountUp, OrbitArt } from "./motion";
 import { LangProvider, useNum, useT, type Lang } from "./i18n";
 import { resolveCoverage } from "@/lib/regions";
+import { DRAFT_KEY, decodeDraft, encodeDraft, importInputs } from "@/lib/session";
+import SessionControls, { saveJson } from "./session-controls";
+import AssessmentInputs from "./assessment-inputs";
+import { approximateAreaHa, parcelCenter } from "@/lib/parcel";
+import type { Vegetation } from "@/lib/vegetation";
 import type { EvidenceReport } from "@/lib/rotations";
 
 const FarmMap = dynamic(() => import("./farm-map"), { ssr: false, loading: () => <div className="map map-loading">Cargando mapa… / Loading map…</div> });
 const ClimateChart = dynamic(() => import("./climate-chart"), { ssr: false, loading: () => <div className="chart skeleton" /> });
+const VegetationMonitor = dynamic(() => import("./vegetation-monitor"));
 
 const numberOrNull = (s: string) => s.trim() === "" ? null : Number(s);
 const crops = Object.keys(catalog) as CropId[];
@@ -62,6 +68,7 @@ const FIELD_NAMES: Record<string, [string, string]> = {
   waterMm: ["Agua total utilizable", "Total usable water"], waterOrigin: ["Procedencia del agua", "Water data source"], soilOrigin: ["Procedencia del suelo", "Soil data source"],
   start: ["Inicio del periodo", "Period start"], horizonDays: ["Duración del periodo", "Period length"], history: ["Historial", "History"],
   current: ["Lo que planeas sembrar (A)", "What you plan to grow (A)"], alternatives: ["Alternativas", "Options"],
+  soilDetails: ["Análisis de suelo", "Soil analysis"], waterScenario: ["Supuestos del agua", "Water assumptions"], parcel: ["Polígono de la parcela", "Parcel polygon"],
 };
 const SUBFIELD_NAMES: Record<string, [string, string]> = { crop: ["cultivo", "crop"], start: ["siembra", "sowing"], end: ["cosecha", "harvest"], origin: ["procedencia", "source"], name: ["nombre", "name"], campaigns: ["ciclos", "cycles"] };
 /** Convierte un error de validación en una frase que un agricultor entienda. */
@@ -79,10 +86,10 @@ function humanizeIssue(issue: { path: PropertyKey[]; message: string; code: stri
   return `${where}: ${what}`;
 }
 
-function download(report: EvidenceReport, weights: Weights) {
+function download(report: EvidenceReport, weights: Weights, tariff: string, currency: "PEN" | "USD" | "EUR", vegetation: Vegetation | null) {
   // The exported report carries the priority weights and the resulting order shown on screen.
   const ranking = report.strategies.length ? rankStrategies(report.strategies, weights) : null;
-  const exported = { ...report, priorityRanking: ranking && { weights, formula: ranking.formula, usedCriteria: ranking.usedCriteria, note: ranking.note, order: ranking.ranked.map(r => ({ id: r.strategy.id, rank: r.rank, score: r.score, parts: r.parts, why: r.why })), label: EXPLORATION_LABEL } };
+  const exported = { ...report, vegetation, costScenario: { tariff, currency }, priorityRanking: ranking && { weights, formula: ranking.formula, usedCriteria: ranking.usedCriteria, note: ranking.note, order: ranking.ranked.map(r => ({ id: r.strategy.id, rank: r.rank, score: r.score, parts: r.parts, why: r.why })), label: EXPLORATION_LABEL } };
   const url = URL.createObjectURL(new Blob([JSON.stringify(exported, null, 2)], { type: "application/json" }));
   const a = document.createElement("a"); a.href = url; a.download = "agroorbit-evidencia.json"; a.click(); URL.revokeObjectURL(url);
 }
@@ -153,24 +160,24 @@ function ClimateKpis({ report }: { report: EvidenceReport }) {
   const climate = report.climate!;
   const months = monthlyClimate(climate);
   const temps = climate.days.flatMap(d => d.T2M === null ? [] : [d.T2M]);
-  const rain = climate.days.reduce((s, d) => s + (d.PRECTOTCORR ?? 0), 0);
+  const rain = rainfallSummary(climate.days);
   const missing = Object.values(climate.missing).reduce((a, b) => a + b, 0);
   const meanT = temps.length ? temps.reduce((a, b) => a + b, 0) / temps.length : null;
   const items = [
     { icon: Thermometer, label: t("Temperatura media", "Mean temperature"), value: meanT, decimals: 1, suffix: " °C", muted: false },
     { icon: CalendarDays, label: t("Días consultados", "Days queried"), value: climate.days.length, decimals: 0, suffix: "", muted: false },
     { icon: AlertCircle, label: t("Valores faltantes", "Missing values"), value: missing, decimals: 0, suffix: "", muted: false },
-    { icon: CloudRain, label: t("Lluvia total de grilla (modelo)", "Total grid rainfall (model)"), value: rain, decimals: 0, suffix: " mm", muted: true },
+    { icon: CloudRain, label: rain.partial ? t(`Lluvia parcial (${rain.validDays}/${rain.requestedDays} días)`, `Partial rainfall (${rain.validDays}/${rain.requestedDays} days)`) : t("Lluvia total de grilla (modelo)", "Total grid rainfall (model)"), value: rain.totalMm, decimals: 0, suffix: " mm", muted: true },
   ];
   return <div className="kpi-grid">{items.map((k, i) => <div className={`kpi${k.muted ? " kpi-muted" : ""}`} key={k.label} style={{ "--i": i } as React.CSSProperties}>
     <k.icon size={20} aria-hidden="true" /><span>{k.label}</span>
     <strong>{k.value === null ? t("Sin datos", "No data") : <CountUp value={k.value} decimals={k.decimals} suffix={k.suffix} />}</strong>
-  </div>)}<p className="kpi-note small muted">{months.length} {t("meses · medias y sumas de días válidos. La lluvia del modelo puede estar muy lejos de la realidad en el desierto costero.", "months · means and sums of valid days. Model rainfall can be far from reality in the coastal desert.")}</p></div>;
+  </div>)}<p className="kpi-note small muted">{months.length} {t("meses · medias y sumas de días válidos. La lluvia de grilla requiere contraste local; no es lluvia efectiva.", "months · means and sums of valid days. Grid rainfall requires local comparison; it is not effective rainfall.")}</p></div>;
 }
 
 function ComparisonTable({ report }: { report: EvidenceReport }) {
   const t = useT(); const num = useNum(); const name = useStrategyName();
-  const mmCell = (v: number | null | undefined) => v === null || v === undefined ? t("No calculable · serie NASA incompleta", "Not computable · incomplete NASA series") : `${num(Math.round(v))} mm`;
+  const mmCell = (v: number | null | undefined) => v === null || v === undefined ? t("No calculable · faltan datos o coeficientes", "Not computable · missing data or coefficients") : `${num(Math.round(v))} mm`;
   const m3Cell = (v: number | null | undefined) => v === null || v === undefined ? "—" : `${num(Math.round(v * 10 / 10) * 10)} m³/ha`;
   return <><p className="small muted scroll-hint">{t("En pantallas pequeñas, desliza la tabla para ver B y C.", "On small screens, swipe the table to see B and C.")}</p>
     <div className="table-scroll card flush" tabIndex={0} role="region" aria-label={t(`Comparación desplazable de ${report.strategies.length} estrategias`, `Scrollable comparison of ${report.strategies.length} options`)}><table className="comparison"><caption>{t("Comparación descriptiva de estrategias.", "Descriptive comparison of options.")} {report.coverage.demoAllowed ? t("B y C son propuestas ilustrativas de la demo; requieren validar variedades y ventanas locales. ", "B and C are illustrative demo options; local varieties and sowing windows still need validation. ") : ""}{report.strategies.some(s => s.userProposed) ? t("Las alternativas propias son escenarios tuyos, no recomendaciones.", "Your own options are your scenarios, not recommendations.") : report.strategies.length === 1 ? t("Solo hay una secuencia: añade alternativas en el paso 2 para compararlas.", "Only one sequence: add options in step 2 to compare them.") : ""}</caption><thead><tr><th>{t("Criterio", "Criterion")}</th>{report.strategies.map(s => <th key={s.id}><span className="strategy-id">{s.id}</span> {name(s)}</th>)}</tr></thead><tbody>
@@ -195,28 +202,49 @@ function WorkspaceView({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => vo
   const [initialFarm] = useState<Farm>(newGlobalFarm);
   const [latestEnd, setLatestEnd] = useState<string | null>(null);
   const [farm, setFarm] = useState<Farm>(initialFarm);
-  // The page is prerendered at build time: compute "the last 12 months" in the browser, not at build.
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- date-dependent default, browser only (page is prerendered)
-    setFarm(f => f === initialFarm ? { ...f, ...latestPeriod(365) } : f);
-    setLatestEnd(latestPeriod().end);
-  }, [initialFarm]);
   const [report, setReport] = useState<EvidenceReport | null>(null);
+  const [vegetation, setVegetation] = useState<Vegetation | null>(null);
   const [errors, setErrors] = useState<string[]>([]);
   const [climateError, setClimateError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [dirty, setDirty] = useState(false);
   const [weights, setWeights] = useState<Weights>(DEFAULT_WEIGHTS);
   const [tariff, setTariff] = useState("");
+  const [currency, setCurrency] = useState<"PEN" | "USD" | "EUR">("PEN");
+  const [draftReady, setDraftReady] = useState(false);
+  const [draftStatus, setDraftStatus] = useState<"saved" | "restored" | "invalid" | "unavailable" | "deleted" | "loading">("loading");
+  const [saveDraft, setSaveDraft] = useState(true);
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- validated browser storage and date defaults after hydration
+    setLatestEnd(latestPeriod().end);
+    try {
+      const stored = localStorage.getItem(DRAFT_KEY);
+      if (stored) {
+        const data = decodeDraft(stored); setFarm(data.farm); setWeights(data.weights); setTariff(data.cost.tariff); setCurrency(data.cost.currency); setDraftStatus("restored");
+      } else setFarm(f => f === initialFarm ? { ...f, ...latestPeriod(365) } : f);
+    } catch { setDraftStatus("unavailable"); setSaveDraft(false); setFarm(f => f === initialFarm ? { ...f, ...latestPeriod(365) } : f); }
+    setDraftReady(true);
+  }, [initialFarm]);
+  useEffect(() => {
+    if (!draftReady || !saveDraft) return;
+    const timer = setTimeout(() => {
+      let encoded: string;
+      try { encoded = encodeDraft(farm, weights, { tariff, currency }); }
+      catch { setDraftStatus("invalid"); return; }
+      try { localStorage.setItem(DRAFT_KEY, encoded); setDraftStatus(s => s === "restored" ? s : "saved"); }
+      catch { setDraftStatus("unavailable"); }
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [farm, weights, tariff, currency, draftReady, saveDraft]);
   const active = useActiveStep();
   const coverage = resolveCoverage(farm);
   const hasPoint = Number.isFinite(farm.lat) && Number.isFinite(farm.lon);
 
   // Cualquier corrección retira los avisos anteriores; se vuelven a validar al consultar.
-  const update = (patch: Partial<Farm>) => { setFarm(f => ({ ...f, ...patch })); setDirty(true); setErrors([]); };
+  const update = (patch: Partial<Farm>) => { setSaveDraft(true); setFarm(f => ({ ...f, ...patch })); setDirty(true); setErrors([]); };
   // Mover el punto anula la plantilla regional (p. ej. la demo de Virú), pero conserva el tipo de análisis elegido.
-  const location = (patch: Partial<Farm>) => update({ ...patch, regionProfileId: null });
-  const campaign = (key: "history" | "current", i: number, patch: Partial<Campaign>) => update({ [key]: farm[key].map((c, index) => index === i ? { ...c, ...patch } : c) });
+  const location = (patch: Partial<Farm>) => update({ ...patch, regionProfileId: null, parcel: undefined, ...(farm.parcel ? { areaHa: null } : {}) });
+  const campaign = (key: "history" | "current", i: number, patch: Partial<Campaign>) => update({ [key]: farm[key].map((c, index) => index === i ? { ...c, ...patch, ...(patch.crop !== undefined && patch.crop !== c.crop ? { variety: undefined } : {}) } : c) });
   const scrollTo = (id: string) => setTimeout(() => document.getElementById(id)?.scrollIntoView({ behavior: "instant" }), 50);
   const showErrors = (list: string[]) => {
     setErrors(list);
@@ -224,14 +252,14 @@ function WorkspaceView({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => vo
   };
   const altOffset = coverage.demoAllowed ? 3 : 1;
   const setAlternative = (i: number, patch: Partial<Alternative>) => update({ alternatives: farm.alternatives.map((a, n) => n === i ? { ...a, ...patch } : a) });
-  const altCampaign = (ai: number, ci: number, patch: Partial<Campaign>) => setAlternative(ai, { campaigns: farm.alternatives[ai].campaigns.map((c, n) => n === ci ? { ...c, ...patch } : c) });
+  const altCampaign = (ai: number, ci: number, patch: Partial<Campaign>) => setAlternative(ai, { campaigns: farm.alternatives[ai].campaigns.map((c, n) => n === ci ? { ...c, ...patch, ...(patch.crop !== undefined && patch.crop !== c.crop ? { variety: undefined } : {}) } : c) });
 
   async function runAnalysis(input: Farm) {
     setErrors([]);
     if (!Number.isFinite(input.lat) || !Number.isFinite(input.lon)) { showErrors([t("Falta la ubicación del terreno: busca una localidad, pulsa «Usar mi ubicación» o haz clic en el mapa.", "The field location is missing: search for a place, press “Use my location” or click on the map.")]); return; }
     const parsed = farmSchema.safeParse(input);
     if (!parsed.success) { showErrors(parsed.error.issues.map(i => humanizeIssue(i, t))); return; }
-    setLoading(true); setReport(null); setClimateError(null);
+    setLoading(true); setReport(null); setClimateError(null); setVegetation(null);
     scrollTo("diagnostico");
     try {
       const response = await fetch("/api/analyze", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(parsed.data), signal: AbortSignal.timeout(35_000) });
@@ -243,7 +271,7 @@ function WorkspaceView({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => vo
     finally { setLoading(false); }
   }
   const analyze = (e: React.FormEvent) => { e.preventDefault(); void runAnalysis(farm); };
-  const tryDemo = () => { const demo = structuredClone(exampleFarm); setFarm(demo); void runAnalysis(demo); };
+  const tryDemo = () => { const demo = structuredClone(exampleFarm); setSaveDraft(true); setFarm(demo); void runAnalysis(demo); };
 
   const done: Record<StepId, boolean> = {
     terreno: hasPoint,
@@ -304,23 +332,29 @@ function WorkspaceView({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => vo
         <section id="terreno" className="section card">
           <SectionHeading step={1} title={t("Conozcamos el terreno", "Find the field")} text={t("Busca una localidad, usa tu ubicación o haz clic en el mapa.", "Search for a place, use your location or click on the map.")}>
             <div className="report-actions">
-              <button type="button" className="button ghost" disabled={loading} onClick={() => { setFarm(freshGlobalFarm()); setDirty(true); setErrors([]); }}><RotateCcw size={16} aria-hidden="true" />{t("Nuevo análisis global", "New global analysis")}</button>
-              <button type="button" className="button secondary" disabled={loading} onClick={() => { setFarm(structuredClone(exampleFarm)); setDirty(true); setErrors([]); }}>{t("Cargar caso ilustrativo", "Load illustrative case")}</button>
+              <button type="button" className="button ghost" disabled={loading} onClick={() => { setSaveDraft(true); setFarm(freshGlobalFarm()); setDirty(true); setErrors([]); setTariff(""); }}><RotateCcw size={16} aria-hidden="true" />{t("Nuevo análisis global", "New global analysis")}</button>
+              <button type="button" className="button secondary" disabled={loading} onClick={() => { setSaveDraft(true); setFarm(structuredClone(exampleFarm)); setDirty(true); setErrors([]); }}>{t("Cargar caso ilustrativo", "Load illustrative case")}</button>
             </div>
           </SectionHeading>
           <div className="callouts">
+            <SessionControls disabled={loading} status={draftStatus === "restored" ? t("Borrador recuperado. Consulta de nuevo para actualizar el informe.", "Draft restored. Run the analysis again to update the report.") : draftStatus === "saved" ? t("Borrador guardado en este navegador.", "Draft saved in this browser.") : draftStatus === "invalid" ? t("Hay entradas incompletas: se conserva el último borrador válido.", "Some inputs are incomplete: the last valid draft is retained.") : draftStatus === "unavailable" ? t("No se pudo recuperar o guardar el borrador. Puedes usar JSON.", "Draft storage is unavailable or invalid. You can use JSON.") : draftStatus === "deleted" ? t("Borrador local eliminado. Se guardará otra vez al editar el perfil.", "Local draft deleted. Saving resumes when you edit the profile.") : t("Preparando borrador…", "Preparing draft…")}
+              onError={message => showErrors([message])}
+              onImport={text => { const imported = importInputs(text); setFarm(imported.farm); setWeights(imported.weights); setTariff(imported.cost.tariff); setCurrency(imported.cost.currency); setReport(null); setClimateError(null); setDirty(true); setSaveDraft(true); setErrors([]); }}
+              onSave={() => { const parsed = farmSchema.safeParse(farm); if (!parsed.success) { showErrors(parsed.error.issues.map(i => humanizeIssue(i, t))); return; } saveJson({ schemaVersion: "3.0", input: parsed.data, priorityRanking: { weights }, costScenario: { tariff, currency } }, "agroorbit-perfil.json"); }}
+              onClear={() => { try { localStorage.removeItem(DRAFT_KEY); setSaveDraft(false); setDraftStatus("deleted"); } catch { setDraftStatus("unavailable"); } }} />
             <p className="notice neutral"><strong>{coverage.level === "climate-only" ? t("Cobertura: información climática global", "Coverage: global climate information") : t("Cobertura: diagnóstico agrícola parcial", "Coverage: partial farm diagnosis")}</strong>. {lang === "en" ? coverageReason : coverage.reason} {t("Ninguna región cuenta todavía con análisis agronómico validado.", "No region has a validated agronomic analysis yet.")}</p>
             <p className={farm.illustrative ? "notice" : "notice neutral"}>{farm.illustrative ? t("Caso ilustrativo / datos de ejemplo. La ubicación y las campañas no son observaciones de campo verificadas. El clima se consulta a NASA.", "Illustrative case / sample data. Location and campaigns are not verified field observations. Climate comes from NASA.") : t("Perfil aportado por el usuario. Los registros declarados no han sido validados de forma independiente.", "Profile provided by the user. Declared records have not been independently validated.")}</p>
           </div>
           <div className="farm-grid">
             <div className="form-fields">
               <LocationSearch lat={farm.lat} lon={farm.lon} onSelect={(lat, lon) => location({ lat, lon })} />
+              <AssessmentInputs farm={farm} onChange={update} />
               <label>{t("Nombre del terreno", "Field name")}<input value={farm.name} maxLength={80} required onChange={e => update({ name: e.target.value })} /></label>
               <div className="two-col">
                 <label>{t("Latitud", "Latitude")}<input type="number" step="any" required min={-90} max={90} value={Number.isNaN(farm.lat) ? "" : farm.lat} onChange={e => location({ lat: e.target.value === "" ? NaN : Number(e.target.value) })} /></label>
                 <label>{t("Longitud", "Longitude")}<input type="number" step="any" required min={-180} max={180} value={Number.isNaN(farm.lon) ? "" : farm.lon} onChange={e => location({ lon: e.target.value === "" ? NaN : Number(e.target.value) })} /></label>
               </div>
-              <p className="small muted">{t("Cambiar coordenadas desactiva la plantilla regional. Revisa la procedencia de los registros si cambias de terreno.", "Changing coordinates turns off the regional template. Review your record sources if you change field.")}</p>
+              <p className="small muted">{t("Cambiar coordenadas desactiva la plantilla regional y retira el polígono anterior. Revisa la procedencia de los registros si cambias de terreno.", "Changing coordinates turns off the regional template and removes the previous polygon. Review your record sources if you change field.")}</p>
               <div className="two-col">
                 <label>{t("Área (ha, opcional)", "Area (ha, optional)")}<input type="number" step="any" min="0.001" value={farm.areaHa ?? ""} placeholder={t("Desconocida", "Unknown")} onChange={e => update({ areaHa: numberOrNull(e.target.value) })} /></label>
                 <label>{t("Textura del suelo", "Soil texture")}<select value={farm.soil} onChange={e => update({ soil: e.target.value as Farm["soil"] })}>{["desconocido", "arenoso", "franco", "arcilloso"].map(s => <option key={s} value={s}>{t(s, SOIL_EN[s])}</option>)}</select></label>
@@ -338,7 +372,7 @@ function WorkspaceView({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => vo
                 <fieldset className="exclusions"><legend>{t("Cultivos que no deseas incluir", "Crops you do not want")}</legend>{crops.map(c => <label className="chip-check" key={c}><input type="checkbox" checked={farm.excluded.includes(c)} onChange={e => update({ excluded: e.target.checked ? [...farm.excluded, c] : farm.excluded.filter(x => x !== c) })} />{t(catalog[c].names.es, catalog[c].names.en)}</label>)}</fieldset>
               </details>
             </div>
-            <div className="map-column"><FarmMap lat={farm.lat} lon={farm.lon} onSelect={(lat, lon) => { if (!loading) location({ lat, lon }); }} /></div>
+            <div className="map-column"><FarmMap lat={farm.lat} lon={farm.lon} parcel={farm.parcel} onSelect={(lat, lon) => { if (!loading) location({ lat, lon }); }} onParcel={parcel => { if (loading) return; update(parcel ? { parcel, ...parcelCenter(parcel.vertices), areaHa: approximateAreaHa(parcel.vertices), regionProfileId: null } : { parcel: undefined, areaHa: null }); }} /></div>
           </div>
         </section>
 
@@ -366,6 +400,7 @@ function WorkspaceView({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => vo
               <label>{t("Siembra", "Sowing")}<input type="date" required value={c.start} onChange={e => campaign("history", i, { start: e.target.value })} /></label>
               <label>{t("Cosecha", "Harvest")}<input type="date" required value={c.end} onChange={e => campaign("history", i, { end: e.target.value })} /></label>
               <OriginSelect value={c.origin} onChange={origin => campaign("history", i, { origin })} />
+              <label>{t("Variedad (opcional)", "Variety (optional)")}<input maxLength={100} value={c.variety ?? ""} onChange={e => campaign("history", i, { variety: e.target.value })} /></label>
               <button type="button" className="icon-button" onClick={() => update({ history: farm.history.filter((_, n) => n !== i) })}><Trash2 size={16} aria-hidden="true" /><span>{t(`Quitar campaña ${i + 1}`, `Remove campaign ${i + 1}`)}</span></button>
             </div>)}
             <button type="button" className="button ghost" disabled={farm.history.length >= 12} onClick={() => update({ history: [...farm.history, nextCampaign(farm.history, addDays(farm.start, -365))] })}><Plus size={16} aria-hidden="true" />{t("Añadir campaña", "Add campaign")}</button>
@@ -379,6 +414,7 @@ function WorkspaceView({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => vo
               <label>{t("Siembra", "Sowing")}<input type="date" required value={c.start} onChange={e => campaign("current", i, { start: e.target.value })} /></label>
               <label>{t("Cosecha", "Harvest")}<input type="date" required value={c.end} onChange={e => campaign("current", i, { end: e.target.value })} /></label>
               <OriginSelect value={c.origin} onChange={origin => campaign("current", i, { origin })} />
+              <label>{t("Variedad (opcional)", "Variety (optional)")}<input maxLength={100} value={c.variety ?? ""} onChange={e => campaign("current", i, { variety: e.target.value })} /></label>
             </div>)}
             <button type="button" className="button ghost" disabled={farm.current.length >= 12} onClick={() => update({ current: [...farm.current, nextCampaign(farm.current, farm.start)] })}><Plus size={16} aria-hidden="true" />{t("Añadir ciclo para completar", "Add a cycle")}</button>
           </div>}
@@ -393,6 +429,7 @@ function WorkspaceView({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => vo
                 <button type="button" className="icon-button" onClick={() => update({ alternatives: farm.alternatives.filter((_, n) => n !== ai) })}><Trash2 size={16} aria-hidden="true" /><span>{t(`Quitar alternativa ${letter}`, `Remove option ${letter}`)}</span></button></div>
               {alt.campaigns.map((c, ci) => <div className="campaign-row alt-row" key={ci}>
                 <CropSelect label={`${letter} · ${t("ciclo", "cycle")} ${ci + 1}`} value={c.crop} onChange={crop => altCampaign(ai, ci, { crop })} />
+                <label>{t("Variedad (opcional)", "Variety (optional)")}<input maxLength={100} value={c.variety ?? ""} onChange={e => altCampaign(ai, ci, { variety: e.target.value })} /></label>
                 <label>{t("Siembra", "Sowing")}<input type="date" required value={c.start} onChange={e => altCampaign(ai, ci, { start: e.target.value })} /></label>
                 <label>{t("Cosecha", "Harvest")}<input type="date" required value={c.end} onChange={e => altCampaign(ai, ci, { end: e.target.value })} /></label>
                 <button type="button" className="icon-button" disabled={alt.campaigns.length <= 1} onClick={() => setAlternative(ai, { campaigns: alt.campaigns.filter((_, n) => n !== ci) })}><Trash2 size={16} aria-hidden="true" /><span>{t(`Quitar ciclo ${ci + 1} de ${letter}`, `Remove cycle ${ci + 1} of ${letter}`)}</span></button>
@@ -447,12 +484,12 @@ function WorkspaceView({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => vo
           <BottomLine report={report} />
           {isViruDemo && <ViruWaterContext />}
           <PriorityRanking strategies={report.strategies} weights={weights} onWeights={setWeights} />
-          <WaterCard report={report} tariff={tariff} onTariff={setTariff} />
+          <WaterCard report={report} tariff={tariff} onTariff={setTariff} currency={currency} onCurrency={setCurrency} />
           <SoilCards report={report} />
           <ElNinoTable report={report} />
           <p className="notice neutral small">{t("Horizonte común", "Common horizon")}: {report.strategies[0].horizon.start} → {report.strategies[0].horizon.end} · {t("intervalos de cultivo [siembra, cosecha)", "crop intervals [sowing, harvest)")}.</p>
           <ComparisonTable report={report} />
-          <p className="small muted">{t("Demanda hídrica: ETo de Hargreaves (FAO-56, ec. 52) con temperaturas NASA POWER × Kc genéricos de FAO-56 (tablas 11 y 12). Es la demanda de un cultivo sano en condiciones estándar, no una necesidad de riego validada. Grados-día: método promedio (McMaster y Wilhelm, 1997).", "Water demand: Hargreaves ET0 (FAO-56 eq. 52) from NASA POWER temperatures × generic FAO-56 Kc (tables 11–12). It is the demand of a healthy crop under standard conditions, not a validated irrigation requirement. Degree-days: averaging method (McMaster & Wilhelm, 1997).")}</p>
+          <p className="small muted">{t("Demanda hídrica: ETo según el método elegido × Kc genéricos FAO-56 (tablas 11 y 12). Es la demanda de un cultivo sano en condiciones estándar, no una necesidad de riego validada. Cada alternativa conserva el método, insumos y supuestos en el JSON. Grados-día: método promedio (McMaster y Wilhelm, 1997).", "Water demand: selected ET0 method × generic FAO-56 Kc (tables 11–12). Demand of a healthy crop under standard conditions, not a validated irrigation requirement. JSON retains each option's method, inputs and assumptions. Degree-days: averaging method (McMaster & Wilhelm, 1997).")}</p>
           <div className="accordion">{report.strategies.map(s => <details key={s.id} className="strategy-details"><summary>{s.id} · {t("Restricciones y explicación", "Constraints and explanation")} · {s.checks.filter(c => c.status === "incumple").length} {t("incumplidas", "failed")}</summary>{lang === "en" && <p className="small muted">Rule details are written in Spanish.</p>}<ul className="check-list">{s.checks.map(c => <li key={c.rule} className={`check-${c.status}`}>{c.status === "cumple" ? <Check size={18} aria-hidden="true" /> : <AlertCircle size={18} aria-hidden="true" />}<div><strong>{c.rule} · {c.status}</strong><p>{c.detail}</p><small>{t("Fuente", "Source")}: {c.source.startsWith("https://") ? <a href={c.source} target="_blank" rel="noreferrer">{t("Referencia metodológica", "Method reference")}</a> : c.source}</small></div></li>)}</ul></details>)}</div>
         </div>}
         <details className="catalog soft-details"><summary>{t("Consultar catálogo y aplicabilidad de los cultivos", "Crop catalogue and applicability")}</summary><div className="table-scroll" tabIndex={0} role="region" aria-label={t("Catálogo desplazable", "Scrollable catalogue")}><table><caption>{t("Referencias generales FAO; no representan calendarios regionales.", "General FAO references; not regional calendars.")}</caption><thead><tr><th>{t("Cultivo / familia", "Crop / family")}</th><th>{t("Ciclo de referencia", "Reference cycle")}</th><th>{t("Aplicabilidad", "Applicability")}</th></tr></thead><tbody>{crops.map(c => <tr key={c}><th>{t(catalog[c].names.es, catalog[c].names.en)}<small>{catalog[c].species} · {catalog[c].family}</small></th><td>{catalog[c].days.join("–")} {t("días", "days")}</td><td>{t(catalog[c].applicability, "General reference; does not prove suitability for a region or variety")}. <a href={catalog[c].source} target="_blank" rel="noreferrer">{t("FAO, tabla 6", "FAO, table 6")}</a></td></tr>)}</tbody></table></div></details>
@@ -460,13 +497,15 @@ function WorkspaceView({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => vo
 
       <section id="evidencias" className="section evidence">
         <SectionHeading step={5} title={t("Una decisión que puedes revisar", "A decision you can review")} text={t("Las entradas, las reglas y las ausencias viajan con el informe.", "Inputs, rules and gaps travel with the report.")}>
-          {report && <div className="report-actions"><button className="button light" onClick={() => download(report, weights)}><Download size={17} aria-hidden="true" />{t("Descargar JSON", "Download JSON")}</button><button className="button light" onClick={() => window.print()}><Printer size={17} aria-hidden="true" />{t("Imprimir informe", "Print report")}</button></div>}
+          {report && <div className="report-actions"><button className="button light" onClick={() => download(report, weights, tariff, currency, vegetation)}><Download size={17} aria-hidden="true" />{t("Descargar JSON", "Download JSON")}</button><button className="button light" onClick={() => window.print()}><Printer size={17} aria-hidden="true" />{t("Imprimir informe", "Print report")}</button></div>}
         </SectionHeading>
         {report ? <div className="results">
           <p>{t("Metodología", "Method")} {report.methodologyVersion} · {t("informe generado", "report generated")} {report.createdAt}. {report.climate ? `${t("NASA consultado", "NASA queried")} ${report.climate.retrievedAt}. ${t("Fuentes", "Sources")}: ${report.climate.sources.join(", ")}.` : t("Sin serie NASA verificada en este informe.", "No verified NASA series in this report.")}</p>
           <ul className="limit-list">{(lang === "en" && report.limitationsEn ? report.limitationsEn : report.limitations).map(s => <li key={s}>{s}</li>)}</ul>
           <div className="regional-block"><RegionalEvidence report={report} /></div>
+          <VegetationMonitor key={report.createdAt} farm={report.input} onLoaded={setVegetation} />
           <h3>{t("Antes de decidir con un agrónomo", "Before deciding with an agronomist")}</h3><p>{t("Confirma parcela, variedad, ventanas de siembra, drenaje, análisis de suelo y balance hídrico. Contrasta los datos de grilla con registros locales.", "Confirm the plot, variety, sowing windows, drainage, soil analysis and water balance. Check grid data against local records.")}</p>
+          {report.agronomicReview && <div className="review-checklist"><ul>{report.agronomicReview.items.map(item => <li key={item.id}>{item.supplied ? t("Aportado, sin verificar", "Provided, unverified") : t("Pendiente", "Missing")} · {lang === "es" ? item.label : ({ varieties: "Variety identity for every campaign", soil: "Dated soil analysis, reference, drainage and salinity", water: "Water availability and provenance", profile: "Reviewed, current regional profile" }[item.id])}</li>)}</ul><p className="small muted">{t(report.agronomicReview.note, "Providing data does not verify it or enable recommendations. A specialist must review regional rules and independent cases before they can be incorporated into a versioned profile.")}</p><button type="button" className="button secondary" onClick={() => saveJson({ methodologyVersion: report.methodologyVersion, input: report.input, checklist: report.agronomicReview, review: { status: "pending", reviewer: null, reviewedAt: null, evidenceUrls: [], independentCases: [] } }, "agroorbit-revision-agronomica.json")}>{t("Descargar expediente para revisión", "Download review dossier")}</button></div>}
           <details className="soft-details"><summary>{t("Inspeccionar entradas utilizadas en este informe", "Inspect the inputs used in this report")}</summary><pre>{JSON.stringify(report.input, null, 2)}</pre></details>
         </div> : <p>{t("El informe incluirá coordenadas, fechas, procedencia, unidades, versión NASA, reglas y limitaciones. No contiene recomendaciones certificadas.", "The report will include coordinates, dates, sources, units, NASA version, rules and limitations. It contains no certified recommendations.")}</p>}
       </section>

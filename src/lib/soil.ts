@@ -32,24 +32,24 @@ export function soilCard(s: Strategy): SoilIndicator[] {
   const legumes = [...new Set(s.campaigns.filter(c => catalog[c.crop].family === "Fabaceae").map(c => catalog[c.crop]))];
   const diversification = { label: "FAO · Species diversification", url: FAO_DIVERSIFICATION };
   return [
-    { id: "legume", label: { es: "Leguminosa (fija nitrógeno)", en: "Legume (fixes nitrogen)" },
+    { id: "legume", label: { es: "Presencia de leguminosa", en: "Legume present" },
       value: i.hasLegume ? { es: `Sí · ${legumes.map(c => c.names.es).join(", ")}`, en: `Yes · ${legumes.map(c => c.names.en).join(", ")}` } : { es: "No", en: "No" },
       good: i.hasLegume,
-      why: { es: "Las leguminosas en rotación aumentan la fijación biológica de nitrógeno.", en: "Legumes in a rotation increase biological nitrogen fixation." },
+      why: { es: "Su potencial de fijación depende de especie, simbiosis y manejo. Este plan no mide nitrógeno fijado ni fertilidad.", en: "Fixation potential depends on species, symbiosis and management. This plan does not measure fixed nitrogen or fertility." },
       source: diversification },
     { id: "families", label: { es: "Familias de cultivos", en: "Crop families" },
       value: { es: String(i.families), en: String(i.families) }, good: i.families > 1,
-      why: { es: "Cultivos de familias distintas exploran otras capas del suelo y diversifican su vida biológica.", en: "Crops from different families explore other soil layers and diversify soil life." },
+      why: { es: "Describe diversidad taxonómica del plan; funciones radiculares y biología del suelo requieren observación local.", en: "Describes the plan's taxonomic diversity; root functions and soil biology require local observations." },
       source: diversification },
     { id: "repeat", label: { es: "Mismo cultivo seguido", en: "Same crop in a row" },
       value: repeated && repeatedName ? { es: `${repeated.run}× ${repeatedName.names.es}`, en: `${repeated.run}× ${repeatedName.names.en}` } : { es: "Nunca", en: "Never" },
       good: !repeated,
-      why: { es: "Rotar evita que plagas y enfermedades propias de un cultivo pasen al siguiente.", en: "Rotating prevents crop-specific pests and diseases carrying over to the next crop." },
+      why: { es: "La repetición orienta qué revisar con un agrónomo. Cambiar de cultivo no demuestra cortar una plaga sin identificar hospedantes y manejo.", en: "Repetition guides agronomic review. Changing crops does not prove a pest-cycle break without host and management evidence." },
       source: diversification },
-    { id: "uncropped", label: { es: "Días con suelo sin cultivo", en: "Days with uncropped soil" },
+    { id: "uncropped", label: { es: "Días sin cultivo registrado", en: "Days without a recorded crop" },
       value: i.uncroppedDays === null ? { es: "No calculable", en: "Not computable" } : { es: `${i.uncroppedDays} días`, en: `${i.uncroppedDays} days` },
       good: null,
-      why: { es: "Sin cultivo ni cobertura, el suelo queda expuesto: la cobertura lo protege en los periodos sin siembra.", en: "Without a crop or cover the soil is exposed; cover protects it during fallow periods." },
+      why: { es: "No equivale a suelo desnudo: se desconoce la cobertura de residuos o cultivos no registrados. Verificarla en campo.", en: "Does not mean bare soil: residues or unrecorded cover crops are unknown. Check coverage in the field." },
       source: { label: "FAO · Soil organic cover", url: FAO_SOIL_COVER } },
   ];
 }

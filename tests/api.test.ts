@@ -20,6 +20,7 @@ describe("Snapshot de la demo de Virú", () => {
     expect(climate.days).toHaveLength(540);
     expect(climate.warnings[0]).toContain("guardados localmente");
     await expect(fetchClimateWithSnapshot({ ...demoSnapshot.query, lat: 10 }, down)).rejects.toThrow();
+    await expect(fetchClimateWithSnapshot({ ...demoSnapshot.query, extended: true }, down)).rejects.toThrow();
   });
 });
 

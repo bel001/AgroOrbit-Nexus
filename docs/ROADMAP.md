@@ -1,5 +1,11 @@
 # Roadmap de implementación — AgroOrbit Nexus
 
+**Actualización 2026-11-15:** IMPLEMENTATION_MATRIX centraliza el estado. Guardado/importación, polígonos, seis especies, Penman–Monteith, ranking y MODIS contextual están implementados localmente, sin nuevo despliegue.
+
+Antes de habilitar recomendaciones se requieren casos independientes y revisión profesional de reglas y evaluador (AGRONOMIC_REVIEW). P1/P2 pendientes: HLS parcelario y fenología comparables, nuevas regiones aprobadas, evaluación de usuarios y carga distribuida cuando proceda. No se copian calendarios del piloto. El plan inicial conservado no acredita un plazo vigente del concurso.
+
+## Antecedentes conservados (no describen el estado de esta revisión)
+
 **Fecha del plan:** 2026-11-14. **Evento:** NASA Space Apps Challenge, 14–15 de noviembre de 2026. El plan no constituye evidencia de tareas completadas.
 
 **Avance verificado en esta fecha:** recorrido P0 técnico local implementado y probado, con evaluación incompleta explícita en criterios sin fuentes regionales. Antes de comenzar P1 se requieren validación agronómica del catálogo/reglas, despliegue público y cierre de comprobaciones del concurso. No se implementaron HLS/NDVI ni capas agrícolas. Resultados y brechas concretas: STATUS y VALIDATION.

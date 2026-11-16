@@ -1,5 +1,24 @@
 # Arquitectura técnica propuesta — AgroOrbit Nexus
 
+## Implementación vigente — 2026-11-15
+
+Matriz de alcance: IMPLEMENTATION_MATRIX. Código local sin nuevo despliegue; las secciones históricas siguientes no acreditan el estado actual.
+
+- Next.js y Worker ESM comparten componentes y handlers `/api/analyze`, `/api/locations` y `/api/vegetation`.
+- `model.ts`: validación Zod, campañas/variedades, procedencia, suelo, agua, métodos y polígono opcionales. POST limitado a 32 KiB.
+- `power.ts`: cuatro variables base u ocho con `extended`; unidades/LST/fill/completitud. Caché de 24 h, 64 entradas y cuatro solicitudes por instancia, sin cuota distribuida.
+- `water.ts`/`penman-monteith.ts`: ETc Hargreaves o Penman–Monteith; supuestos de lluvia/eficiencia documentados. Faltantes críticos conservados.
+- `catalog.ts`/`regions.ts`: seis especies generales y perfiles versionados; sin reglas/evaluador regional aprobados. `agronomic-review.ts` prepara el expediente, no una aprobación.
+- `historical-context.ts`/`snapshots.ts`: histórico almacenado solo para punto/calendario exactos; procedencia en el JSON. No se usa el snapshot para consultas Penman–Monteith.
+- `session.ts`/`session-controls.tsx`: borrador validado y versionado en localStorage, eliminación explícita y transferencia JSON. Resultados importados descartados.
+- `parcel.ts`/`farm-map.tsx`: WGS84, 3–64 vértices, validación de cruces/duplicados/extensión y área esférica aproximada. El polígono no agrega clima ni NDVI.
+- `vegetation.ts`/`vegetation-monitor.tsx`: MOD13Q1/ORNL REST v1 bajo acción explícita; máximo 120 días, un píxel y QA. Caché 24 h/32 entradas, dos solicitudes por instancia. No entra al motor ni ranking.
+- `rotations.ts`/`priorities.ts`: informe 3.0, estados incompletos, indicadores y ranking relativo, con expediente y metadatos geográficos/históricos.
+- Mapa, gráfico y monitor con carga diferida. Sin cuentas ni base de datos. Browser drafts permanecen en el equipo; NASA/ORNL reciben coordenadas/fechas, no nombres del terreno.
+- Vitest, e2e determinista multibrowser y consultas reales registradas por separado. Evidencia y límites: VALIDATION.
+
+## Antecedentes conservados (no describen el estado de esta revisión)
+
 **Estado actualizado 2026-11-14:** implementación P0 local en Next.js 16 / React 19. El resto del documento conserva el diseño de referencia; las diferencias reales se detallan a continuación.
 
 ## Implementación real

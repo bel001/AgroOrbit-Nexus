@@ -1,5 +1,13 @@
 # Entrega verificable — 2026-11-14
 
+**Solicitud posterior del usuario (2026-11-15):** sincronizar el proyecto revisado con GitHub y excluir la carpeta Claude. `.gitignore` excluye `.claude/` y `claude/`; sus contenidos locales no se borran ni se incorporan al commit. La autorización corresponde al código en GitHub; no se ejecuta un despliegue web adicional. Las notas siguientes conservan el contexto de las revisiones anteriores.
+
+**Revisión local 2026-11-15:** ver IMPLEMENTATION_MATRIX, STATUS y VALIDATION. Estas correcciones no se han desplegado. La publicación Vercel autorizada anterior puede diferir. No se efectuó nuevo commit, push, publicación ni envío NASA.
+
+Respuestas nuevas POWER/MODIS reales en `evidence/revision-2026-11-15/`; pruebas con fallos simulados separadas. Historial agrícola ilustrativo, sin casos de campo validados. Las evidencias preexistentes se conservan; artefactos automáticos nuevos en `test-results/`.
+
+## Antecedentes conservados (no describen el estado de esta revisión)
+
 **Actualización 2026-11-15:** publicada en Vercel por instrucción del usuario: https://agroorbit-nexus.vercel.app (demo y PDF bajo `/submission/`). El resto de este documento describe la entrega del 2026-11-14.
 
 **Entrega 2026-11-14: solo localhost**, por instrucción expresa del usuario. Aplicación en http://127.0.0.1:3000 mientras el proceso esté activo; demo y PDF bajo `/submission/`. Alojamiento anterior restringido: HTTP 401 sin sesión comprobado. Se retiraron las referencias a su dirección de los archivos vigentes; no se volverá a publicar sin nueva instrucción. No hay envío NASA comprobado.

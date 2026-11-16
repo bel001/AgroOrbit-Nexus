@@ -1,3 +1,4 @@
+import { evidencePath } from "./evidence";
 import { expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 test("terreno → NASA real → comparación → descarga", async ({ page }, info) => {
@@ -22,12 +23,12 @@ test("terreno → NASA real → comparación → descarga", async ({ page }, inf
   await expect(page.getByText(/135 a madurez de cosecha/)).toBeVisible();
   const downloadEvent = page.waitForEvent("download"); await page.getByRole("button", { name: "Descargar JSON" }).click();
   const download = await downloadEvent; expect(download.suggestedFilename()).toBe("agroorbit-evidencia.json");
-  await download.saveAs(`docs/evidence/report-${info.project.name}.json`);
+  await download.saveAs(evidencePath(`report-${info.project.name}.json`));
   await page.getByText("Ver tabla mensual y días válidos", { exact: true }).click();
   await expect(page.getByRole("region", { name: "Tabla climática desplazable" })).toBeVisible();
   await page.getByText("Ver tabla mensual y días válidos", { exact: true }).click();
   await page.getByRole("heading", { level: 1 }).scrollIntoViewIfNeeded();
-  await page.screenshot({ path: `docs/evidence/${info.project.name}.png`, fullPage: true });
+  await page.screenshot({ path: evidencePath(`${info.project.name}.png`), fullPage: true });
   expect(errors).toEqual([]);
   expect(consoleErrors).toEqual([]);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);

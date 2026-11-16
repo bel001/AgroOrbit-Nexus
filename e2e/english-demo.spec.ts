@@ -1,3 +1,4 @@
+import { evidencePath } from "./evidence";
 import { expect, test } from "@playwright/test";
 import AxeBuilder from "@axe-core/playwright";
 
@@ -43,8 +44,8 @@ test("English Virú demo: bottom line, water in m³/ha, soil cards, El Niño and
   await expect(page.locator(".cell-legend")).toContainText("NASA data represents this whole area, not just your field.");
 
   if (info.project.name === "desktop") {
-    await page.locator("#rotaciones").screenshot({ path: "docs/evidence/step4-en.png" });
-    await page.locator(".map-frame").screenshot({ path: "docs/evidence/map-cell-en.png" });
+    await page.locator("#rotaciones").screenshot({ path: evidencePath("step4-en.png") });
+    await page.locator(".map-frame").screenshot({ path: evidencePath("map-cell-en.png") });
   }
   const a11y = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21aa", "wcag22aa"]).analyze();
   expect(a11y.violations.map(v => ({ id: v.id, nodes: v.nodes.map(n => n.target.join(" ")).slice(0, 3) }))).toEqual([]);

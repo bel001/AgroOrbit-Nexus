@@ -47,13 +47,14 @@ export function ViruWaterContext() {
 }
 
 /** Water demand per option: m³/ha is the headline, mm secondary; optional user tariff; model rain de-emphasised. */
-export function WaterCard({ report, tariff, onTariff }: { report: EvidenceReport; tariff: string; onTariff: (v: string) => void }) {
+export function WaterCard({ report, tariff, onTariff, currency, onCurrency }: { report: EvidenceReport; tariff: string; onTariff: (v: string) => void; currency: "PEN" | "USD" | "EUR"; onCurrency: (v: "PEN" | "USD" | "EUR") => void }) {
   const t = useT(); const num = useNum(); const name = useStrategyName();
   const rows = report.strategies.filter(s => s.water?.etcMm != null);
   if (!rows.length) return null;
   const max = Math.max(...rows.map(s => s.water!.etcMm!));
   const price = tariff.trim() === "" ? null : Number(tariff.replace(",", "."));
   const validPrice = price !== null && Number.isFinite(price) && price >= 0 ? price : null;
+  const symbol = currency === "PEN" ? "S/" : currency;
   return <div className="water-card">
     <div className="water-card-head"><Droplets size={20} aria-hidden="true" /><h3>{t("Agua que necesita cada rotación", "Water each rotation needs")}</h3></div>
     <p className="small muted">{t("Demanda de agua del cultivo (ETc, FAO-56) durante todas las campañas del periodo. 1 mm = 10 m³/ha.", "Crop water demand (ETc, FAO-56) over all campaigns in the period. 1 mm = 10 m³/ha.")}</p>
@@ -61,20 +62,25 @@ export function WaterCard({ report, tariff, onTariff }: { report: EvidenceReport
       const etc = s.water!.etcMm!; const m3 = toM3PerHa(etc);
       return <li key={s.id} style={{ "--i": i } as React.CSSProperties}>
         <span className="water-label"><b>{s.id}</b> {name(s)}</span>
-        <span className="water-track"><span className="water-fill" style={{ width: `${(etc / max) * 100}%` }} /></span>
-        <span className="water-value"><strong className="m3">{num(Math.round(m3 / 10) * 10)} m³/ha</strong><small>{num(Math.round(etc))} mm{validPrice !== null ? ` · ≈ S/ ${num(Math.round(m3 * validPrice))} /ha` : ""}</small></span>
+        <span className="water-track"><span className="water-fill" style={{ width: `${max > 0 ? (etc / max) * 100 : 0}%` }} /></span>
+        <span className="water-value"><strong className="m3">{num(Math.round(m3 / 10) * 10)} m³/ha</strong><small>{num(Math.round(etc))} mm{validPrice !== null ? ` · ≈ ${symbol} ${num(Math.round(m3 * validPrice))} /ha` : ""}</small></span>
       </li>;
     })}</ul>
     <div className="tariff">
-      <label>{t("Tu tarifa de agua (S/ por m³, opcional)", "Your water tariff (S/ per m³, optional)")}<input inputMode="decimal" value={tariff} placeholder={t("Vacío = sin soles", "Empty = no soles shown")} onChange={e => onTariff(e.target.value)} /></label>
+      <label>{t("Moneda de tu tarifa", "Tariff currency")}<select value={currency} onChange={e => onCurrency(e.target.value as typeof currency)}><option value="PEN">PEN · S/</option><option value="USD">USD</option><option value="EUR">EUR</option></select></label>
+      <label>{t(`Tu tarifa de agua (${symbol} por m³, opcional)`, `Your water tariff (${symbol} per m³, optional)`)}<input inputMode="decimal" value={tariff} placeholder={t("Vacío = sin costos", "Empty = no costs shown")} onChange={e => onTariff(e.target.value)} /></label>
       <p className="small muted">{validPrice === null
         ? t("Sin tarifa no se muestran costos. AgroOrbit no usa tarifas por defecto.", "Without a tariff no costs are shown. AgroOrbit never uses a default tariff.")
-        : t(`Costo = m³/ha × S/ ${tariff} que ingresaste. Es la demanda del cultivo, no tu recibo: no incluye pérdidas de riego ni cargos fijos.`, `Cost = m³/ha × the S/ ${tariff} you entered. It is crop demand, not your bill: no irrigation losses or fixed charges.`)}</p>
+        : t(`Escenario de costo = demanda ETc × ${symbol} ${tariff} que ingresaste. No representa volumen facturado, riego aplicado ni ahorro.`, `Cost scenario = ETc demand × the ${symbol} ${tariff} you entered. It is not billed water, applied irrigation or savings.`)}</p>
     </div>
     <details className="rain-note">
-      <summary>{t("Lluvia del modelo (poco fiable en el desierto costero)", "Model rainfall (unreliable in the coastal desert)")}</summary>
-      <p className="small muted">{t("Precipitación de grilla NASA POWER durante las campañas", "NASA POWER grid rainfall during the campaigns")}: {rows.map(s => `${s.id} ${num(Math.round(s.water!.rainMm ?? 0))} mm`).join(" · ")}. {t("En el desierto costero el modelo puede estar muy lejos de la realidad; no se usa para ordenar opciones.", "In the coastal desert the model can be far from reality; it is not used to rank options.")}</p>
+      <summary>{t("Lluvia de grilla: contexto, no lluvia efectiva", "Gridded rainfall: context, not effective rainfall")}</summary>
+      <p className="small muted">{t("Precipitación de grilla NASA POWER durante las campañas", "NASA POWER grid rainfall during the campaigns")}: {rows.map(s => `${s.id} ${s.water!.rainMm === null ? t("sin datos completos", "incomplete data") : `${num(Math.round(s.water!.rainMm))} mm`}`).join(" · ")}. {t("Requiere contraste local; su representatividad depende de la región. No se usa para ordenar opciones.", "Requires local comparison; representativeness depends on the region. It is not used to rank options.")}</p>
     </details>
+    {rows.some(s => s.water?.scenario) && <details className="rain-note"><summary>{t("Escenario de riego con tus supuestos", "Irrigation scenario with your assumptions")}</summary>
+      <p className="small muted">{t("No es una programación de riego validada: no incluye almacenamiento del suelo, escorrentía ni lavado de sales. No afecta el ranking.", "Not a validated irrigation schedule: excludes soil storage, runoff and salt leaching. It does not affect ranking.")}</p>
+      <ul>{rows.filter(s => s.water?.scenario).map(s => { const scenario = s.water!.scenario!; return <li key={s.id}>{s.id} · {t("Lluvia efectiva supuesta", "Assumed effective rain")}: {scenario.effectiveRainMm === null ? "—" : `${num(scenario.effectiveRainMm)} mm`} · {t("Riego neto / bruto estimado", "Estimated net / gross irrigation")}: {scenario.netIrrigationMm === null ? "—" : num(scenario.netIrrigationMm)} / {scenario.grossIrrigationMm === null ? "—" : num(scenario.grossIrrigationMm)} mm. {scenario.inputs?.reference}</li>; })}</ul>
+    </details>}
   </div>;
 }
 
@@ -84,7 +90,8 @@ export function SoilCards({ report }: { report: EvidenceReport }) {
   const options = report.strategies.filter(s => s.status !== "Incompatible");
   if (!options.length) return null;
   return <div className="soil-section">
-    <h3 className="soil-title"><Sprout size={20} aria-hidden="true" /> {t("Salud del suelo por opción", "Soil health by option")}</h3>
+    <h3 className="soil-title"><Sprout size={20} aria-hidden="true" /> {t("Indicadores de manejo por opción", "Management indicators by option")}</h3>
+    <p className="small muted">{t("Describen el plan de cultivos; no miden salud del suelo, fertilidad ni control de plagas.", "These describe the crop plan; they do not measure soil health, fertility or pest control.")}</p>
     <div className="soil-grid">{options.map(s => <article className="soil-card" key={s.id} aria-label={`Soil health ${s.id}`}>
       <header><span className="strategy-chip">{s.id}</span><strong>{name(s)}</strong></header>
       <ul>{soilCard(s).map(ind => <li key={ind.id} className={ind.good === true ? "good" : ind.good === false ? "weak" : ""}>
@@ -100,12 +107,12 @@ export function SoilCards({ report }: { report: EvidenceReport }) {
 export function ElNinoTable({ report }: { report: EvidenceReport }) {
   const t = useT(); const lang = useLang(); const num = useNum(); const name = useStrategyName();
   const st = report.stressTest;
-  if (!st) return null;
+  if (!st || !st.strategies.length) return null;
   const tag = (a: string) => a === "above" ? t("por encima del rango 1991–2020", "above the 1991–2020 range") : a === "below" ? t("por debajo del rango 1991–2020", "below the 1991–2020 range") : a === "none" ? t("sin anomalía en estos datos", "no anomaly in these data") : t("sin datos", "no data");
   return <div className="elnino-card">
-    <div className="water-card-head"><ThermometerSun size={20} aria-hidden="true" /><h3>{t("Prueba de estrés: ¿cómo le habría ido con El Niño?", "Stress test: how would it have handled El Niño?")}</h3></div>
-    <p className="small muted">{t("Cada rotación se repite con las temperaturas reales de NASA POWER de esos años y se compara con 27 temporadas normales (1991–2020, sin los años del evento). Es una repetición histórica, no un pronóstico.",
-      "Each rotation is replayed with real NASA POWER temperatures from those years and compared with 27 normal seasons (1991–2020, event years excluded). A historical replay, not a forecast.")}</p>
+    <div className="water-card-head"><ThermometerSun size={20} aria-hidden="true" /><h3>{t("Prueba histórica de demanda hídrica", "Historical water-demand replay")}</h3></div>
+    <p className="small muted">{t("Cada rotación se repite con las temperaturas de grilla NASA POWER de esos años y se compara con temporadas históricas de referencia. La referencia no equivale a temporadas climáticamente neutras. Es una repetición histórica, no un pronóstico ni un efecto causal de El Niño.",
+      "Each rotation is replayed with NASA POWER gridded temperatures and compared with historical reference seasons. The reference does not mean climatically neutral seasons. This is a historical replay, not a forecast or a causal El Niño effect.")}</p>
     <div className="table-scroll" tabIndex={0} role="region" aria-label={t("Tabla de El Niño", "El Niño table")}>
       <table className="elnino-table"><caption>{t("Agua extra que habría pedido cada opción (ETc) frente al promedio 1991–2020, en m³/ha.", "Extra water each option would have needed (ETc) versus the 1991–2020 average, in m³/ha.")}</caption>
         <thead><tr><th>{t("Opción", "Option")}</th>{st.strategies[0].events.map(e => <th key={e.event}>{e.label}</th>)}</tr></thead>

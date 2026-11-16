@@ -1,5 +1,9 @@
 # Fuentes, licencias y atribuciones
 
+**Fuentes añadidas en la revisión 2026-11-15:** NASA MODIS Terra MOD13Q1 vía ORNL DAAC TESViS REST v1 ([servicio y cita DOI 10.3334/ORNLDAAC/1600](https://modis.ornl.gov/data/modis_webservice.html)); [guía MOD13 Collection 6](https://lpdaac.usgs.gov/documents/103/MOD13_User_Guide_V6.pdf), tablas 4–5 para QA. El REST no declara versión de colección y se conserva como desconocida. Fuente, URLs, procesamiento y calidad acompañan los datos. No es HLS ni observación de parcela.
+
+Referencias nuevas de catálogo: [FAO tabla 6](https://www.fao.org/4/s2022e/s2022e07.htm) y Kew para papa, arroz y trigo (URLs en catalog.ts). Penman–Monteith: [FAO-56, capítulos 3–4](https://www.fao.org/4/x0490e/x0490e08.htm). No se distribuyen esos textos como obra propia. La geometría usa una aproximación esférica explícita, sin certificación catastral.
+
 Código original: MIT, decisión del usuario 2026-11-14. `LICENSE` no cambia las condiciones de materiales externos.
 
 Revisión documental del piloto: [INIA 619, 2012](https://repositorio.inia.gob.pe/server/api/core/bitstreams/a4269a08-2041-4fbe-b053-f1346c1fef36/content), [INIA 404, edición PDF 2009](https://repositorio.inia.gob.pe/bitstreams/edfce649-824e-40a8-84d2-965acdd73e9e/download), boletín MIDAGRI 01-2021 y FAO *Water harvesting* (1991). Se enlazan y resumen hechos limitados con edición/página; no se incorporan los PDF ni se declara que sus licencias sean MIT. URLs, hashes y alcance en `research/VIRU_SOURCE_NOTES.md`. esbuild y PostCSS son herramientas de compilación, con licencias de dependencias en el inventario actualizado; no se copió el código del plugin Sites al producto.

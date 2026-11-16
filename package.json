@@ -22,6 +22,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:e2e": "playwright test",
+    "test:e2e:ci": "playwright test reliability.spec.ts map-loading.spec.ts",
+    "verify:extensions": "node scripts/verify-extensions.mjs",
     "verify:skills": "node scripts/verify-skills.mjs",
     "verify:nasa": "node scripts/verify-nasa.mjs",
     "verify:global": "node scripts/verify-global.mjs"

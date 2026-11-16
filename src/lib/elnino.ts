@@ -61,9 +61,10 @@ function seasonEtc(campaigns: Campaign[], climate: Climate): number | null {
 const fmt = (x: number, lang: "es" | "en") => Math.round(x).toLocaleString(lang === "es" ? "es-PE" : "en-US");
 
 export function stressTest(strategies: Strategy[], days: ClimateDay[], lat: number): StressTest | null {
-  if (!strategies.length || !days.length) return null;
+  const options = strategies.filter(s => s.status !== "Incompatible");
+  if (!options.length || !days.length) return null;
   const climate = { days, query: { lat, lon: 0, start: days[0].date, end: days.at(-1)!.date } } as Climate;
-  const results: StrategyStress[] = strategies.filter(s => s.status !== "Incompatible").map(s => {
+  const results: StrategyStress[] = options.map(s => {
     const horizonStart = s.horizon.start;
     const base = BASELINE_START_YEARS.map(y => seasonEtc(shiftCampaigns(s.campaigns, horizonStart, y), climate)).filter((v): v is number => v !== null);
     const baseline = base.length ? { meanMm: base.reduce((a, b) => a + b, 0) / base.length, minMm: Math.min(...base), maxMm: Math.max(...base), seasons: base.length } : null;

@@ -1,5 +1,23 @@
 # Metodología científica — AgroOrbit Nexus
 
+## Revisión vigente — 2026-11-15
+
+Informe `3.0`, metodología `evidence-integrity-2026-11-15`. Cambios locales sin desplegar; no hay revisión agronómica independiente. IMPLEMENTATION_MATRIX distingue implementación de validación.
+
+- **Integridad:** lluvia sin observaciones → null; suma parcial rotulada con días válidos/solicitados. Ninguna tabla histórica vacía causa error. El histórico almacenado requiere coordenadas y calendario exactos del caso de Virú; consultas de otra celda o con distinto inicio no lo usan. El JSON conserva la procedencia histórica por separado.
+- **ETo opcional Penman–Monteith:** FAO-56 ec. 6; NASA `ALLSKY_SFC_SW_DWN` (MJ/m²/día), `T2MDEW` (°C), `WS2M` (m/s) y `PS` (kPa). Presión de vapor del punto de rocío, presión NASA, elevación de grilla para radiación de cielo despejado, albedo 0,23 y G diario=0. Radiación extraterrestre ec. 21, neta ec. 37–40. Ratio Rs/Rso acotado 0,3–1. Sin un insumo válido no se sustituye por Hargreaves. Noche polar sin tratamiento radiativo validado → null. Datos NASA conservan sus soportes espaciales diferentes, no son de parcela.
+- **Verificación aritmética:** ejemplo 18 FAO-56, Uccle, reproduce ~3,9 mm/día; también se prueba el cálculo radiativo completo con los insumos del ejemplo. Esto no valida ETo/Kc locales. Hargreaves sigue disponible y el replay ilustrativo siempre lo usa, identificado aparte.
+- **Escenario de agua:** porcentajes opcionales aportados con procedencia/referencia. Pe = precipitación de grilla × fracción supuesta; neto = suma por campaña de máx(0, ETc−Pe); bruto = neto / eficiencia. Cero de fracción de lluvia se conserva; eficiencia cero se rechaza. Sin datos/supuestos no se calcula. No hay balance de almacenamiento del suelo, escorrentía ni lavado de sales, por lo que no es programación de riego, volumen facturado ni ahorro.
+- **Manejo:** leguminosa/familias/repeticiones/días sin cultivo registrado describen el plan. No prueban fijación de N, cobertura real, salud del suelo ni control de plagas. La normalización/ranking es relativa; manejo y diversidad comparten variables y no son criterios científicos independientes.
+- **Agronomía:** variedad, análisis de suelo/drenaje/salinidad y agua son entradas con procedencia. El expediente identifica aportado/faltante, sin aprobar datos ni habilitar recomendaciones. Protocolo y casos externos pendientes: AGRONOMIC_REVIEW. Papa, arroz y trigo se añaden como catálogo general; sin Kc pertinente, su ETc queda null.
+- **Polígono:** coordenadas WGS84, 3–64 vértices, sin cruces/duplicados, alcance local ≤5° y área 0,001–1 000 000 ha. Área esférica aproximada con radio medio 6 371 008,8 m y tratamiento del antimeridiano. No representa área legal, relieve ni agregación del clima/NDVI. Coordenadas siguen siendo alternativa al dibujo.
+- **MODIS contextual:** producto MOD13Q1, compuestos de hasta 16 días, un píxel nominal de 250 m; ORNL REST v1. Se verifica escala 0,0001/rango −2000..10000/fill −3000 y bandas QA. Solo reliability=0, MODLAND=00, usefulness≤2, aerosol no alto, tierra y sin flags de nubes adyacentes/mixtas, nieve o sombras. Fuente: [guía MOD13 Collection 6, tablas 4–5](https://lpdaac.usgs.gov/documents/103/MOD13_User_Guide_V6.pdf). El servicio no expone colección: se conserva desconocida; no se finge que se verificó 6.1. Fecha de compuesto y fecha del píxel separadas; inválidos → null. Sin equivalencia fenológica validada no se computan tendencias entre campañas. Es entorno, no diagnóstico ni recomendación de parcela; HLS parcelario sigue pendiente.
+- **Reproducción:** el JSON exporta entradas, clima diario, métodos/supuestos, ranking, moneda/tarifa y MODIS consultado. Se descartan resultados al importar; solo se recuperan entradas. Los borradores locales versionados no son evidencia científica vigente.
+
+Referencias: [NASA POWER Daily](https://power.larc.nasa.gov/docs/services/api/temporal/daily/), [FAO-56 capítulos 3–4](https://www.fao.org/4/x0490e/x0490e08.htm), [ORNL DAAC TESViS](https://modis.ornl.gov/data/modis_webservice.html). Evidencia real y pruebas: VALIDATION.
+
+## Desarrollo previo y métodos base (los cambios anteriores prevalecen)
+
 **Estado 2026-11-14:** reglas de integridad temporal, exclusión e indicadores implementados y probados en software. **No hay validación experimental ni agronómica local.**
 
 ## Reglas efectivamente implementadas (versión p0-2026-11-14)
@@ -23,7 +41,7 @@ Versión de informe `2.1`, metodología `scientific-review-2026-11-14`. El histo
 | Indicadores | Familias distintas, repetición máxima y suma de días de cultivo válidos; intervalos sin cultivo = 540 − días registrados | Son descripciones de escenarios, sin equivalencia con cobertura real, salud de suelo o rendimiento |
 | Clima | Media mensual de T2M válida, suma de PRECTOTCORR válida; informar días válidos/total | Fill -999, ausentes y lluvia negativa → null; cero real conservado. Sin imputación ni pronóstico |
 
-No se usa ranking ponderado: la prioridad seleccionada organiza la conversación de revisión, sin modificar cálculos ni favorecer una alternativa por una puntuación no validada. La mejora P1 exige definir pesos con el equipo y probar sensibilidad.
+La revisión actual sí incorpora ranking exploratorio ponderado, con fórmula y sensibilidad visibles, sin modificar observaciones ni certificar aptitud. La selección antigua de prioridad se conserva como metadato; los pesos efectivos se exportan en `priorityRanking`.
 
 ### Demanda hídrica estimada (versión fao56-water-2026-11-14)
 

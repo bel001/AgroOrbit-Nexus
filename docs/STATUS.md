@@ -1,5 +1,28 @@
 # Estado verificado — AgroOrbit Nexus
 
+## Revisión local vigente — 2026-11-15
+
+**Solicitud posterior — sincronización GitHub:** el usuario autorizó subir el estado revisado del proyecto a `bel001/AgroOrbit-Nexus`, excluyendo `.claude`/`claude`. Ambas carpetas quedan ignoradas y se conservan en disco. Para esta sincronización se repitieron skills, tipado, lint, 154 pruebas unitarias/API y ambos builds; las variantes visuales se incluyen como rutas independientes. El resultado del push se comprueba contra el SHA remoto, sin forzar historial. Esto no declara un nuevo despliegue web ni una validación agronómica.
+
+**Estas correcciones no se han desplegado.** La entrega Vercel previamente autorizada es anterior a esta revisión. Estado por requisito: [IMPLEMENTATION_MATRIX](IMPLEMENTATION_MATRIX.md). Revisión profesional: [AGRONOMIC_REVIEW](AGRONOMIC_REVIEW.md).
+
+- Corregidos: tabla histórica sin opciones compatibles, lluvia ausente convertida a cero e histórico de Virú aplicado a otras coordenadas/calendarios.
+- Borrador local versionado, eliminación explícita e importación/exportación validada. Se recuperan entradas; los resultados requieren recalcular. Pesos, tarifa y moneda se conservan.
+- Variedad por campaña, suelo/drenaje/salinidad y expediente descargable para especialista. Ninguna región aprobada ni recomendación habilitada.
+- Penman–Monteith opcional con cuatro variables NASA adicionales; Hargreaves disponible. Supuestos documentados de lluvia utilizable/eficiencia, sin programación de riego validada ni ahorro.
+- Indicadores de manejo sin atribuir salud medida del suelo, nitrógeno fijado ni control de plagas.
+- Polígonos por dibujo/coordenadas/GeoJSON, área aproximada y validación geométrica. Catálogo general de seis especies; nuevos cultivos sin Kc pertinente devuelven demanda desconocida.
+- MODIS/ORNL NDVI contextual real: un píxel nominal de 250 m, calidad, fechas y procedencia. Colección no expuesta por el servicio conservada como desconocida. No equivale a HLS por parcela ni comparación fenológica validada.
+- `npm test`: **154 pruebas unitarias/API aprobadas**. Tipado, lint y ambos builds aprobados. Interfaz: 45 regresiones iniciales aprobadas; suite completa de 78 con 75 aprobadas, 2 omitidas y un fallo ESA posteriormente corregido. Cinco regresiones de mapa aprobadas y repetición ESA real aprobada. No se presenta la ronda inicial como una pasada completa sin fallos; detalle en VALIDATION.
+- Consultas reales registradas: POWER Virú/Cusco (31 días, ocho variables, sin faltantes nuevos) y MODIS Virú (tres observaciones, tres aceptadas por QA). `evidence/revision-2026-11-15/live-services.json`.
+- CI incorpora regresiones deterministas en Chromium/Firefox/WebKit. No se supone una ejecución remota de Actions.
+- Corrección adicional: carga ESA y polígono dependen de `style.load`, sin esperar las teselas del mapa base. Se avisa si ESA tarda; el resto del flujo sigue disponible. Regresión en cinco proyectos y servicio real comprobados.
+- NDVI desde la interfaz contra ORNL real: HTTP 200, 3/3 observaciones aceptadas, sin errores de aplicación (`evidence/revision-2026-11-15/live-ui.json`). Una consulta anterior devolvió 502; la integración maneja indisponibilidad y no sustituye datos.
+
+Pendientes externos: especialista identificado, dos casos independientes, reglas/evaluador regional revisados y validación de campo. Nuevos perfiles aprobados y HLS parcelario siguen pendientes. No hay envío NASA comprobado.
+
+## Antecedentes conservados (no describen el estado de esta revisión)
+
 2026-11-14, America/Lima. Este estado sustituye los totales de hitos anteriores conservados en Git. No hay envío ni comprobante de recepción NASA.
 
 ## Funciones terminadas en software

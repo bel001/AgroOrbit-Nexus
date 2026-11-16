@@ -1,0 +1,164 @@
+{
+  "query": {
+    "lat": -8.42,
+    "lon": -78.75,
+    "start": "2024-01-01",
+    "end": "2024-02-02"
+  },
+  "product": "MOD13Q1",
+  "collectionVersion": null,
+  "providerApiVersion": "v1",
+  "nominalResolutionM": 250,
+  "grid": {
+    "cellSizeM": 231.656358264,
+    "nrows": 1,
+    "ncols": 1,
+    "xllcorner": -8662326.22,
+    "yllcorner": -936354.96,
+    "projection": "MODIS Sinusoidal"
+  },
+  "observations": [
+    {
+      "date": "2024-01-01",
+      "compositeEnd": "2024-01-16",
+      "observedDate": "2024-01-15",
+      "ndvi": 0.4758,
+      "rawValue": 4758,
+      "qa": 2116,
+      "reliability": 0,
+      "valid": true,
+      "reason": "Aceptada por contrato de calidad",
+      "tile": "h10v09",
+      "processedAt": "2024022131654"
+    },
+    {
+      "date": "2024-01-17",
+      "compositeEnd": "2024-02-01",
+      "observedDate": "2024-01-25",
+      "ndvi": 0.4758,
+      "rawValue": 4758,
+      "qa": 2116,
+      "reliability": 0,
+      "valid": true,
+      "reason": "Aceptada por contrato de calidad",
+      "tile": "h10v09",
+      "processedAt": "2024038040543"
+    },
+    {
+      "date": "2024-02-02",
+      "compositeEnd": "2024-02-17",
+      "observedDate": "2024-02-08",
+      "ndvi": 0.386,
+      "rawValue": 3860,
+      "qa": 2116,
+      "reliability": 0,
+      "valid": true,
+      "reason": "Aceptada por contrato de calidad",
+      "tile": "h10v09",
+      "processedAt": "2024051184443"
+    }
+  ],
+  "validCount": 3,
+  "totalCount": 3,
+  "validFraction": 1,
+  "interpretation": "Descripción de un píxel del entorno. Sin equivalencia fenológica validada, no se calculan tendencias entre campañas ni causas de cambio.",
+  "limitations": [
+    "Píxel nominal de 250 m: puede mezclar parcelas, cultivos y otras coberturas; no se agrega el polígono dibujado.",
+    "Compuestos de hasta 16 días; la fecha de observación seleccionada puede diferir del inicio del compuesto.",
+    "El servicio no declara la versión de colección; se conserva como desconocida. Se verifican bandas, escala y rango, con QA según la guía MOD13 Collection 6.",
+    "NDVI no identifica especies, fertilidad, plagas, degradación ni rendimiento. No interviene en restricciones ni ranking."
+  ],
+  "bands": [
+    {
+      "band": "250m_16_days_blue_reflectance",
+      "units": "reflectance",
+      "scale_factor": "0.0001",
+      "fill_value": "-1000",
+      "valid_range": "0 to 10000"
+    },
+    {
+      "band": "250m_16_days_composite_day_of_the_year",
+      "units": "Julian day of the year",
+      "fill_value": "-1",
+      "valid_range": "1 to 366"
+    },
+    {
+      "band": "250m_16_days_EVI",
+      "units": "EVI ratio - No units",
+      "scale_factor": "0.0001",
+      "fill_value": "-3000",
+      "valid_range": "-2000 to 10000"
+    },
+    {
+      "band": "250m_16_days_MIR_reflectance",
+      "units": "reflectance",
+      "scale_factor": "0.0001",
+      "fill_value": "-1000",
+      "valid_range": "0 to 10000"
+    },
+    {
+      "band": "250m_16_days_NDVI",
+      "units": "NDVI ratio - No units",
+      "scale_factor": "0.0001",
+      "fill_value": "-3000",
+      "valid_range": "-2000 to 10000"
+    },
+    {
+      "band": "250m_16_days_NIR_reflectance",
+      "units": "reflectance",
+      "scale_factor": "0.0001",
+      "fill_value": "-1000",
+      "valid_range": "0 to 10000"
+    },
+    {
+      "band": "250m_16_days_pixel_reliability",
+      "units": "rank",
+      "fill_value": "-1",
+      "valid_range": "0 to 3"
+    },
+    {
+      "band": "250m_16_days_red_reflectance",
+      "units": "reflectance",
+      "scale_factor": "0.0001",
+      "fill_value": "-1000",
+      "valid_range": "0 to 10000"
+    },
+    {
+      "band": "250m_16_days_relative_azimuth_angle",
+      "units": "degrees",
+      "scale_factor": "0.1",
+      "fill_value": "-4000",
+      "valid_range": "-3600 to 3600"
+    },
+    {
+      "band": "250m_16_days_sun_zenith_angle",
+      "units": "degrees",
+      "scale_factor": "0.01",
+      "fill_value": "-10000",
+      "valid_range": "-9000 to 9000"
+    },
+    {
+      "band": "250m_16_days_view_zenith_angle",
+      "units": "degrees",
+      "scale_factor": "0.01",
+      "fill_value": "-10000",
+      "valid_range": "-9000 to 9000"
+    },
+    {
+      "band": "250m_16_days_VI_Quality",
+      "units": "bit field",
+      "fill_value": "-1",
+      "valid_range": "0 to 65534"
+    }
+  ],
+  "retrievedAt": "2026-11-15T23:45:40.719Z",
+  "source": "NASA MODIS Terra · ORNL DAAC TESViS",
+  "urls": {
+    "subset": "https://modis.ornl.gov/rst/api/v1/MOD13Q1/subset?latitude=-8.42&longitude=-78.75&startDate=A2024001&endDate=A2024033&kmAboveBelow=0&kmLeftRight=0",
+    "dates": "https://modis.ornl.gov/rst/api/v1/MOD13Q1/dates?latitude=-8.42&longitude=-78.75",
+    "bands": "https://modis.ornl.gov/rst/api/v1/MOD13Q1/bands"
+  },
+  "documentation": "https://modis.ornl.gov/data/modis_webservice.html",
+  "qualityGuide": "https://lpdaac.usgs.gov/documents/103/MOD13_User_Guide_V6.pdf",
+  "qualityRule": "Reliability=0; MODLAND=00; usefulness≤2; aerosol≠high; no adjacent/mixed cloud, snow or shadow; land mask=001. Fill, invalid date and out-of-range NDVI → null."
+}

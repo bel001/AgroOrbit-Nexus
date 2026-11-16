@@ -1,5 +1,7 @@
 # Alcance global de AgroOrbit Nexus
 
+**Revisión local 2026-11-15:** catálogo general de seis especies; polígonos opcionales y MODIS del entorno. No hay nuevas regiones aprobadas. Histórico fijo restringido al punto/calendario exactos de Virú, no a toda su caja geográfica. Moneda de tarifa seleccionable. Los nuevos contratos y límites vigentes están en IMPLEMENTATION_MATRIX, METHODOLOGY y AGRONOMIC_REVIEW.
+
 Requisito obligatorio incorporado el 2026-11-14. Virú es solo el piloto inicial: ni sus coordenadas ni sus cultivos/calendarios limitan el software. El piloto sigue siendo ilustrativo, no un caso agronómico validado.
 
 ## Comportamiento actual

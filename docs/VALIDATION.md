@@ -1,5 +1,33 @@
 # Validación ejecutada — 2026-11-14
 
+## Revisión local 2026-11-15 — evidencia vigente
+
+Windows/PowerShell, Node 24. Nueva revisión sin desplegar. No hay validación agronómica ni ensayo de campo.
+
+- `npm test`: **154 aprobadas**, 12 archivos; incluye lluvia, histórico geográfico/temporal, borradores/importación, polígonos, Penman–Monteith, QA MODIS y errores upstream.
+- `npm run typecheck`, `npm run lint`, `npm run build`, `npm run build:hosting` y `git diff --check`: aprobados. Impeccable sobre las superficies modificadas: `[]`.
+- `node scripts/verify-extensions.mjs`: tres integraciones reales aprobadas. POWER Virú y Cusco, enero 2024, 31 días/ocho variables y unidades verificadas; MOD13Q1/ORNL Virú, tres compuestos y tres observaciones aceptadas. Respuestas originales y normalización en `evidence/revision-2026-11-15/`.
+- `reliability.spec.ts` usa fixtures reales guardados y errores simulados; es independiente de las consultas reales anteriores. Browser plugin no disponible: Playwright contra Next local. Chromium escritorio/Pixel 7/tablet, Firefox y WebKit.
+- Artefactos automáticos en `test-results/`; no se sobrescriben capturas/PDFs curados. CI inicia Next y ejecuta `test:e2e:ci`; no se declara resultado remoto.
+
+Límites: WebKit no acredita Safari/iOS físico. Sin prueba física de GPS, lector de pantalla, evaluación de agricultores ni carga distribuida. El ejemplo 18 FAO-56 verifica aritmética (~3,9 mm/día), no aptitud regional. MODIS de un píxel no acredita observación de una parcela ni equivalencia fenológica.
+
+### Resultados de navegador y corrección de ESA
+
+| Ronda | Destino / resultado |
+|---|---|
+| Regresiones nuevas iniciales | Next local en 3001: 45 aprobadas, nueve casos en cinco proyectos (Chromium escritorio/móvil/tablet, Firefox y WebKit). Axe sin violaciones en los estados probados. |
+| Suite completa previa a corrección del mapa | Worker local en 8787: 78 configuradas, 75 aprobadas, dos omitidas y un fallo en WorldCover real; 14,4 min. JSON en `test-results/full-suite.json`. |
+| Mapa base bloqueado, ESA independiente | Worker actualizado en 8878: cinco aprobadas, una por proyecto; 52,5 s. PNG ESA real guardado como fixture, fallo OSM controlado; no se confunde con consulta real. `test-results/map-fix/results.json`. |
+| Repetición del fallo WorldCover real | Worker actualizado en 8878: una aprobada, 6,8 s. Respuesta PNG real y estado ESA recibido verificados. `test-results/esa-recheck/results.json`. |
+| MODIS real desde la interfaz | Worker actualizado en 8878: HTTP 200, 3/3 observaciones aceptadas y cero errores de aplicación. `evidence/revision-2026-11-15/live-ui.json`. Una consulta previa devolvió 502 y no se ocultó como dato disponible. |
+
+El fallo ESA reveló dependencia del evento `load` respecto a teselas OSM lentas: no se iniciaba la fuente opcional. Se cambió a `style.load`, se separó el aviso de demora de un error de tesela y se verificó tanto el fallo controlado como el proveedor real. Las dos omisiones de la suite completa evitan duplicar esa fuente real en móvil/tablet. No se afirma haber repetido los 83 casos ahora configurados en una sola ronda sin fallos: se repitió lo afectado tras la corrección, preservando el historial.
+
+Una compilación intermedia falló por archivos `.next` compartidos con un `next dev` paralelo. La compilación final Next sí pasó; la suite prolongada se sirvió mediante el Worker para aislar sus archivos. No se detuvo ni se modificó el trabajo de diseño paralelo. No se revalidó ni se publicó producción.
+
+## Antecedentes conservados (no describen el estado de esta revisión)
+
 ## Consolidación científica y entrega
 
 **Estado actual: solo localhost.** La publicación anterior se restringió a petición del usuario; HTTP 401 sin sesión comprobado. Sus pruebas históricas, antes del retiro: seis comprobaciones de contenido/API y 22 e2e aprobadas, dos omitidas, cero fallos, 1,5 min. Evidencia conservada sin la dirección retirada; no acredita disponibilidad pública actual. La corrección de la página vacía de impresión tiene una nueva aserción de siete páginas, aprobada en Next local; no se declara la repetición pública de esa última revisión. Un HTTP 200 aislado nunca se consideró prueba de funcionamiento.

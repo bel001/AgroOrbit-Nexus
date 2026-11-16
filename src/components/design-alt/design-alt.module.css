@@ -1,0 +1,167 @@
+/* Design Alt — Cuaderno de Campo (Swiss typographic). Scoped. */
+.da {
+  --da-ink: #111111;
+  --da-ink2: #555555;
+  --da-rule: #d9d9d9;
+  --da-accent: #1e3a5f;
+  --da-data: #b07a2f;
+  --da-bg: #ffffff;
+  --da-paper: #f6f5f2;
+  min-height: 100vh;
+  background: var(--da-bg);
+  color: var(--da-ink);
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Header: no glass, solid, with a bottom rule */
+.daHeader { position: sticky; top: 0; z-index: 50; background: var(--da-bg); border-bottom: 1px solid var(--da-ink); }
+.daHeaderInner { max-width: 1280px; margin: 0 auto; padding: 14px 32px; display: flex; align-items: baseline; gap: 24px; flex-wrap: wrap; }
+.daBrand { color: var(--da-ink); font-size: 17px; font-weight: 900; letter-spacing: -.02em; text-decoration: none; }
+.daBrand small { display: block; font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--da-ink2); font-weight: 600; margin-top: 2px; }
+.daNav { display: flex; gap: 0; margin-left: auto; }
+.daNav a { padding: 6px 14px; color: var(--da-ink2); font-size: 13px; font-weight: 600; text-decoration: none; border-bottom: 2px solid transparent; transition: color 120ms, border-color 120ms; }
+.daNav a:hover { color: var(--da-ink); }
+.daNav a.isActive { color: var(--da-ink); border-bottom-color: var(--da-accent); }
+.daLang { display: inline-flex; gap: 0; margin-left: 16px; }
+.daLang button { padding: 4px 10px; border: 1px solid var(--da-rule); background: transparent; color: var(--da-ink2); font-weight: 700; font-size: 12px; cursor: pointer; }
+.daLang button:first-child { border-right: 0; }
+.daLang button[aria-pressed="true"] { background: var(--da-ink); color: #fff; border-color: var(--da-ink); }
+.daProgress { height: 2px; background: var(--da-rule); }
+.daProgress span { display: block; height: 100%; background: var(--da-accent); }
+
+.daMain { max-width: 1280px; margin: 0 auto; padding: 0 32px; }
+
+/* Hero: asymmetric, typographic, no floating cards */
+.daHero { display: grid; grid-template-columns: 1.6fr 1fr; gap: 0; padding: 64px 0 48px; border-bottom: 1px solid var(--da-ink); }
+.daHeroLeft { padding-right: 40px; border-right: 1px solid var(--da-rule); }
+.daHeroLeft h1 { font-size: clamp(44px, 6vw, 76px); line-height: .95; font-weight: 900; letter-spacing: -.03em; margin: 0 0 24px; text-wrap: balance; }
+.daHeroLeft h1 em { font-style: normal; color: var(--da-accent); }
+.daHeroLeft p { font-size: 17px; color: var(--da-ink2); max-width: 46ch; margin: 0 0 28px; line-height: 1.5; }
+.daHeroActions { display: flex; gap: 0; flex-wrap: wrap; }
+.daHeroActions .daBtn { margin-right: 0; }
+.daBtn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border: 1px solid var(--da-ink); background: var(--da-ink); color: #fff; font-weight: 700; font-size: 14px; text-decoration: none; cursor: pointer; transition: background 120ms; }
+.daBtn:hover { background: var(--da-accent); border-color: var(--da-accent); }
+.daBtn.ghost { background: transparent; color: var(--da-ink); }
+.daBtn.ghost:hover { background: var(--da-ink); color: #fff; }
+.daHeroRight { padding-left: 40px; display: flex; flex-direction: column; justify-content: flex-end; }
+.daHeroIndex { list-style: none; padding: 0; margin: 0; }
+.daHeroIndex li { display: flex; gap: 16px; padding: 10px 0; border-top: 1px solid var(--da-rule); font-size: 14px; }
+.daHeroIndex li:first-child { border-top: 1px solid var(--da-ink); }
+.daHeroIndex b { font-weight: 900; color: var(--da-accent); min-width: 24px; }
+.daHeroIndex span { color: var(--da-ink2); }
+.daHeroMeta { margin-top: 24px; font-size: 12px; color: var(--da-ink2); letter-spacing: .04em; }
+
+/* Section */
+.daSection { padding: 56px 0; border-bottom: 1px solid var(--da-rule); }
+.daSection:last-of-type { border-bottom: 0; }
+.daSectionHead { display: flex; justify-content: space-between; align-items: baseline; gap: 24px; margin-bottom: 32px; flex-wrap: wrap; border-bottom: 2px solid var(--da-ink); padding-bottom: 12px; }
+.daSectionHead h2 { font-size: clamp(24px, 3vw, 36px); font-weight: 900; letter-spacing: -.03em; margin: 0; }
+.daSectionHead p { color: var(--da-ink2); margin: 0; max-width: 52ch; font-size: 14px; }
+
+/* Terreno: asymmetric, map on left (wider), data on right as a table */
+.daFieldGrid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 0; }
+.daMapCol { border-right: 1px solid var(--da-rule); padding-right: 32px; }
+.daMapFrame { border: 1px solid var(--da-ink); border-radius: 2px; overflow: hidden; background: #eef1f5; }
+.daMapSvg { width: 100%; height: 340px; display: block; }
+.daMapCaption { padding: 10px 12px; font-size: 12px; color: var(--da-ink2); border-top: 1px solid var(--da-rule); }
+.daInfoCol { padding-left: 32px; }
+.daInfoTable { width: 100%; border-collapse: collapse; font-size: 14px; }
+.daInfoTable th, .daInfoTable td { padding: 10px 0; border-bottom: 1px solid var(--da-rule); text-align: left; vertical-align: top; }
+.daInfoTable th { font-weight: 600; color: var(--da-ink2); width: 40%; }
+.daInfoTable td { font-weight: 700; color: var(--da-ink); text-align: right; }
+.daInfoTable tr:last-child th, .daInfoTable tr:last-child td { border-bottom: 0; }
+.daNotice { font-size: 13px; color: var(--da-ink2); padding: 12px 0; border-top: 1px solid var(--da-rule); margin-top: 16px; }
+
+/* Cultivos: timeline as a horizontal ruled list */
+.daTimeline { display: grid; gap: 0; }
+.daTimelineRow { display: grid; grid-template-columns: 120px 1fr; gap: 24px; padding: 16px 0; border-bottom: 1px solid var(--da-rule); align-items: center; }
+.daTimelineRow:last-child { border-bottom: 0; }
+.daTimelineLabel { font-weight: 900; font-size: 13px; color: var(--da-accent); letter-spacing: .04em; text-transform: uppercase; }
+.daTimelineTrack { position: relative; height: 28px; }
+.daTimelineBar { position: absolute; top: 0; height: 28px; display: flex; align-items: center; padding: 0 8px; color: #fff; font-size: 12px; font-weight: 700; }
+.daTimelineBar.maize { background: #7a5a1f; }
+.daTimelineBar.bean { background: #3f6b3a; }
+.daTimelineBar.sorghum { background: #6b3a2a; }
+.daBotanical { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; margin-top: 32px; border-top: 1px solid var(--da-ink); }
+.daBotanicalCard { padding: 16px 16px 16px 0; border-right: 1px solid var(--da-rule); }
+.daBotanicalCard:last-child { border-right: 0; padding-right: 0; }
+.daBotanicalCard img { width: 100%; height: 140px; object-fit: cover; display: block; filter: grayscale(.3); }
+.daBotanicalCard figcaption { padding-top: 10px; font-size: 13px; color: var(--da-ink2); }
+.daBotanicalCard figcaption b { color: var(--da-ink); display: block; font-weight: 900; }
+
+/* Condiciones */
+.daCondGrid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 0; }
+.daChartCol { border-right: 1px solid var(--da-rule); padding-right: 32px; }
+.daChart { height: 240px; border: 1px solid var(--da-ink); padding: 12px; background: var(--da-paper); }
+.daKpiCol { padding-left: 32px; }
+.daKpi { padding: 16px 0; border-bottom: 1px solid var(--da-rule); }
+.daKpi:last-child { border-bottom: 0; }
+.daKpi span { font-size: 12px; color: var(--da-ink2); display: block; margin-bottom: 4px; text-transform: uppercase; letter-spacing: .06em; font-weight: 700; }
+.daKpi strong { font-size: 28px; font-weight: 900; font-variant-numeric: tabular-nums; color: var(--da-ink); }
+.daKpi small { font-size: 11px; color: var(--da-ink2); }
+
+/* Alternativas */
+.daTabs { display: flex; gap: 0; border-bottom: 2px solid var(--da-ink); margin-bottom: 32px; }
+.daTab { padding: 10px 20px; border: 0; background: transparent; color: var(--da-ink2); font-weight: 700; font-size: 13px; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; text-transform: uppercase; letter-spacing: .06em; }
+.daTab.isActive { color: var(--da-ink); border-bottom-color: var(--da-accent); }
+.daAltGrid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0; border-top: 1px solid var(--da-ink); }
+.daAltCol { padding: 20px 20px 20px 0; border-right: 1px solid var(--da-rule); }
+.daAltCol:last-child { border-right: 0; padding-right: 0; }
+.daAltCol h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--da-ink2); margin: 0 0 4px; font-weight: 700; }
+.daAltCol .daAltName { font-size: 16px; font-weight: 900; color: var(--da-ink); margin-bottom: 16px; }
+.daAltCol .daWaterRow { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; border-bottom: 1px solid var(--da-rule); font-size: 13px; }
+.daAltCol .daWaterRow:last-child { border-bottom: 0; }
+.daAltCol .daWaterRow span { color: var(--da-ink2); }
+.daAltCol .daWaterRow strong { font-weight: 900; font-variant-numeric: tabular-nums; color: var(--da-ink); }
+.daBar { height: 6px; background: var(--da-rule); margin: 8px 0 16px; }
+.daBar span { display: block; height: 100%; background: var(--da-accent); }
+.daAltCol ul { list-style: none; padding: 0; margin: 0; font-size: 13px; }
+.daAltCol li { padding: 6px 0; border-bottom: 1px solid var(--da-rule); display: flex; justify-content: space-between; gap: 8px; }
+.daAltCol li:last-child { border-bottom: 0; }
+.daAltCol li span { color: var(--da-ink2); }
+.daAltCol li strong { color: var(--da-ink); font-weight: 700; }
+
+/* Evidencias */
+.daEvidence { border: 1px solid var(--da-ink); padding: 32px; background: var(--da-paper); }
+.daEvidence h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .08em; color: var(--da-ink2); margin: 0 0 8px; font-weight: 700; }
+.daEvidenceGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px 48px; margin-top: 24px; }
+.daEvidenceBlock ul { list-style: none; padding: 0; margin: 0; font-size: 14px; }
+.daEvidenceBlock li { padding: 6px 0; border-bottom: 1px solid var(--da-rule); }
+.daEvidenceBlock li:last-child { border-bottom: 0; }
+.daWarn { font-size: 13px; font-weight: 700; color: var(--da-ink); padding: 12px 16px; border: 2px solid var(--da-ink); margin: 24px 0; background: #fff; }
+
+/* Footer */
+.daFooter { padding: 48px 0 32px; border-top: 2px solid var(--da-ink); font-size: 13px; color: var(--da-ink2); }
+.daFooter strong { color: var(--da-ink); font-weight: 900; }
+
+/* Responsive */
+@media (max-width: 1000px) {
+  .daHero { grid-template-columns: 1fr; }
+  .daHeroLeft { border-right: 0; padding-right: 0; border-bottom: 1px solid var(--da-rule); padding-bottom: 32px; }
+  .daHeroRight { padding-left: 0; padding-top: 32px; }
+  .daFieldGrid { grid-template-columns: 1fr; }
+  .daMapCol { border-right: 0; padding-right: 0; border-bottom: 1px solid var(--da-rule); padding-bottom: 32px; }
+  .daInfoCol { padding-left: 0; padding-top: 32px; }
+  .daCondGrid { grid-template-columns: 1fr; }
+  .daChartCol { border-right: 0; padding-right: 0; border-bottom: 1px solid var(--da-rule); padding-bottom: 32px; }
+  .daKpiCol { padding-left: 0; padding-top: 32px; }
+  .daAltGrid { grid-template-columns: 1fr; }
+  .daAltCol { border-right: 0; padding: 20px 0; border-bottom: 1px solid var(--da-rule); }
+  .daAltCol:last-child { border-bottom: 0; }
+  .daEvidenceGrid { grid-template-columns: 1fr; }
+  .daBotanical { grid-template-columns: 1fr; }
+  .daBotanicalCard { border-right: 0; border-bottom: 1px solid var(--da-rule); padding: 16px 0; }
+  .daBotanicalCard:last-child { border-bottom: 0; }
+}
+@media (max-width: 760px) {
+  .daMain { padding: 0 20px; }
+  .daHeaderInner { padding: 12px 20px; }
+  .daHero { padding: 40px 0 32px; }
+  .daHeroLeft h1 { font-size: 40px; }
+  .daSection { padding: 40px 0; }
+  .daNav a { padding: 6px 10px; font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .daBtn, .daNav a { transition: none; }
+}

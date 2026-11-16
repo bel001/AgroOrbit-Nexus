@@ -1,6 +1,6 @@
 # Requisitos de producto — AgroOrbit Nexus
 
-**Estado actualizado 2026-11-14:** RF-01/02/03/04/06/08/09/10 implementados y probados, con límites regionales RF-08 (tres escenarios solo en demo aplicable). RF-05/07 parciales: fichas documentales disponibles, sin reglas locales aprobadas. RF-11/13 pendientes, RF-12/14 parciales (capa contextual y contratos de extensión, sin NDVI ni validación internacional agronómica). RNF-08 suspendido por decisión del usuario: solo localhost; el acceso público anterior fue retirado después de probarse. DEPLOYMENT/STATUS/VALIDATION detallan evidencia. La tabla conserva criterios de aceptación, no acredita cierre científico.
+**Estado vigente 2026-11-15:** [IMPLEMENTATION_MATRIX](IMPLEMENTATION_MATRIX.md) centraliza implementación, pruebas y pendientes. RF-05/07 siguen parciales por falta de revisión agronómica; RF-11 es parcial (MODIS contextual, sin HLS parcelario validado); RF-13 está implementado como exploración relativa. Existe publicación previa autorizada; estas correcciones locales todavía no se han desplegado. La tabla conserva criterios de aceptación, no acredita cierre científico.
 
 ## Requisitos funcionales
 
