@@ -1,6 +1,6 @@
 # Matriz vigente de implementación
 
-2026-11-15. Esta matriz describe el código local revisado; las correcciones de esta revisión **no se han desplegado**. Estado y resultados ejecutados: [STATUS](STATUS.md), [VALIDATION](VALIDATION.md). Implementado no significa validado agronómicamente.
+2026-11-15. Esta matriz describe el código local revisado; las correcciones de esta revisión se **publicaron en Vercel el 2026-11-19** (commit `24a06b9`); sin pruebas de navegador contra el link público para esta versión. Estado y resultados ejecutados: [STATUS](STATUS.md), [VALIDATION](VALIDATION.md). Implementado no significa validado agronómicamente.
 
 | Requisito | Estado local | Evidencia / límite |
 |---|---|---|

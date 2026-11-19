@@ -1,6 +1,6 @@
 # Despliegue y operación
 
-**Revisión local 2026-11-15:** las correcciones de IMPLEMENTATION_MATRIX no se han desplegado. La evidencia de la publicación anterior no prueba esta revisión. No se ha vuelto a publicar.
+**Revisión local 2026-11-15:** las correcciones de IMPLEMENTATION_MATRIX quedaron publicada en Vercel el 2026-11-19 (commit `24a06b9`, https://agroorbit-nexus.vercel.app); Vercel reporta la producción como Ready. Las pruebas de navegador contra el link público no se repitieron para esta versión: la red de desarrollo bloquea `*.vercel.app`. Las 31 pruebas aprobadas contra el link público del 2026-11-15 corresponden a la versión anterior (`27ac90f`).
 
 **2026-11-15: producción en Vercel** (https://agroorbit-nexus.vercel.app), proyecto Next.js estándar (`next build`), desplegado con la CLI de Vercel por instrucción del usuario; sin variables de entorno ni claves. Los snapshots NASA de `src/data/` viajan en el build del servidor y sostienen la demo si la API falla. Verificación: suite e2e completa con `PLAYWRIGHT_BASE_URL` apuntando a esa URL.
 

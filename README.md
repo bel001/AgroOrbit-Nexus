@@ -1,6 +1,6 @@
 # AgroOrbit Nexus — From Space to Soil
 
-**Local revision 2026-11-15: these corrections have not been deployed.** The previously authorized public release linked below may differ. Current implementation, evidence and open scientific requirements: [IMPLEMENTATION_MATRIX](docs/IMPLEMENTATION_MATRIX.md), [STATUS](docs/STATUS.md), [VALIDATION](docs/VALIDATION.md).
+**Revision 2026-11-15, deployed 2026-11-19** (commit `24a06b9`) at https://agroorbit-nexus.vercel.app; Vercel reports the production deployment as Ready. Browser tests against the public link were not re-run for this version (the development network blocks `*.vercel.app`). Current implementation, evidence and open scientific requirements: [IMPLEMENTATION_MATRIX](docs/IMPLEMENTATION_MATRIX.md), [STATUS](docs/STATUS.md), [VALIDATION](docs/VALIDATION.md).
 
 **Compare crop rotations by water, soil and risk, before you plant.**
 
@@ -91,4 +91,4 @@ Original code under MIT. Climate data: NASA POWER. Map: © OpenStreetMap contrib
 
 ---
 
-**Resumen en español.** Comparación descriptiva de rotaciones e indicadores de manejo con clima NASA, borradores locales, polígonos, catálogo de seis especies, ETo Hargreaves/Penman–Monteith y NDVI MODIS contextual. Interfaz ES/EN y expediente para revisión profesional. No hay recomendaciones regionales validadas. Virú sigue siendo ilustrativo; esta revisión no se ha desplegado.
+**Resumen en español.** Comparación descriptiva de rotaciones e indicadores de manejo con clima NASA, borradores locales, polígonos, catálogo de seis especies, ETo Hargreaves/Penman–Monteith y NDVI MODIS contextual. Interfaz ES/EN y expediente para revisión profesional. No hay recomendaciones regionales validadas. Virú sigue siendo ilustrativo; esta revisión se publicó en Vercel el 2026-11-19.

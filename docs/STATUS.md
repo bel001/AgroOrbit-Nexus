@@ -4,7 +4,7 @@
 
 **Solicitud posterior — sincronización GitHub:** el usuario autorizó subir el estado revisado del proyecto a `bel001/AgroOrbit-Nexus`, excluyendo `.claude`/`claude`. Ambas carpetas quedan ignoradas y se conservan en disco. Para esta sincronización se repitieron skills, tipado, lint, 154 pruebas unitarias/API y ambos builds; las variantes visuales se incluyen como rutas independientes. El resultado del push se comprueba contra el SHA remoto, sin forzar historial. Esto no declara un nuevo despliegue web ni una validación agronómica.
 
-**Estas correcciones no se han desplegado.** La entrega Vercel previamente autorizada es anterior a esta revisión. Estado por requisito: [IMPLEMENTATION_MATRIX](IMPLEMENTATION_MATRIX.md). Revisión profesional: [AGRONOMIC_REVIEW](AGRONOMIC_REVIEW.md).
+**Estas correcciones se publicaron en Vercel el 2026-11-19** (commit `24a06b9`, https://agroorbit-nexus.vercel.app); Vercel reporta la producción como Ready. Las pruebas de navegador contra el link público no se repitieron para esta versión: la red de desarrollo bloquea `*.vercel.app`. Estado por requisito: [IMPLEMENTATION_MATRIX](IMPLEMENTATION_MATRIX.md). Revisión profesional: [AGRONOMIC_REVIEW](AGRONOMIC_REVIEW.md).
 
 - Corregidos: tabla histórica sin opciones compatibles, lluvia ausente convertida a cero e histórico de Virú aplicado a otras coordenadas/calendarios.
 - Borrador local versionado, eliminación explícita e importación/exportación validada. Se recuperan entradas; los resultados requieren recalcular. Pesos, tarifa y moneda se conservan.
